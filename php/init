@@ -1,0 +1,14 @@
+#!/bin/bash
+
+pwd=`pwd`
+
+docker build -f Dockerfile -t ptmind:php7 .
+
+docker run --name phpengine \
+  -p 9000:9000 \
+  -v /home/ptmind/workspace/www:/var/www/html:rw \
+  --restart=unless-stopped \
+  -m 512M --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  -d ptmind:php7
+  #-d php:7-fpm-alpine
