@@ -1,0 +1,10 @@
+#!/bin/bash
+
+pwd=`pwd`
+
+docker run --name phpcomposer \
+  -v /home/ptmind/workspace/www:/var/www/html:rw \
+  --restart=unless-stopped \
+  -m 256M --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  -d composer/composer
