@@ -12,5 +12,5 @@ docker run --name nginx \
   -m 512M --memory-swap -1 \
   --cpuset-cpus="0,1" \
   --link phpengine \
-  -d nginx:1.9-alpine
+  -d nginx:1.11-alpine
 
