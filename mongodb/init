@@ -1,0 +1,13 @@
+#!/bin/bash
+
+pwd=`pwd`
+
+[ -d data ] || mkdir data
+
+docker run --name mongodb \
+  -p 27017:27017 \
+  -v ${pwd}/data:/data/db \
+  --restart=unless-stopped \
+  -m 1G --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  -d mongo:3.4
