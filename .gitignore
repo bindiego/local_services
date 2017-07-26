@@ -1,3 +1,5 @@
 mysql/data
 mongodb/data
 log
+*.pyc
+*.db
