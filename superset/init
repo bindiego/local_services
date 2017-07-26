@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+pwd=`pwd`
+
+## Document
+# https://github.com/apache/incubator-superset/blob/master/docs/installation.rst
+
+# install deps by yum
+sudo yum upgrade python-setuptools
+sudo yum install gcc gcc-c++ libffi-devel python-devel python-pip python-wheel openssl-devel libsasl2-devel openldap-devel
+
+# install deps for MacOS
+# brew install pkg-config libffi openssl python
+# env LDFLAGS="-L$(brew --prefix openssl)/lib" CFLAGS="-I$(brew --prefix openssl)/include" pip install cryptography==1.7.2
+
+# install deps for debian
+# sudo apt-get install build-essential libssl-dev libffi-dev python-dev python-pip libsasl2-dev libldap2-dev
+
+## install DB deps
+
+# MySQL mysql://
+python -m pip install -U mysqlclient
+# Postgres postgresql+psycopg2://
+python -m pip install -U psycopg2
+# Presto presto://
+python -m pip install -U pyhive
+# Oracle oracle://
+python -m pip install -U cx_Oracle
+# Redshift postgresql+psycopg2://
+python -m pip install -U sqlalchemy-redshift
+# MSSQL mssql://
+python -m pip install -U pymssql
+# Impala impala://
+python -m pip install -U impyla
+# SparkSQL jdbc+hive://
+python -m pip install -U pyhive
+# Greenplum postgresql+psycopg2://
+python -m pip install -U psycopg2
+# Athena awsathena+jdbc://
+python -m pip install -U "PyAthenaJDBC>1.0.9"
+# Vertica vertica+vertica_python://
+python -m pip install -U sqlalchemy-vertica-python
+# ClickHouse clickhouse://
+python -m pip install -U sqlalchemy-clickhouse
+# sqlite sqlite:// installed by default
+
+export PYTHONPATH=$PYTHONPATH:${pwd}
+
+# Install superset, in my case anaconda env
+python -m pip install -U superset
+
+# Create an admin user (you will be prompted to set username, first and last name before setting a password)
+fabmanager create-admin --app superset
+
+# Initialize the database
+superset db upgrade
+
+# Load some data to play with
+superset load_examples
+
+# Create default roles and permissions
+superset init
+
+# Start the web server on port 8088, use -p to bind to another port
+#superset runserver
+
+[ -d log ] || mkdir log
+# To start a development web server, use the -d switch
+PYTHONPATH=$PYTHONPATH:${pwd} superset runserver -p 48188 -d >> log/ss.log 2>&1 &
