@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+pwd=$(pwd)
+
+sudo yum install kudu-master                  # Kudu master init.d service script and default configuration, port 8051
+
+# start the kudu master service
+sudo service kudu-master start
+
+# set start the kudu master when the system starts
+sudo chkconfig kudu-master on

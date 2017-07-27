@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+pwd=$(pwd)
+
+sudo service kudu-master stop && \
+  sudo yum clean all && \
+  sudo yum upgrade kudu \
+  sudo service kudu-master start

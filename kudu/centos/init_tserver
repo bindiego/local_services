@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+pwd=$(pwd)
+
+sudo yum install kudu-tserver                 # Kudu tablet server init.d service script and default configuration, port 8050
+
+# start the kudu tserver
+sudo service kudu-tserver start
+
+# set start the kudu tserver when the system starts
+sudo chkconfig kudu-tserver on
