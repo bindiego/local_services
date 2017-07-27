@@ -9,3 +9,14 @@ sudo service kudu-master start
 
 # set start the kudu master when the system starts
 sudo chkconfig kudu-master on
+
+## default configurations
+# configurations: /etc/kudu/
+# log files: /var/log/kudu/
+# other details:
+# --fs_data_dirs=/var/lib/kudu/master
+# --fs_wal_dir=/var/lib/kudu/master
+# --heap_profile_path=/tmp/kudu-master.3711
+# --flagfile=/etc/kudu/conf/master.gflagfile
+# --fromenv=log_dir
+# --log_dir=/var/log/kudu
