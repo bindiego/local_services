@@ -28,4 +28,4 @@ echo 'export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH' >> ~/.bashrc
 # export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 # export LC_ALL="en_US.UTF-8"
 
-. ~/.bashrc
+source  ~/.bashrc
