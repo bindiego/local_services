@@ -27,6 +27,7 @@ cd /opt && \
 echo 'export JAVA_HOME=/opt/jdk' >> ~/.bashrc
 echo 'export M2_HOME=/opt/mvn' >> ~/.bashrc
 echo 'export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH' >> ~/.bashrc
+echo 'export USE_GOLD_LINKER=true' >> ~/.bashrc
 # export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 # export LC_ALL="en_US.UTF-8"
 
@@ -38,4 +39,5 @@ cd Impala
 git checkout 2.9.0
 
 # build impala
-./buildall.sh -noclean -skiptests -build_shared_libs -format
+# ./buildall.sh -noclean -skiptests -build_shared_libs -format
+./buildall.sh -noclean -notests -skiptests -release
