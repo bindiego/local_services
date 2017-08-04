@@ -19,7 +19,7 @@ cd /opt && \
   sudo tar xzf ${pwd}/jdk-8u144-linux-x64.tar.gz && \
   sudo tar xzf ${pwd}/apache-maven-3.5.0-bin.tar.gz && \
   sudo ln -s jdk1.8.0_144 jdk && \
-  sudo ln -s apache-maven-3.5.0 mvn \
+  sudo ln -s apache-maven-3.5.0 mvn && \
   cd ${pwd}
 
 echo 'export JAVA_HOME=/opt/jdk' >> ~/.bashrc
