@@ -35,6 +35,7 @@ source  ~/.bashrc
 # checkout impala
 git clone https://git-wip-us.apache.org/repos/asf/incubator-impala.git Impala
 cd Impala
+git checkout 2.9.0
 
 # build impala
 ./buildall.sh -noclean -skiptests -build_shared_libs -format
