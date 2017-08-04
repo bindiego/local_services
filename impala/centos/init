@@ -4,7 +4,9 @@ pwd=`pwd`
 
 # install system packages
 sudo yum groupinstall "Development Tools"
-sudo yum -y install wget git ant libevent-devel automake libtool flex bison gcc-c++ openssl-devel make cmake doxygen.x86_64 glib-devel python-devel bzip2-devel svn libevent-devel krb5-workstation openldap-devel db4-devel python-setuptools python-pip cyrus-sasl* postgresql postgresql-server ant-nodeps lzo-devel lzop
+
+sudo yum -y install wget git ant libevent-devel automake libtool flex bison gcc-c++ openssl-devel make cmake doxygen.x86_64 glib-devel python-devel bzip2-devel svn libevent-devel krb5-workstation openldap-devel db4-devel python-setuptools python-pip cyrus-sasl* postgresql postgresql-server ant-nodeps lzo-devel lzop redhat-lsb-core
+
 sudo pip-python install allpairs pytest pytest-xdist paramiko texttable prettytable sqlparse psutil==0.7.1 pywebhdfs gitpython jenkinsapi boto3
 
 # download 
