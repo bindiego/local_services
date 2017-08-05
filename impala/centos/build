@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+pwd=`pwd`
+
+# install system packages
+sudo yum groupinstall "Development Tools"
+
+sudo yum -y install wget git ant libevent-devel automake libtool flex bison gcc-c++ openssl-devel make cmake doxygen.x86_64 glib-devel python-devel bzip2-devel svn libevent-devel krb5-workstation openldap-devel db4-devel python-setuptools python-pip cyrus-sasl* postgresql postgresql-server ant-nodeps lzo-devel lzop redhat-lsb-core vim-common
+
+sudo pip-python install allpairs pytest pytest-xdist paramiko texttable prettytable sqlparse psutil==0.7.1 pywebhdfs gitpython jenkinsapi boto3
+
+# download 
+curl -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz > jdk-8u144-linux-x64.tar.gz
+
+# download maven
+wget http://ftp.cuhk.edu.hk/pub/packages/apache.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz
+
+# setup jdk and maven
+[ -d /opt ] || sudo mkdir /opt
+cd /opt && \
+  sudo tar xzf ${pwd}/jdk-8u144-linux-x64.tar.gz && \
+  sudo tar xzf ${pwd}/apache-maven-3.5.0-bin.tar.gz && \
+  sudo ln -s jdk1.8.0_144 jdk && \
+  sudo ln -s apache-maven-3.5.0 mvn && \
+  cd ${pwd}
+
+echo 'export JAVA_HOME=/opt/jdk' >> ~/.bashrc
+echo 'export M2_HOME=/opt/mvn' >> ~/.bashrc
+echo 'export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH' >> ~/.bashrc
+echo 'export USE_GOLD_LINKER=true' >> ~/.bashrc
+# export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
+# export LC_ALL="en_US.UTF-8"
+
+source  ~/.bashrc
+
+# checkout impala
+git clone https://git-wip-us.apache.org/repos/asf/incubator-impala.git Impala
+cd Impala
+git checkout 2.9.0
+
+# build impala
+# ./buildall.sh -noclean -skiptests -build_shared_libs -format
+./buildall.sh -noclean -notests -skiptests -release
