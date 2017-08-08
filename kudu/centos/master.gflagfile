@@ -1,0 +1,9 @@
+
+menv=rpc_bind_addresses
+--fromenv=log_dir
+
+--fs_wal_dir=/data/kudu/master
+--fs_data_dirs=/data/kudu/master
+--master_addresses=172.31.17.223:7051,172.31.19.219:7051
+--memory_limit_hard_bytes=15032385536 # 14GB
+--webserver_port=28080

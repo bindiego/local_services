@@ -1,0 +1,12 @@
+# Do not modify these two lines. If you wish to change these variables,
+# modify them in /etc/default/kudu-tserver.
+--fromenv=rpc_bind_addresses
+--fromenv=log_dir
+
+--fs_wal_dir=/data/a/kudu/tserver
+--fs_data_dirs=/data/a/kudu/tserver,/data/b/kudu/tserver,/data/c/kudu/tserver,/d
+ata/d/kudu/tserver
+--tserver_master_addrs=172.31.17.223:7051,172.31.19.219:7051
+--block_cache_capacity_mb=512
+--memory_limit_hard_byte=30064771072 # 28GB
+--webserver_port=28081
