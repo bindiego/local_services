@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+pwd=`pwd`
+
+# download 
+curl -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz > jdk-8u144-linux-x64.tar.gz
+
+# download maven
+curl -j -k -L http://ftp.cuhk.edu.hk/pub/packages/apache.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz > apache-maven-3.5.0-bin.tar.gz
+
+# setup jdk and maven
+[ -d /opt ] || sudo mkdir /opt
+cd /opt && \
+  sudo tar xzf ${pwd}/jdk-8u144-linux-x64.tar.gz && \
+  sudo tar xzf ${pwd}/apache-maven-3.5.0-bin.tar.gz && \
+  sudo ln -s jdk1.8.0_144 jdk && \
+  sudo ln -s apache-maven-3.5.0 mvn && \
+  cd ${pwd}
+
+echo 'export JAVA_HOME=/opt/jdk' >> ~/.bashrc
+echo 'export M2_HOME=/opt/mvn' >> ~/.bashrc
+echo 'export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH' >> ~/.bashrc
+
+source  ~/.bashrc
