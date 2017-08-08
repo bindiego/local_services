@@ -32,8 +32,13 @@
 </property>
 
 <property>
-  <name>datanucleus.fixedDatastore</name>
+  <name>datanucleus.autoCreateColumns</name>
   <value>true</value>
+</property>
+
+<property>
+  <name>datanucleus.fixedDatastore</name>
+  <value>false</value>
 </property>
 
 <property>
