@@ -27,6 +27,11 @@
 </property>
 
 <property>
+  <name>datanucleus.autoCreateTables</name>
+  <value>true</value>
+</property>
+
+<property>
   <name>datanucleus.fixedDatastore</name>
   <value>true</value>
 </property>
