@@ -1,0 +1,46 @@
+<property>
+  <name>javax.jdo.option.ConnectionURL</name>
+  <value>jdbc:postgresql://postgres:5432/metastore</value>
+  <description>the URL of the PostgreSQL database</description>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionDriverName</name>
+  <value>org.postgresql.Driver</value>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionUserName</name>
+  <value>pthive</value>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionPassword</name>
+  <value>SzH244hfa2VyaBEHzUxF</value>
+</property>
+
+<property>
+  <name>datanucleus.autoCreateSchema</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>datanucleus.fixedDatastore</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>datanucleus.autoStartMechanism</name> 
+  <value>SchemaTable</value>
+</property> 
+
+<property>
+  <name>hive.metastore.uris</name>
+  <value>thrift://<n.n.n.n>:9083</value>
+  <description>IP address (or fully-qualified domain name) and port of the metastore host</description>
+</property>
+
+<property>
+  <name>hive.metastore.schema.verification</name>
+  <value>true</value>
+</property>

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+pwd=$(pwd)
+
+sudo yum install -y wget
+
+# CDH repo
+wget https://archive.cloudera.com/cdh5/redhat/7/x86_64/cdh/cloudera-cdh5.repo
+sudo mv cloudera-cdh5.repo /etc/yum.repos.d/
+
+sudo yum install hive-metastore
+
+wget https://jdbc.postgresql.org/download/postgresql-42.1.4.jar
+sudo mv ${pwd}/postgresql-42.1.4.jar /usr/lib/hive/lib
+[ -f /usr/lib/hive/lib/postgresql-42.1.4.jar ] && \
+  echo 'PostgreSQL java driver installed'
