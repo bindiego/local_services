@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+pwd=$(pwd)
+
+sudo yum install -y wget
+
+# CDH repo
+wget https://archive.cloudera.com/cdh5/redhat/7/x86_64/cdh/cloudera-cdh5.repo
+sudo mv cloudera-cdh5.repo /etc/yum.repos.d/
+
+sudo yum install hadoop-hdfs-namenode hadoop-hdfs-datanode
+
