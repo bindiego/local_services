@@ -14,3 +14,5 @@ sudo service cloudera-scm-server start
 
 # check bellow link for the rest
 # https://www.cloudera.com/documentation/enterprise/5-8-x/topics/hue_ins_easy_install.html#concept_hue_easy_install
+
+# disable selinux by editing /etc/sysconfig/selinux, then reboot system, check with command sestatus
