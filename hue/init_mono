@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ## Download Cloudera Manager to your package manager source directory.  
-wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
+sudo wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
 
 ## Install Cloudera Manager and Dependencies (sourced from the Cloudera Manager repo)
 sudo yum install -y oracle-j2sdk1.7
