@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+## Download Cloudera Manager to your package manager source directory.  
+wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
+
+## Install Cloudera Manager and Dependencies (sourced from the Cloudera Manager repo)
+sudo yum install -y oracle-j2sdk1.7
+sudo yum install -y cloudera-manager-daemons cloudera-manager-server
+sudo yum install -y cloudera-manager-server-db-2
+
+## Start the database and server
+sudo service cloudera-scm-server-db start
+sudo service cloudera-scm-server start
+
+# check bellow link for the rest
+# https://www.cloudera.com/documentation/enterprise/5-8-x/topics/hue_ins_easy_install.html#concept_hue_easy_install
