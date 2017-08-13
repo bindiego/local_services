@@ -68,6 +68,7 @@ RUN yum install -y \
     openssl \
     postgresql \
     postgresql-devel \
+    wget \
     epel-release
 RUN yum install -y python-pip
 RUN pip install --upgrade pip
