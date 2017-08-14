@@ -68,4 +68,4 @@ echo 'export PATH=$HUE_HOME/build/env/bin:$PATH' >> ~/.bashrc
 source  ~/.bashrc
 
 # run server with command
-# hue runserver
+# $HUE_HOME/build/env/bin/supervisor
