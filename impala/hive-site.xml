@@ -1,0 +1,14 @@
+<configuration>
+
+<property>
+  <name>hive.metastore.uris</name>
+  <value>thrift://172.31.17.223:9083</value>
+</property>
+
+<property>
+  <name>hive.metastore.client.socket.timeout</name>
+  <value>3600</value>
+  <description>MetaStore Client socket timeout in seconds</description>
+</property>
+
+</configuration>
