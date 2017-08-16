@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+pwd=`pwd`
+
+HUE_VER=cdh5.12.0-release # release-4.0.1
+HUE_HOME=${pwd}/hue
+
+# install Dependencies
+sudo yum update -y && sudo yum upgrade -y
+sudo yum install -y \
+  ant \
+  asciidoc \
+  cyrus-sasl-devel \
+  cyrus-sasl-gssapi \
+  cyrus-sasl-plain \
+  gcc \
+  gcc-c++ \
+  krb5-devel \
+  libffi-devel \
+  libxml2-devel \
+  libxslt-devel \
+  make \
+  maven \
+  mysql \
+  mysql-devel \
+  openldap-devel \
+  python-devel \
+  python-pip \
+  sqlite-devel \
+  openssl-devel \
+  gmp-devel \
+  rsynch \
+  snappy \
+  snappy-devel \
+  libtidy \
+  libtidy-devel \
+  openssl \
+  postgresql \
+  postgresql-devel \
+  wget \
+  git \
+  epel-release
+sudo yum install -y python-pip
+sudo pip install -U pip
+sudo pip install setuptools psycopg2
+sudo yum clean all
+
+git clone https://github.com/cloudera/hue.git && \
+  cd hue && git checkout ${HUE_VER} 
+
+sudo useradd -p $(echo "hue" | openssl passwd -1 -stdin) hue; \
+  sudo useradd -p $(echo "hdfs" | openssl passwd -1 -stdin) hdfs; \
+  sudo groupadd supergroup; \
+  sudo usermod -a -G supergroup hue; \
+  sudo usermod -a -G hdfs hue
+
+make apps
+
+rm -rf desktop/conf.dist
+## IMPORTANT
+# desktop/conf/pseudo-distributed.ini need manual update
+echo 'desktop/conf/pseudo-distributed.ini need manual update'
+
+# set path
+echo "export HUE_HOME=${HUE_HOME}" >> ~/.bashrc
+echo 'export PATH=$HUE_HOME/build/env/bin:$PATH' >> ~/.bashrc
+
+source  ~/.bashrc
+
+# run server with command
+# $HUE_HOME/build/env/bin/supervisor
