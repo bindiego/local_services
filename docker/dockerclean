@@ -1,0 +1,5 @@
+#!/bin/bash
+
+docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs docker rm
+docker rm $(docker ps --all -q -f status=dead)
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)

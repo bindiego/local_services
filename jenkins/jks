@@ -1,0 +1,100 @@
+#!/bin/sh
+
+# Author: Bin Wu
+
+INSTDIR=/home/ptmind/tools/jenkins
+JENKINS_HOME=/home/ptmind/tools/jenkins_home
+LOGDIR=$INSTDIR/logs
+LOGFILE=$LOGDIR/jenkins.log
+JAVA=$(which java)
+
+__start() {
+    if [ ! -d $LOGDIR ]
+    then
+        mkdir $LOGDIR
+    fi
+
+    echo -n "Starting Jenkins ... "
+
+    #sudo nohup $JAVA -jar $INSTDIR/lib/jenkins.war --httpPort=11080 & > $LOGFILE 2>&1
+    $JAVA -Dhudson.util.ProcessTree.disable=true \
+      -DJENKINS_HOME=${JENKINS_HOME} \
+      -DHUDSON_HOME=${JENKINS_HOME} \
+      -Duser.timezone=Asia/Shanghai \
+      -jar $INSTDIR/lib/jenkins.war \
+      --httpPort=11080 > $LOGFILE 2>&1 &
+
+    if [ $? -eq 0 ]
+    then
+        PID=`ps -elf | egrep "jenkins" | egrep -v "grep" | awk '{print $4}'`
+        echo "succeed, pid: $PID"
+    else
+        echo "failed."
+    fi
+}
+
+__stop() {
+    PID=`ps -elf | egrep "jenkins" | egrep -v "grep" | awk '{print $4}'`
+
+    if [ -z "$PID" ]
+    then
+        echo "Jenkins is not running"
+    else
+        echo -n "Shutting down Jenkins ... "
+
+        kill -9 $PID 
+        if [ $? -eq 0 ]
+        then
+            echo "succeed."
+        else
+            echo "failed."
+
+        fi
+    fi
+}
+
+__status() {
+    PID=`ps -elf | egrep "jenkins" | egrep -v "grep" | awk '{print $4}'`
+
+    if [ -z "$PID" ]
+    then
+        echo "Jenkins is not running"
+    else
+        echo "Jenkins is running, pid: $PID"
+    fi
+}
+
+__usage() {
+    echo "Usage: jenkins {start|stop|restart|status}"
+}
+
+__main() {
+    if [ $# -eq 0 ]
+    then
+        __usage
+    else
+        case $1 in
+            start)
+                __start
+                ;;
+            stop)
+                __stop
+                ;;
+            restart)
+                __stop
+                sleep 1
+                __start
+                ;;
+            status)
+                __status
+                ;;
+            *)
+                __usage
+                ;;
+        esac
+    fi
+}
+
+__main $@
+
+exit 0

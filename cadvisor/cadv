@@ -1,0 +1,14 @@
+#!/bin/bash -ex
+
+docker run \
+  --volume=/:/rootfs:ro \
+  --volume=/var/run:/var/run:rw \
+  --volume=/sys:/sys:ro \
+  --volume=/var/lib/docker/:/var/lib/docker:ro \
+  --publish=12080:8080 \
+  --restart=unless-stopped \
+  -m 256M --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  --detach=true \
+  --name=cadvisor \
+  google/cadvisor:latest
