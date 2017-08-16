@@ -1,0 +1,18 @@
+#!/bin/bash
+
+pwd=`pwd`
+
+[ -d data ] || mkdir data && sudo chown -R 200 data
+
+# Default credentials are: admin / admin123
+# JAVA_MIN_HEAP, passed as -Xms. Defaults to 1200m
+# EXTRA_JAVA_OPTS. Additional options can be passed to the JVM via this variable.
+
+docker run --name nexus \
+  -p 28081:8081 \
+  -v ${pwd}/data:/nexus-data \
+  -e JAVA_MAX_HEAP=1024m \
+  --restart=unless-stopped \
+  -m 1G --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  -d sonatype/nexus3

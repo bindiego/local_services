@@ -1,5 +1,6 @@
 mysql/data
 mongodb/data
+nexus/data
 log
 *.pyc
 *.db
