@@ -2,6 +2,9 @@
 
 pwd=`pwd`
 
+# enable extra packages
+sudo yum --enablerepo=extras install epel-release
+
 # install system packages
 sudo yum groupinstall "Development Tools"
 
