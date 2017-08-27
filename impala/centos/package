@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 pwd=`pwd`
+IMPALA_HOME=${pwd}/Impala
+export IMPALA_INST_DIR=${pwd}/impala-inst
+[ -d $IMPALA_INST_DIR ] || mkdir $IMPALA_INST_DIR
 
 ## 函数，将原来$IMPALA_HOME制定目录下所有文件及子目录拷贝到当前目录，并保持相对路径不变
 function copy_dir() {
@@ -9,7 +12,7 @@ function copy_dir() {
   fi
 
   mkdir -p $1
-  cp -r $IMPALA_HOME/$1/* $1
+  cp -a $IMPALA_HOME/$1/* $1
 }
 
 ## 函数，将$PATH中引用到的非系统目录全部拷贝，简单粗暴有效。
@@ -25,7 +28,8 @@ function copy_dir_in_paths() {
     if [[ "$f" = "$IMPALA_HOME" ]]; then
       continue
     fi
-    REDIR=${f#${IMPALA_HOME}/}
+    #REDIR=${f#${IMPALA_HOME}/}
+    REDIR=${f#${IMPALA_INST_DIR}/}
     [[ ! -e ${REDIR} ]] || continue
     copy_dir $REDIR
   done
@@ -34,40 +38,43 @@ function copy_dir_in_paths() {
 
 source $IMPALA_HOME/bin/impala-config.sh
 
-copy_dir bin
-copy_dir www ## Web UI
-copy_dir infra
-copy_dir be/build
-copy_dir fe/src/test/resources
-copy_dir testdata/common
-copy_dir testdata/cluster ## 集群启动脚本
+copy_dir $IMPALA_INST_DIR/bin
+copy_dir $IMPALA_INST_DIR/www ## Web UI
+copy_dir $IMPALA_INST_DIR/infra
+copy_dir $IMPALA_INST_DIR/be/build
+copy_dir $IMPALA_INST_DIR/fe/src/test/resources
+copy_dir $IMPALA_INST_DIR/testdata/common
+copy_dir $IMPALA_INST_DIR/testdata/cluster ## 集群启动脚本
 
 ## 将Impala目录下所有.so结尾的文件都复制到lib/目录下
-mkdir lib
-find $IMPALA_HOME -name '*.so' | xargs -i cp {} ./lib
+mkdir $IMPALA_INST_DIR/lib
+find $IMPALA_HOME -name '*.so' | xargs -i cp {} $IMPALA_INST_DIR/lib
 
 ## 复制Java文件
-mkdir -p fe/target
-cp -r $IMPALA_HOME/fe/target/dependency fe/target
-cp -r $IMPALA_HOME/fe/target/classes fe/target
-cp $IMPALA_HOME/fe/target/*.jar fe/target
+mkdir -p $IMPALA_INST_DIR/fe/target
+cp -a $IMPALA_HOME/fe/target/dependency $IMPALA_INST_DIR/fe/target
+cp -a $IMPALA_HOME/fe/target/classes $IMPALA_INST_DIR/fe/target
+cp $IMPALA_HOME/fe/target/*.jar $IMPALA_INST_DIR/fe/target
 
 ## 复制依赖包
-cp ${HADOOP_LIB_DIR}/native/*.so ./lib
-cp ${IMPALA_SNAPPY_PATH}/*.so ./lib
-cp ${IMPALA_LZO}/build/*.so ./lib
+cp ${HADOOP_LIB_DIR}/native/*.so $IMPALA_INST_DIR/lib
+cp ${IMPALA_SNAPPY_PATH}/*.so $IMPALA_INST_DIR/lib
+cp ${IMPALA_LZO}/build/*.so $IMPALA_INST_DIR/lib
 
 export USE_SYSTEM_GCC=${USE_SYSTEM_GCC-0}
 if [ $USE_SYSTEM_GCC -eq 0 ]; then
-  cp ${IMPALA_TOOLCHAIN_GCC_LIB}/*.so ./lib
+  cp ${IMPALA_TOOLCHAIN_GCC_LIB}/*.so $IMPALA_INST_DIR/lib
 fi
 
 ## 加入Python依赖
 copy_dir_in_paths $PYTHONPATH
 
+export IMPALA_HOME=$IMPALA_INST_DIR
 
 ## 添加路径
 echo '
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$IMPALA_HOME/lib
 echo Added lib/ dir, now LD_LIBRARY_PATH=$LD_LIBRARY_PATH
-' >> bin/impala-config.sh
+' >> $IMPALA_HOME/bin/impala-config.sh
+
+source $IMPALA_HOME/bin/impala-config.sh
