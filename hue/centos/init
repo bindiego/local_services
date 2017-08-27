@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+pwd=$(pwd)
+
+# CDH repo
+wget https://archive.cloudera.com/cdh5/redhat/7/x86_64/cdh/cloudera-cdh5.repo
+sudo mv cloudera-cdh5.repo /etc/yum.repos.d/
+
+sudo yum install hue \
+  hue-beeswax \
+  hue-common \
+  hue-doc \
+  hue-hbase \
+  hue-impala \
+  hue-pig \
+  hue-plugins \
+  hue-rdbms \
+  hue-search \
+  hue-security \
+  hue-server \
+  hue-spark \
+  hue-sqoop \
+  hue-zookeeper
