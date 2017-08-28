@@ -7,3 +7,4 @@ menv=rpc_bind_addresses
 --master_addresses=172.31.17.223:7051,172.31.19.219:7051
 --memory_limit_hard_bytes=15032385536 # 14GB
 --webserver_port=28080
+--default_num_replicas=2

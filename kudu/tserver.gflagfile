@@ -10,3 +10,4 @@ ata/d/kudu/tserver
 --block_cache_capacity_mb=512
 --memory_limit_hard_byte=30064771072 # 28GB
 --webserver_port=28081
+--default_num_replicas=2
