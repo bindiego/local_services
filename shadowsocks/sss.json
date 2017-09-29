@@ -1,0 +1,9 @@
+{
+  "server":"45.55.42.44",
+  "server_port":4040,
+  "password":"wubin123",
+  "timeout":300,
+  "method":"aes-256-cfb",
+  "fast_open":false,
+  "workers":1
+}
