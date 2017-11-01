@@ -1,0 +1,19 @@
+#!//usr/bin/bash -ex
+
+# tested against ubuntu 16.04
+
+pwd=`pwd`
+
+sudo apt-get install python-dev python-m2crypto python-pip python-openssl python-gevent
+
+# install server
+# python -m pip install -U shadowsocks
+sudo pip install -U shadowsocks
+
+# start server
+sudo ssserver -c $pwd/sss.json --user nobody -d start
+
+# auto start when boot
+# vi /etc/rc.local
+# above line "exit 0"
+# /usr/local/bin/ssserver –c /etc/sss.json
