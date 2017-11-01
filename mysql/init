@@ -14,4 +14,7 @@ docker run --name rdb \
   --restart=unless-stopped \
   -m 1G --memory-swap -1 \
   --cpuset-cpus="0,1" \
-  -d mysql:5.7
+  -d mysql:5.7 \
+  --character-set-server=utf8mb4 \
+  --collation-server=utf8mb4_unicode_ci
+
