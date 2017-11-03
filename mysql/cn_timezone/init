@@ -1,0 +1,21 @@
+#!/bin/bash
+
+pwd=`pwd`
+
+[ -d data ] || mkdir data
+
+docker build -t mysqlcn:5.7 -f Dockerfile .
+
+docker run --name chinadaily-rdb \
+  -p 23306:3306 \
+  -v ${pwd}/data:/var/lib/mysql \
+  -e MYSQL_ROOT_PASSWORD=R0ot \
+  -e MYSQL_DATABASE=chinadaily \
+  -e MYSQL_USER=ddchinadaily \
+  -e MYSQL_PASSWORD=y9SsLeTh \
+  --restart=unless-stopped \
+  -m 1G --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  -d mysqlcn:5.7 \
+  --character-set-server=utf8mb4 \
+  --collation-server=utf8mb4_unicode_ci
