@@ -1,0 +1,14 @@
+#!/bin/bash
+
+pwd=`pwd`
+
+docker build -t bindiego/rstudio:latest -f Dockerfile .
+
+docker run --name rstudio \
+  -p 28004:8004 \
+  -p 28005:80 \
+  -p 28006:443 \
+  --restart=unless-stopped \
+  -m 1G --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  -d bindiego/rstudio:latest
