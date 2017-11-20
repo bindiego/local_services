@@ -1,0 +1,3 @@
+#!/bin/bash -ex
+
+sudo env "PATH=$PATH"  minikube delete && sudo rm -rf ~/.minikube ~/.kube
