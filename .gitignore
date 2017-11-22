@@ -5,3 +5,5 @@ nexus/data
 log
 *.pyc
 *.db
+sonarqube/sonarqube
+sonarqube/db
