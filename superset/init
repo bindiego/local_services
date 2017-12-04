@@ -2,12 +2,48 @@
 
 pwd=`pwd`
 
+## Set MySQL as meta datastore
+__set_db_mysql() {
+[ -d db ] || mkdir db
+
+docker run --name rdb_supserset \
+  -p 13306:3306 \
+  -v ${pwd}/db:/var/lib/mysql \
+  -e MYSQL_ROOT_PASSWORD=R0ot \
+  -e MYSQL_DATABASE=superset \
+  -e MYSQL_USER=superset \
+  -e MYSQL_PASSWORD=superset2017 \
+  --restart=unless-stopped \
+  -m 1G --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  -d mysql:5.7 \
+  --character-set-server=utf8mb4 \
+  --collation-server=utf8mb4_unicode_ci
+}
+
+__set_db_postgres() {
+[ -d db ] || mkdir db
+
+docker run --name rdb_superset \
+  -p 15432:5432 \
+  -v ${pwd}/db:/var/lib/postgresql/data \
+  -e POSTGRES_DB=superset \
+  -e POSTGRES_USER=superset \
+  -e POSTGRES_PASSWORD=superset2017 \
+  --restart=unless-stopped \
+  -m 1G --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  -d postgres:10.0
+}
+
+__set_db_postgres
+
 ## Document
 # https://github.com/apache/incubator-superset/blob/master/docs/installation.rst
 
 # install deps by yum
 sudo yum upgrade python-setuptools
-sudo yum install gcc gcc-c++ libffi-devel python-devel python-pip python-wheel openssl-devel libsasl2-devel openldap-devel
+sudo yum install gcc gcc-c++ libffi-devel python-devel python-pip python-wheel openssl-devel libsasl2-devel openldap-devel mysql-devel
 
 # install deps for MacOS
 # brew install pkg-config libffi openssl python
@@ -50,16 +86,16 @@ export PYTHONPATH=$PYTHONPATH:${pwd}
 python -m pip install -U superset
 
 # Create an admin user (you will be prompted to set username, first and last name before setting a password)
-fabmanager create-admin --app superset
+PYTHONPATH=$PYTHONPATH:${pwd} fabmanager create-admin --app superset
 
 # Initialize the database
-superset db upgrade
+PYTHONPATH=$PYTHONPATH:${pwd} superset db upgrade
 
 # Load some data to play with
-superset load_examples
+PYTHONPATH=$PYTHONPATH:${pwd} superset load_examples
 
 # Create default roles and permissions
-superset init
+PYTHONPATH=$PYTHONPATH:${pwd} superset init
 
 # Start the web server on port 8088, use -p to bind to another port
 #superset runserver

@@ -18,7 +18,9 @@ SECRET_KEY = '\2\1thisismyscretkey\1\2\e\y\y\h'
 # superset metadata (slices, connections, tables, dashboards, ...).
 # Note that the connection information to connect to the datasources
 # you want to explore are managed directly in the web UI
-SQLALCHEMY_DATABASE_URI = 'sqlite://///home/ptmind/workspace/local_services/superset/superset.db'
+#SQLALCHEMY_DATABASE_URI = 'sqlite://///home/ptmind/workspace/local_services/superset/superset.db'
+#SQLALCHEMY_DATABASE_URI = 'mysql://superset:superset2017@172.16.100.153:13306/superset'
+SQLALCHEMY_DATABASE_URI = 'postgresql://superset:superset2017@172.16.100.153:15432/superset'
 
 # Flask-WTF flag for CSRF
 WTF_CSRF_ENABLED = True
