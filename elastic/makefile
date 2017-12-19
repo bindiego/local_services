@@ -39,9 +39,9 @@ start_es: dl_es
 		$(pwd)/deploy/elasticsearch/config/elasticsearch.yml.bak
 	@-cp $(pwd)/deploy/elasticsearch/config/elasticsearch.yml.bak \
 		$(pwd)/deploy/elasticsearch/config/elasticsearch.yml
-	@echo 'network.host: 0.0.0.0' >> \
-		$(pwd)/deploy/elasticsearch/config/elasticsearch.yml
-	@$(pwd)/deploy/elasticsearch/bin/elasticsearch > /dev/null 2>&1 &
+	#@echo 'network.host: 0.0.0.0' >> \
+		#$(pwd)/deploy/elasticsearch/config/elasticsearch.yml
+	@$(pwd)/deploy/elasticsearch/bin/elasticsearch -d -p $(pwd)/deploy/es.pid
 
 start_log: dl_log
 	@$(pwd)/deploy/logstash/bin/logstash -f conf/logstash-simple.conf > /dev/null 2>&1 &
@@ -57,7 +57,8 @@ start_kbn: dl_kbn
 	@$(pwd)/deploy/kibana/bin/kibana > /dev/null 2>&1 &
 
 stop_es:
-	-$(pwd)/bin/stop_service.sh elasticsearch
+	-$(pwd)/bin/stop_service.sh elasticsearch 
+	@-rm $(pwd)/deploy/es.pid
 
 stop_log:
 	-$(pwd)/bin/stop_service.sh logstash
