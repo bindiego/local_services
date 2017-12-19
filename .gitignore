@@ -7,3 +7,4 @@ log
 *.db
 sonarqube/sonarqube
 sonarqube/db
+elastic/deploy
