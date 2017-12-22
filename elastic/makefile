@@ -4,6 +4,7 @@ ver := 6.1.0
 
 pre_deploy:
 	[ -d $(pwd)/deploy ] || mkdir -p $(pwd)/deploy
+	@-sudo sysctl -w vm.max_map_count=262144
 
 dl_es: pre_deploy
 	@[ -f $(pwd)/deploy/elasticsearch.tar.gz ] || \
@@ -39,9 +40,12 @@ start_es: dl_es
 		$(pwd)/deploy/elasticsearch/config/elasticsearch.yml.bak
 	@-cp $(pwd)/deploy/elasticsearch/config/elasticsearch.yml.bak \
 		$(pwd)/deploy/elasticsearch/config/elasticsearch.yml
-	#@echo 'network.host: 0.0.0.0' >> \
+	#@echo 'network.host: _global_' >> \
 		#$(pwd)/deploy/elasticsearch/config/elasticsearch.yml
-	@$(pwd)/deploy/elasticsearch/bin/elasticsearch -d -p $(pwd)/deploy/es.pid
+	@$(pwd)/deploy/elasticsearch/bin/elasticsearch -d -p $(pwd)/deploy/es.pid \
+		-Ecluster.name=bindigo \
+		-Enode.name=tiger \
+		-Enetwork.host=$(ipaddr)
 
 start_log: dl_log
 	@$(pwd)/deploy/logstash/bin/logstash -f conf/logstash-simple.conf > /dev/null 2>&1 &
