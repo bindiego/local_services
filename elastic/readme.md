@@ -16,10 +16,10 @@ root       soft    nproc     unlimited
 to
 
 ```
-*          soft    nproc     unlimited
-*          hard    nproc     unlimited
-*          soft    nofile    unlimited
-*          hard    nofile    unlimited
+@ptmind          soft    nproc     65536
+@ptmind          hard    nproc     65536
+@ptmind          soft    nofile    65536
+@ptmind          hard    nofile    65536
 ```
 
 change 4096 to unlimited
