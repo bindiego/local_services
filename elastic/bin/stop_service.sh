@@ -6,14 +6,15 @@ if [ -z "$PID" ]
 then
     echo "$@ is not running"
 else
-    echo -n "Shutting down $@ ... "
+    echo "$@ pid: ${PID}"
+    echo "Shutting down $@ ... "
 
     kill -9 $PID 
     if [ $? -eq 0 ]
     then
-        echo "succeed."
+        echo -n "succeed."
     else
-        echo "failed."
+        echo -n "failed."
 
     fi
 fi

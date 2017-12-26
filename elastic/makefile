@@ -1,9 +1,10 @@
 pwd := $(shell pwd)
 ipaddr := $(shell hostname -I | cut -d ' ' -f 1)
-ver := 6.1.0
+ver := 6.1.1
 
 pre_deploy:
 	[ -d $(pwd)/deploy ] || mkdir -p $(pwd)/deploy
+	[ -d $(pwd)/deploy/kibana/logs ] || mkdir -p $(pwd)/deploy/kibana/logs
 	@-sudo sysctl -w vm.max_map_count=262144
 
 dl_es: pre_deploy
@@ -14,7 +15,7 @@ dl_es: pre_deploy
 		tar xzf $(pwd)/deploy/elasticsearch.tar.gz -C $(pwd)/deploy && \
 		mv $(pwd)/deploy/elasticsearch-$(ver) $(pwd)/deploy/elasticsearch
 
-dl_log: pre_deploy
+dl_ls: pre_deploy
 	@[ -f $(pwd)/deploy/logstash.tar.gz ] || \
 		curl https://artifacts.elastic.co/downloads/logstash/logstash-$(ver).tar.gz \
 		--output $(pwd)/deploy/logstash.tar.gz 
@@ -47,8 +48,14 @@ start_es: dl_es
 		-Enode.name=tiger \
 		-Enetwork.host=$(ipaddr)
 
-start_log: dl_log
-	@$(pwd)/deploy/logstash/bin/logstash -f conf/logstash-simple.conf > /dev/null 2>&1 &
+start_ls: dl_ls
+	@-[ -f $(pwd)/conf/logstash-simple.conf ] && rm $(pwd)/conf/logstash-simple.conf
+	@-cp $(pwd)/conf/logstash-simple.conf.template \
+		$(pwd)/conf/logstash-simple.conf
+	@egrep -lRZ "\%ES\%" $(pwd)/conf/*.conf \
+		| xargs -0 -l sed -i -e 's/\%ES\%/$(ipaddr)/g'
+	@$(pwd)/deploy/logstash/bin/logstash \
+		-f $(pwd)/conf/logstash-simple.conf > /dev/null 2>&1 &
 
 start_kbn: dl_kbn
 	@-[ -f $(pwd)/deploy/kibana/config/kibana.yml.bak ] || \
@@ -58,23 +65,28 @@ start_kbn: dl_kbn
 		$(pwd)/deploy/kibana/config/kibana.yml
 	@echo 'elasticsearch.url: "http://$(ipaddr):9200"' >> \
 		$(pwd)/deploy/kibana/config/kibana.yml
-	@$(pwd)/deploy/kibana/bin/kibana > /dev/null 2>&1 &
+	@$(pwd)/deploy/kibana/bin/kibana \
+		-p 5601 \
+		--host $(ipaddr) \
+		-e http://$(ipaddr):9200 \
+		-l $(pwd)/deploy/kibana/logs/kbn.log > /dev/null 2>&1 &
+	#@$(pwd)/deploy/kibana/bin/kibana > /dev/null 2>&1 &
 
 stop_es:
 	-$(pwd)/bin/stop_service.sh elasticsearch 
 	@-rm $(pwd)/deploy/es.pid
 
-stop_log:
+stop_ls:
 	-$(pwd)/bin/stop_service.sh logstash
 
 stop_kbn:
 	-$(pwd)/bin/stop_service.sh kibana
 
-dl_all: dl_es dl_log dl_kbn
+dl_all: dl_es dl_ls dl_kbn
 
-start_all: start_es start_log start_kbn
+start_all: start_es start_ls start_kbn
 
-clean: stop_kbn stop_log stop_es
+clean: stop_kbn stop_ls stop_es
 	@rm -rf $(pwd)/deploy
 
-.PHONY: clean dl_es dl_log dl_kbn dl_all
+.PHONY: clean dl_es dl_ls dl_kbn dl_all
