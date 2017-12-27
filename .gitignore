@@ -8,3 +8,4 @@ log
 sonarqube/sonarqube
 sonarqube/db
 elastic/deploy
+elastic/data

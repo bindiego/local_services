@@ -41,3 +41,6 @@ Finally, run the command
 ```
 sudo sysctl -p; sysctl -p
 ```
+
+### AQI data 
+collected from http://www.stateair.net/
