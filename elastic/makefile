@@ -33,6 +33,14 @@ dl_kbn: pre_deploy
 		tar xzf $(pwd)/deploy/kibana.tar.gz -C $(pwd)/deploy && \
 		mv $(pwd)/deploy/kibana-$(ver)-linux-x86_64 $(pwd)/deploy/kibana
 
+dl_fb: pre_deploy
+	@[ -f $(pwd)/deploy/filebeat.tar.gz ] || \
+		curl https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-$(ver)-linux-x86_64.tar.gz \
+		--output $(pwd)/deploy/filebeat.tar.gz
+	-[ -d $(pwd)/deploy/filebeat ] || \
+		tar xzf $(pwd)/deploy/filebeat.tar.gz -C $(pwd)/deploy && \
+		mv $(pwd)/deploy/filebeat-$(ver)-linux-x86_64 $(pwd)/deploy/filebeat
+
 inst_xpack: dl_es dl_kbn
 	@$(pwd)/deploy/elasticsearch/bin/elasticsearch-plugin install x-pack
 	@$(pwd)/deploy/kibana/bin/kibana-plugin install x-pack
