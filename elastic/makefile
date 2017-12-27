@@ -4,7 +4,6 @@ ver := 6.1.1
 
 pre_deploy:
 	[ -d $(pwd)/deploy ] || mkdir -p $(pwd)/deploy
-	[ -d $(pwd)/deploy/kibana/logs ] || mkdir -p $(pwd)/deploy/kibana/logs
 	@-sudo sysctl -w vm.max_map_count=262144
 
 dl_es: pre_deploy
@@ -30,6 +29,7 @@ dl_kbn: pre_deploy
 	-[ -d $(pwd)/deploy/kibana ] || \
 		tar xzf $(pwd)/deploy/kibana.tar.gz -C $(pwd)/deploy && \
 		mv $(pwd)/deploy/kibana-$(ver)-linux-x86_64 $(pwd)/deploy/kibana
+	[ -d $(pwd)/deploy/kibana/logs ] || mkdir -p $(pwd)/deploy/kibana/logs
 
 inst_xpack: dl_es dl_kbn
 	@$(pwd)/deploy/elasticsearch/bin/elasticsearch-plugin install x-pack
