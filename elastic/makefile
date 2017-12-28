@@ -4,9 +4,11 @@ ver := 6.1.1
 
 pre_deploy:
 	[ -d $(pwd)/deploy ] || mkdir -p $(pwd)/deploy
-	[ -d $(pwd)/data ] || mkdir -p $(pwd)/data/{es,ls,kbn}
+	[ -d $(pwd)/data ] || mkdir -p $(pwd)/data/{es,ls,kbn,fb}
 	[ -d $(pwd)/data/es/logs ] || mkdir -p $(pwd)/data/es/logs
 	[ -d $(pwd)/data/kbn/logs ] || mkdir -p $(pwd)/data/kbn/logs
+	[ -d $(pwd)/data/ls/logs ] || mkdir -p $(pwd)/data/ls/logs
+	[ -d $(pwd)/data/fb/logs ] || mkdir -p $(pwd)/data/fb/logs
 	@-sudo sysctl -w vm.max_map_count=262144
 
 dl_es: pre_deploy
@@ -83,6 +85,21 @@ start_kbn: dl_kbn
 		-e http://$(ipaddr):9200 \
 		-l $(pwd)/data/kbn/logs/kbn.log > /dev/null 2>&1 &
 
+start_fb: dl_fb
+	@-[ -f $(pwd)/conf/filebeat.yml ] && rm $(pwd)/conf/filebeat.yml
+	@-cp $(pwd)/conf/filebeat.yml.template \
+		$(pwd)/conf/filebeat.yml && \
+		chmod go-w $(pwd)/conf/filebeat.yml
+	@egrep -lRZ "\%LS\%" $(pwd)/conf/*.yml \
+		| xargs -0 -l sed -i -e 's/\%LS\%/$(ipaddr)/g'
+	@egrep -lRZ "\%PWD\%" $(pwd)/conf/*.yml \
+		| xargs -0 -l sed -i -e 's/\%PWD\%/\/home\/ptmind\/workspace\/local_services\/elastic/g'
+	@$(pwd)/deploy/filebeat/filebeat \
+		--path.data $(pwd)/data/fb \
+		--path.logs $(pwd)/data/fb/logs \
+		-d "publish" \
+		-c $(pwd)/conf/filebeat.yml > /dev/null 2>&1 &
+
 stop_es:
 	-$(pwd)/bin/stop_service.sh elasticsearch 
 	@-rm $(pwd)/deploy/es.pid
@@ -93,11 +110,10 @@ stop_ls:
 stop_kbn:
 	-$(pwd)/bin/stop_service.sh kibana
 
-dl_all: dl_es dl_ls dl_kbn
+stop_fb:
+	-$(pwd)/bin/stop_service.sh filebeat
 
-start_all: start_es start_ls start_kbn
-
-clean: stop_kbn stop_ls stop_es
+clean: stop_kbn stop_ls stop_es stop_fb
 	@rm -rf $(pwd)/deploy
 
 .PHONY: clean dl_es dl_ls dl_kbn dl_all
