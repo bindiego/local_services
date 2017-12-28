@@ -1,5 +1,45 @@
-input { stdin { } }
+input { 
+  beats {
+    port => "5044"
+  }
+}
+filter {
+  csv {
+    columns => [
+      "site",
+      "param",
+      "date",
+      "year",
+      "month",
+      "day",
+      "hour",
+      "value",
+      "unit",
+      "duration",
+      "qc"
+    ]
+    separator => ","
+    remove_field => ["message"]
+    convert => {
+      "year" => "integer"
+      "month" => "integer"
+      "day" => "integer"
+      "hour" => "integer"
+      "value" => "float"
+    }
+  }
+  date {
+    match => ["date", "MM/dd/YY HH:mm"]
+  }
+}
 output {
-    elasticsearch { hosts => ["%ES%:9200"] }
-      stdout { codec => rubydebug }
+  elasticsearch { 
+    #protocol => "https"
+    hosts => ["%ES%:9200"] 
+    #user => "binw"
+    #password => "test"
+    #action => "index"
+    #index => "aqi"
+  }
+  #stdout { codec => rubydebug }
 }

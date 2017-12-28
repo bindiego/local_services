@@ -69,7 +69,20 @@ start_ls: dl_ls
 	@egrep -lRZ "\%ES\%" $(pwd)/conf/*.conf \
 		| xargs -0 -l sed -i -e 's/\%ES\%/$(ipaddr)/g'
 	@$(pwd)/deploy/logstash/bin/logstash \
-		-f $(pwd)/conf/logstash-simple.conf > /dev/null 2>&1 &
+		-f $(pwd)/conf/logstash-simple.conf \
+		--path.data $(pwd)/data/ls \
+		--path.logs $(pwd)/data/ls/logs \
+		--config.reload.automatic > /dev/null 2>&1 &
+
+test_ls: dl_ls
+	@-[ -f $(pwd)/conf/logstash-simple.conf ] && rm $(pwd)/conf/logstash-simple.conf
+	@-cp $(pwd)/conf/logstash-simple.conf.template \
+		$(pwd)/conf/logstash-simple.conf
+	@egrep -lRZ "\%ES\%" $(pwd)/conf/*.conf \
+		| xargs -0 -l sed -i -e 's/\%ES\%/$(ipaddr)/g'
+	@$(pwd)/deploy/logstash/bin/logstash \
+		-f $(pwd)/conf/logstash-simple.conf  \
+		--config.test_and_exit
 
 start_kbn: dl_kbn
 	@-[ -f $(pwd)/deploy/kibana/config/kibana.yml.bak ] || \
@@ -81,6 +94,8 @@ start_kbn: dl_kbn
 		$(pwd)/deploy/kibana/config/kibana.yml
 	@$(pwd)/deploy/kibana/bin/kibana \
 		-p 5601 \
+		--pid.file=$(pwd)/deploy/kbn.pid \
+		--path.data=$(pwd)/data/kbn \
 		--host $(ipaddr) \
 		-e http://$(ipaddr):9200 \
 		-l $(pwd)/data/kbn/logs/kbn.log > /dev/null 2>&1 &
@@ -109,6 +124,7 @@ stop_ls:
 
 stop_kbn:
 	-$(pwd)/bin/stop_service.sh kibana
+	@-rm $(pwd)/deploy/kbn.pid
 
 stop_fb:
 	-$(pwd)/bin/stop_service.sh filebeat
