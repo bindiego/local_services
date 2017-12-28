@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PID=`ps -elf | egrep "$@" | egrep -v "grep" | awk '{print $4}'`
+PID=`ps -elf | egrep "$@" | egrep -v "grep|stop_service" | awk '{print $4}'`
 
 if [ -z "$PID" ]
 then
