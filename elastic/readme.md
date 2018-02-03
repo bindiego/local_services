@@ -1,3 +1,7 @@
+### Install X-pack
+
+https://www.elastic.co/downloads/x-pack
+
 ### To increase file descriptors
 
 #### CentOS7
