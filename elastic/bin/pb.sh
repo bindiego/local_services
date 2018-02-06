@@ -29,7 +29,7 @@ __stop() {
     else
         echo -n "Shutting down packetbeat ... "
 
-        kill -9 $PID
+        sudo kill -9 $PID
         if [ $? -eq 0 ]
         then
             echo "succeed."
