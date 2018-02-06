@@ -10,3 +10,4 @@ sonarqube/db
 elastic/deploy
 elastic/data
 elastic/conf/metricbeat.yml
+elastic/conf/packetbeat.yml
