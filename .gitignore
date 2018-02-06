@@ -9,3 +9,4 @@ sonarqube/sonarqube
 sonarqube/db
 elastic/deploy
 elastic/data
+elastic/conf/metricbeat.yml
