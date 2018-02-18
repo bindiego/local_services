@@ -52,7 +52,7 @@ __deploy() {
 		curl https://artifacts.elastic.co/downloads/kibana/kibana-${VER}-linux-x86_64.tar.gz \
 		-o $PWD/deploy/kibana.tar.gz
 	[ -d $PWD/deploy/kibana ] || \
-        mkdir $PWD/deploy/kibana && \
+        mkdir $PWD/deploy/kibana; \
 		tar xzf $PWD/deploy/kibana.tar.gz -C $PWD/deploy && \
 		cp -af $PWD/deploy/kibana-${VER}-linux-x86_64/* $PWD/deploy/kibana
 
