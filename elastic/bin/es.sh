@@ -4,7 +4,7 @@
 
 PWD=`pwd`
 JAVA=`which java`
-VER=6.1.3
+VER=6.2.0
 IPADDR=$(hostname -I | cut -d ' ' -f 1)
 
 __usage() {
@@ -40,6 +40,8 @@ __stop() {
 }
 
 __deploy() {
+    __stop
+
 	sudo sysctl -w vm.max_map_count=262144
 
     # setup directories
@@ -52,8 +54,9 @@ __deploy() {
 		curl https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$VER.tar.gz \
 		--output $PWD/deploy/elasticsearch.tar.gz
 	[ -d $PWD/deploy/elasticsearch ] || \
+        mkdir $PWD/deploy/elasticsearch; \
 		tar xzf $PWD/deploy/elasticsearch.tar.gz -C $PWD/deploy && \
-		mv $PWD/deploy/elasticsearch-$VER $PWD/deploy/elasticsearch
+        cp -af $PWD/deploy/elasticsearch-$VER/* $PWD/deploy/elasticsearch
 }
 
 __start() {

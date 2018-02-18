@@ -4,7 +4,7 @@
 
 PWD=`pwd`
 JAVA=`which java`
-VER=6.1.3
+VER=6.2.0
 IPADDR=$(hostname -I | cut -d ' ' -f 1)
 
 __usage() {
@@ -40,6 +40,8 @@ __stop() {
 }
 
 __deploy() {
+    __stop
+
     # setup directories
 	[ -d $PWD/deploy ] || mkdir -p $PWD/deploy
 	[ -d $PWD/data ] || mkdir -p $PWD/data
@@ -50,8 +52,9 @@ __deploy() {
 		curl https://artifacts.elastic.co/downloads/kibana/kibana-${VER}-linux-x86_64.tar.gz \
 		-o $PWD/deploy/kibana.tar.gz
 	[ -d $PWD/deploy/kibana ] || \
+        mkdir $PWD/deploy/kibana && \
 		tar xzf $PWD/deploy/kibana.tar.gz -C $PWD/deploy && \
-		mv $PWD/deploy/kibana-${VER}-linux-x86_64 $PWD/deploy/kibana
+		cp -af $PWD/deploy/kibana-${VER}-linux-x86_64/* $PWD/deploy/kibana
 
     echo "please update the deploy/kibana/config/kibana.yml file then start the service."
 }
