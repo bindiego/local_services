@@ -4,7 +4,7 @@
 
 PWD=`pwd`
 JAVA=`which java`
-VER=6.1.3
+VER=6.2.0
 IPADDR=$(hostname -I | cut -d ' ' -f 1)
 
 __usage() {
@@ -40,6 +40,8 @@ __stop() {
 }
 
 __deploy() {
+    __stop
+
     # setup directories
 	[ -d $PWD/deploy ] || mkdir -p $PWD/deploy
 	[ -d $PWD/data ] || mkdir -p $PWD/data
@@ -50,8 +52,9 @@ __deploy() {
         curl https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-${VER}-linux-x86_64.tar.gz \
         --output $PWD/deploy/metricbeat.tar.gz
     [ -d $PWD/deploy/metricbeat ] || \
+        mkdir $PWD/deploy/metricbeat; \
         tar xzf $PWD/deploy/metricbeat.tar.gz -C $PWD/deploy && \
-        mv $PWD/deploy/metricbeat-${VER}-linux-x86_64 $PWD/deploy/metricbeat
+        cp -af $PWD/deploy/metricbeat-${VER}-linux-x86_64/* $PWD/deploy/metricbeat
 
     echo "please update the conf/metricbeat.yml file then start the service."
 }

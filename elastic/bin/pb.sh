@@ -4,7 +4,7 @@
 
 PWD=`pwd`
 JAVA=`which java`
-VER=6.1.3
+VER=6.2.0
 IPADDR=$(hostname -I | cut -d ' ' -f 1)
 
 __usage() {
@@ -40,6 +40,8 @@ __stop() {
 }
 
 __deploy() {
+    __stop
+
     # setup directories
 	[ -d $PWD/deploy ] || mkdir -p $PWD/deploy
 	[ -d $PWD/data ] || mkdir -p $PWD/data
@@ -50,8 +52,9 @@ __deploy() {
         curl https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-${VER}-linux-x86_64.tar.gz \
         --output $PWD/deploy/packetbeat.tar.gz
     [ -d $PWD/deploy/packetbeat ] || \
+        mkdir $PWD/deploy/packetbeat; \
         tar xzf $PWD/deploy/packetbeat.tar.gz -C $PWD/deploy && \
-        mv $PWD/deploy/packetbeat-${VER}-linux-x86_64 $PWD/deploy/packetbeat
+        cp -af $PWD/deploy/packetbeat-${VER}-linux-x86_64/* $PWD/deploy/packetbeat
 
     echo "please update the conf/packetbeat.yml file then start the service."
 }
