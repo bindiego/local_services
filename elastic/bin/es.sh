@@ -70,6 +70,7 @@ __start() {
 		-Epath.data=$PWD/data/es \
 		-Epath.logs=$PWD/data/es/logs \
 		-Enetwork.host=0.0.0.0
+        #-Expack.security.enabled=false
 		#-Enetwork.host=$IPADDR
 
     if [ $? -eq 0 ]
