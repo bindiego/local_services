@@ -69,7 +69,8 @@ __start() {
 		-Enode.name=tiger \
 		-Epath.data=$PWD/data/es \
 		-Epath.logs=$PWD/data/es/logs \
-		-Enetwork.host=$IPADDR
+		-Enetwork.host=0.0.0.0
+		#-Enetwork.host=$IPADDR
 
     if [ $? -eq 0 ]
     then
