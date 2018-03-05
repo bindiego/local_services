@@ -4,7 +4,7 @@
 
 PWD=`pwd`
 JAVA=`which java`
-VER=6.2.0
+VER=6.2.2
 IPADDR=$(hostname -I | cut -d ' ' -f 1)
 
 __usage() {
@@ -69,7 +69,11 @@ __start() {
 		-Enode.name=tiger \
 		-Epath.data=$PWD/data/es \
 		-Epath.logs=$PWD/data/es/logs \
-		-Enetwork.host=0.0.0.0
+		-Enetwork.host=0.0.0.0 \
+        -Expack.security.transport.ssl.enabled=true \
+        -Expack.security.transport.ssl.verification_mode=certificate \
+        -Expack.security.transport.ssl.keystore.path=certs/elastic-certificates.p12 \
+        -Expack.security.transport.ssl.truststore.path=certs/elastic-certificates.p12
         #-Expack.security.enabled=false
 		#-Enetwork.host=$IPADDR
 
