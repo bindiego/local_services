@@ -4,7 +4,7 @@
 
 PWD=`pwd`
 JAVA=`which java`
-VER=6.2.0
+VER=$(<ver)
 IPADDR=$(hostname -I | cut -d ' ' -f 1)
 
 __usage() {
