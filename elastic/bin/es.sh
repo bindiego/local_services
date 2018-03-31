@@ -73,7 +73,8 @@ __start() {
         -Expack.security.transport.ssl.enabled=true \
         -Expack.security.transport.ssl.verification_mode=certificate \
         -Expack.security.transport.ssl.keystore.path=certs/elastic-certificates.p12 \
-        -Expack.security.transport.ssl.truststore.path=certs/elastic-certificates.p12
+        -Expack.security.transport.ssl.truststore.path=certs/elastic-certificates.p12 \
+        -Expack.notification.slack.account.monitoring.url=https://hooks.slack.com/services/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
         #-Expack.security.enabled=false
 		#-Enetwork.host=$IPADDR
 
