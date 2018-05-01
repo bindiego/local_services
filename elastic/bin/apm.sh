@@ -70,11 +70,10 @@ __start() {
     echo -n "Starting apm ... "
 
 	$PWD/deploy/apm/apm-server \
-		-e \
         -E output.elasticsearch.hosts=$IPADDR:9200 \
         -E apm-server.host=$IPADDR:8200 \
         -E logging.to_files=true \
-        -E logging.files.path=$PWD/data/apm/logs/apm.log > /dev/null 2>&1 &
+        -E logging.files.path=$PWD/data/apm/logs > /dev/null 2>&1 &
 
     if [ $? -eq 0 ]
     then
