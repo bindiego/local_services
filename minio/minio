@@ -1,0 +1,25 @@
+#!/bin/bash -ex
+
+# docker pull minio/minio
+
+# docker save -o minio.tar minio/minio
+
+# docker load < minio.tar
+
+pwd=$(pwd)
+
+[ -d ${pwd}/data ] || mkdir -p ${pwd}/data 
+[ -d ${pwd}/config ] || mkdir -p ${pwd}/config
+
+docker run \
+  --publish=19000:9000 \
+  -e "MINIO_ACCESS_KEY=testkey" \
+  -e "MINIO_SECRET_KEY=testsecret" \
+  -v ${pwd}/data:/data \
+  -v ${pwd}/config:/root/.minio \
+  --restart=unless-stopped \
+  -m 512M --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  --detach=true \
+  --name=minio \
+  minio/minio server /data
