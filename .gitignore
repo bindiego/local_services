@@ -11,3 +11,6 @@ elastic/deploy
 elastic/data
 elastic/conf/metricbeat.yml
 elastic/conf/packetbeat.yml
+elastic/conf/filebeat.yml
+elastic/conf/auditbeat.yml
+elastic/conf/apm-server.yml
