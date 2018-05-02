@@ -69,7 +69,10 @@ __setup() {
 __start() {
     echo -n "Starting apm ... "
 
+    CONF_FILE=$PWD/conf/apm-server.yml
+
 	$PWD/deploy/apm/apm-server \
+        -e -c $CONF_FILE \
         -E output.elasticsearch.hosts=$IPADDR:9200 \
         -E apm-server.host=$IPADDR:8200 \
         -E logging.to_files=true \
