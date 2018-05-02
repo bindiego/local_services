@@ -8,9 +8,9 @@ docker run --name rdb \
   -p 3306:3306 \
   -v ${pwd}/data:/var/lib/mysql \
   -e MYSQL_ROOT_PASSWORD=R0ot \
-  -e MYSQL_DATABASE=ptmind \
-  -e MYSQL_USER=ptmind \
-  -e MYSQL_PASSWORD=Ptmind2016 \
+  -e MYSQL_DATABASE=elastic \
+  -e MYSQL_USER=elastic \
+  -e MYSQL_PASSWORD=elastic2018 \
   --restart=unless-stopped \
   -m 1G --memory-swap -1 \
   --cpuset-cpus="0,1" \
