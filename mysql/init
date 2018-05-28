@@ -3,10 +3,15 @@
 pwd=`pwd`
 
 [ -d data ] || mkdir data
+[ -d logs ] || mkdir logs
+
+sudo chown 999:docker logs
 
 docker run --name rdb \
   -p 3306:3306 \
   -v ${pwd}/data:/var/lib/mysql \
+  -v ${pwd}/logs:/var/log/mysql \
+  -v ${pwd}/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf \
   -e MYSQL_ROOT_PASSWORD=R0ot \
   -e MYSQL_DATABASE=elastic \
   -e MYSQL_USER=elastic \

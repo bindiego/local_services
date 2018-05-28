@@ -1,4 +1,5 @@
 mysql/data
+mysql/logs
 postgres/data
 mongodb/data
 nexus/data
