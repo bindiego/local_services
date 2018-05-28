@@ -56,6 +56,8 @@ __deploy() {
         tar xzf $PWD/deploy/metricbeat.tar.gz -C $PWD/deploy && \
         cp -af $PWD/deploy/metricbeat-${VER}-linux-x86_64/* $PWD/deploy/metricbeat
 
+    sudo chown -R root:root $PWD/deploy/metricbeat
+
     echo "please update the conf/metricbeat.yml file then start the service."
 }
 
