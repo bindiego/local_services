@@ -60,7 +60,7 @@ __deploy() {
 }
 
 __start() {
-    __deploy
+    #__deploy
 
     echo -n "Starting elasticsearch ... "
 
