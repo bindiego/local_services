@@ -64,7 +64,9 @@ __start() {
 
     echo -n "Starting elasticsearch ... "
 
-	$PWD/deploy/elasticsearch/bin/elasticsearch -d -p $PWD/deploy/es.pid \
+    ES_JAVA_OPTS="-Xms4g -Xmx4g" \
+	    $PWD/deploy/elasticsearch/bin/elasticsearch \
+        -d -p $PWD/deploy/es.pid \
 		-Ecluster.name=bindigo \
 		-Enode.name=tiger \
 		-Epath.data=$PWD/data/es \
