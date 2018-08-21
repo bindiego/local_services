@@ -1,4 +1,4 @@
 #!/bin/bash
 
-./deploy/elasticsearch/bin/elasticsearch-setup-password interactive
+./deploy/elasticsearch/bin/elasticsearch-setup-passwords interactive
 
