@@ -1,6 +1,43 @@
-### Install X-pack
+### Preface
 
-https://www.elastic.co/downloads/x-pack
+The easiest way to manage Elastic Staick
+
+- SaaS: https://cloud.elastic.co
+- On premise: https://www.elastic.co/products/ece
+
+The scripts are not perfect, if you see any errors, simply follow the instructions to get it fixed.
+
+### Elasticsearch
+
+Start with
+
+```
+./bin/es.sh deploy
+```
+
+Then update your local settings in the config folder, finally,
+
+```
+./bin/es.sh start
+```
+
+You should have Elasticsearch up and running.
+
+### Kibana
+
+Start with
+
+```
+./bin/kbn.sh deploy
+```
+
+Then update your local settings, finally,
+
+```
+./bin/kbn.sh start
+```
+
+Should bring your Kibana instance up and running.
 
 ### To increase file descriptors
 
