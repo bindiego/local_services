@@ -64,7 +64,7 @@ __start() {
 
     echo -n "Starting elasticsearch ... "
 
-    ES_JAVA_OPTS="-Xms4g -Xmx4g" \
+    ES_JAVA_OPTS="-Xms3g -Xmx3g -XX:-UseConcMarkSweepGC -XX:-UseCMSInitiatingOccupancyOnly -XX:+UseG1GC -XX:InitiatingHeapOccupancyPercent=75" \
 	    $PWD/deploy/elasticsearch/bin/elasticsearch \
         -d -p $PWD/deploy/es.pid \
 		-Ecluster.name=bindigo \
