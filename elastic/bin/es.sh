@@ -43,6 +43,7 @@ __deploy() {
     __stop
 
 	sudo sysctl -w vm.max_map_count=262144
+    sudo swapoff -a
 
     # setup directories
 	[ -d $PWD/deploy ] || mkdir -p $PWD/deploy
@@ -79,6 +80,7 @@ __start() {
         -Expack.notification.slack.account.monitoring.url=https://hooks.slack.com/services/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
         #-Expack.security.enabled=false
 		#-Enetwork.host=$IPADDR
+        #-Ebootstrap.memory_lock=true \
 
     if [ $? -eq 0 ]
     then
