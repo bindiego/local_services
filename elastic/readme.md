@@ -5,6 +5,8 @@ The easiest way to manage Elastic Staick
 - SaaS: https://cloud.elastic.co
 - On premise: https://www.elastic.co/products/ece
 
+Or run Elastic Stack in Docker https://github.com/bindiego/docker_images/tree/master/elastic
+
 The scripts are not perfect, if you see any errors, simply follow the instructions to get it fixed.
 
 ### Elasticsearch
