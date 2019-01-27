@@ -10,4 +10,4 @@ docker run --name mongodb \
   --restart=unless-stopped \
   -m 1G --memory-swap -1 \
   --cpuset-cpus="0,1" \
-  -d mongo:3.4
+  -d mongo:4.0
