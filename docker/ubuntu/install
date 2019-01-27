@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+pwd=`pwd`
+
+# uninstall old versions
+sudo apt-get remove docker docker-engine docker.io containerd runc
+
+# setup repository
+sudo apt-get update
+sudo apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+# add docker's official GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+# x86_64 / amd64
+sudo add-apt-repository \
+  "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) \
+  stable"
+
+# update apt index
+sudo apt-get update
+
+# install docker CE
+sudo apt-get install -y docker-ce
+
+# start docker
+sudo systemctl start docker
+
+# Configure Docker to start on boot
+sudo systemctl enable docker
+
+# set up docker user group, require logout and log back in
+# sudo groupadd docker
+# sudo usermod -aG docker $USER
