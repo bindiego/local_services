@@ -69,6 +69,7 @@ __start() {
 
     sudo $PWD/deploy/auditbeat/auditbeat \
         -e -c $CONF_FILE \
+        --strict.perms=false \
         -d "publish" > /dev/null 2>&1 &
 
     if [ $? -eq 0 ]

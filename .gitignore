@@ -15,3 +15,5 @@ elastic/conf/packetbeat.yml
 elastic/conf/filebeat.yml
 elastic/conf/auditbeat.yml
 elastic/conf/apm-server.yml
+elastic/conf/fb.modules.d/
+elastic/conf/mb.modules.d/
