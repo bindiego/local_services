@@ -56,7 +56,7 @@ __deploy() {
         tar xzf $PWD/deploy/filebeat.tar.gz -C $PWD/deploy && \
         cp -af $PWD/deploy/filebeat-${VER}-linux-x86_64/* $PWD/deploy/filebeat
 
-    sudo chown -R root:root $PWD/deploy/filebeat
+    # sudo chown -R root:root $PWD/deploy/filebeat
 
     echo "please update the conf/filebeat.yml file then start the service."
 }
@@ -65,7 +65,7 @@ __start() {
     echo -n "Starting filebeat ... "
 
     CONF_FILE=$PWD/conf/filebeat.yml
-    sudo chown root $CONF_FILE
+    # sudo chown root $CONF_FILE
 
     sudo $PWD/deploy/filebeat/filebeat \
         -e -c $CONF_FILE \

@@ -56,7 +56,7 @@ __deploy() {
 		tar xzf $PWD/deploy/kibana.tar.gz -C $PWD/deploy && \
 		cp -af $PWD/deploy/kibana-${VER}-linux-x86_64/* $PWD/deploy/kibana
 
-    echo "please update the deploy/kibana/config/kibana.yml file then start the service."
+    echo "please update the conf/kibana.yml file then start the service."
 }
 
 __start() {
@@ -68,6 +68,7 @@ __start() {
 		--path.data=$PWD/data/kbn \
 		--host $IPADDR \
 		-e http://$IPADDR:9200 \
+        -c $PWD/conf/kibana.yml \
 		-l $PWD/data/kbn/logs/kbn.log > /dev/null 2>&1 &
 
     if [ $? -eq 0 ]

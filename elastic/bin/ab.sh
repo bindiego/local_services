@@ -56,7 +56,7 @@ __deploy() {
         tar xzf $PWD/deploy/auditbeat.tar.gz -C $PWD/deploy && \
         cp -af $PWD/deploy/auditbeat-${VER}-linux-x86_64/* $PWD/deploy/auditbeat
 
-    sudo chown -R root:root $PWD/deploy/auditbeat
+    #sudo chown -R root:root $PWD/deploy/auditbeat
 
     echo "please update the conf/auditbeat.yml file then start the service."
 }
@@ -65,7 +65,7 @@ __start() {
     echo -n "Starting auditbeat ... "
 
     CONF_FILE=$PWD/conf/auditbeat.yml
-    sudo chown root $CONF_FILE
+    #sudo chown root $CONF_FILE
 
     sudo $PWD/deploy/auditbeat/auditbeat \
         -e -c $CONF_FILE \

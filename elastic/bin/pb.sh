@@ -63,7 +63,7 @@ __start() {
     echo -n "Starting packetbeat ... "
 
     CONF_FILE=$PWD/conf/packetbeat.yml
-    sudo chown root $CONF_FILE
+    # sudo chown root $CONF_FILE
 
     sudo $PWD/deploy/packetbeat/packetbeat \
         -e -c $CONF_FILE \
