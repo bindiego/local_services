@@ -52,12 +52,18 @@ __deploy() {
 
     # download the package
 	[ -f $PWD/deploy/elasticsearch.tar.gz ] || \
-		curl https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$VER.tar.gz \
+		curl https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$VER-linux-x86_64.tar.gz \
 		--output $PWD/deploy/elasticsearch.tar.gz
 	[ -d $PWD/deploy/elasticsearch ] || \
         mkdir $PWD/deploy/elasticsearch; \
 		tar xzf $PWD/deploy/elasticsearch.tar.gz -C $PWD/deploy && \
         cp -af $PWD/deploy/elasticsearch-$VER/* $PWD/deploy/elasticsearch
+
+	if [ ! -d $PWD/conf/elasticsearch ]
+	then
+		mkdir -p $PWD/conf/elasticsearch
+		cp -a $PWD/deploy/elasticsearch/config/* $PWD/conf/elasticsearch/
+	fi
 }
 
 __start() {
@@ -71,14 +77,15 @@ __start() {
         -d -p $PWD/deploy/es.pid \
 		-Ecluster.name=bindigo \
 		-Enode.name=tiger \
+		-Ecluster.initial_master_nodes=["tiger"] \
 		-Epath.data=$PWD/data/es \
 		-Epath.logs=$PWD/data/es/logs \
-		-Enetwork.host=0.0.0.0 \
-        -Expack.security.transport.ssl.enabled=true \
-        -Expack.security.transport.ssl.verification_mode=certificate \
-        -Expack.security.transport.ssl.keystore.path=certs/elastic-certificates.p12 \
-        -Expack.security.transport.ssl.truststore.path=certs/elastic-certificates.p12 \
-        -Expack.notification.slack.account.monitoring.url=https://hooks.slack.com/services/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
+		-Enetwork.host=0.0.0.0 
+        #-Expack.security.transport.ssl.enabled=true \
+        #-Expack.security.transport.ssl.verification_mode=certificate \
+        #-Expack.security.transport.ssl.keystore.path=certs/elastic-certificates.p12 \
+        #-Expack.security.transport.ssl.truststore.path=certs/elastic-certificates.p12 \
+        #-Expack.notification.slack.account.monitoring.url=https://hooks.slack.com/services/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
         #-Expack.security.enabled=false
 		#-Enetwork.host=$IPADDR
         #-Ebootstrap.memory_lock=true \
