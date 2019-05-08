@@ -56,6 +56,10 @@ __deploy() {
 		tar xzf $PWD/deploy/kibana.tar.gz -C $PWD/deploy && \
 		cp -af $PWD/deploy/kibana-${VER}-linux-x86_64/* $PWD/deploy/kibana
 
+	if [ ! -f $PWD/conf/kibana.yml ]
+	then
+		cp -a $PWD/deploy/kibana/config/kibana.yml $PWD/conf/
+	fi
     echo "please update the conf/kibana.yml file then start the service."
 }
 

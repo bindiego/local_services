@@ -77,10 +77,10 @@ __start() {
         -d -p $PWD/deploy/es.pid \
 		-Ecluster.name=bindigo \
 		-Enode.name=tiger \
-		-Ecluster.initial_master_nodes=["tiger"] \
 		-Epath.data=$PWD/data/es \
 		-Epath.logs=$PWD/data/es/logs \
-		-Enetwork.host=0.0.0.0 
+		-Enetwork.host=0.0.0.0 \
+		-Ediscovery.type=single-node
         #-Expack.security.transport.ssl.enabled=true \
         #-Expack.security.transport.ssl.verification_mode=certificate \
         #-Expack.security.transport.ssl.keystore.path=certs/elastic-certificates.p12 \
@@ -89,6 +89,7 @@ __start() {
         #-Expack.security.enabled=false
 		#-Enetwork.host=$IPADDR
         #-Ebootstrap.memory_lock=true \
+		#-Ecluster.initial_master_nodes=["tiger"] \
 
     if [ $? -eq 0 ]
     then
