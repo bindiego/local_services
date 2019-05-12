@@ -17,3 +17,5 @@ elastic/conf/auditbeat.yml
 elastic/conf/apm-server.yml
 elastic/conf/fb.modules.d/
 elastic/conf/mb.modules.d/
+elastic/conf/elasticsearch/
+elastic/conf/kibana.yml
