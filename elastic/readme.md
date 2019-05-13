@@ -86,6 +86,7 @@ sudo sysctl -p; sysctl -p
 ```
 
 ### Use nginx as kibana proxy and force https with basic authentication
+### 用nginx做Kibana代理，并且强制https和使用基本认证
 
 **IMPORTANT: Run all commands in `elastic` folder**
 
