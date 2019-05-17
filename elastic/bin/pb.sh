@@ -67,6 +67,7 @@ __start() {
 
     sudo $PWD/deploy/packetbeat/packetbeat \
         -e -c $CONF_FILE \
+        --path.config=$PWD/conf \
         --strict.perms=false \
         -d "publish" > /dev/null 2>&1 &
 
