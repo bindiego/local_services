@@ -58,13 +58,19 @@ __deploy() {
 
     # sudo chown -R root:root $PWD/deploy/metricbeat
 
-    echo "please update the conf/metricbeat.yml file then start the service."
+    [ -d $PWD/conf/metricbeat ] || mkdir -p $PWD/conf/metricbeat
+    cp $PWD/conf/metricbeat.yml $PWD/conf/metricbeat/
+    cp -a $PWD/deploy/metricbeat/modules.d \
+        $PWD/deploy/metricbeat/kibana \
+        $PWD/deploy/metricbeat/fields.yml $PWD/conf/metricbeat
+
+    echo "please update the conf/metricbeat/metricbeat.yml file then start the service."
 }
 
 __start() {
     echo -n "Starting Metricbeat ... "
 
-    CONF_FILE=$PWD/conf/metricbeat.yml
+    CONF_FILE=$PWD/conf/metricbeat/metricbeat.yml
     # sudo chown root $CONF_FILE
 
     sudo $PWD/deploy/metricbeat/metricbeat \
