@@ -52,7 +52,7 @@ packetbeat.protocols:
 - type: http
   # Configure the ports where to listen for HTTP traffic. You can disable
   # the HTTP protocol by commenting out the list of ports.
-  ports: [80, 8080, 8000, 5000, 8002]
+  ports: [80, 8080, 8000, 5000, 8002, 5601]
 
 - type: memcache
   # Configure the ports where to listen for memcache traffic. You can disable
@@ -103,10 +103,18 @@ packetbeat.protocols:
 
 #==================== Elasticsearch template setting ==========================
 
+setup.template.enabled: true
+
+setup.template.name: "packetbeat"
+
+setup.template.pattern: "packetbeat-*"
+
 setup.template.settings:
   index.number_of_shards: 1
   #index.codec: best_compression
   #_source.enabled: false
+
+setup.template.overwrite: true
 
 #================================ General =====================================
 
@@ -128,7 +136,7 @@ setup.template.settings:
 # These settings control loading the sample dashboards to the Kibana index. Loading
 # the dashboards is disabled by default and can be enabled either by setting the
 # options here or by using the `setup` command.
-#setup.dashboards.enabled: false
+setup.dashboards.enabled: true
 
 # The URL from where to download the dashboards archive. By default this URL
 # has a value which is computed based on the Beat name and version. For released
@@ -146,7 +154,7 @@ setup.kibana:
   # Scheme and port can be left out and will be set to the default (http and 5601)
   # In case you specify and additional path, the scheme is required: http://localhost:5601/path
   # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
-  #host: "localhost:5601"
+  host: "localhost:5601"
 
   # Kibana Space ID
   # ID of the Kibana Space into which the dashboards should be loaded. By default,
@@ -180,6 +188,8 @@ output.elasticsearch:
   #username: "elastic"
   #password: "changeme"
 
+  index: "packetbeat-%{[agent.version]}-%{+yyyy.MM}"
+
 #----------------------------- Logstash output --------------------------------
 #output.logstash:
   # The Logstash hosts
@@ -202,6 +212,7 @@ output.elasticsearch:
 processors:
   - add_host_metadata: ~
   - add_cloud_metadata: ~
+  - add_docker_metadata: ~
 
 #================================ Logging =====================================
 
@@ -220,7 +231,7 @@ processors:
 # reporting is disabled by default.
 
 # Set to true to enable the monitoring reporter.
-#xpack.monitoring.enabled: false
+xpack.monitoring.enabled: true
 
 # Uncomment to send the metrics to Elasticsearch. Most settings from the
 # Elasticsearch output are accepted here as well. Any setting that is not set is

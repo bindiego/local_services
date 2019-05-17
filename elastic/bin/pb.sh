@@ -56,13 +56,16 @@ __deploy() {
         tar xzf $PWD/deploy/packetbeat.tar.gz -C $PWD/deploy && \
         cp -af $PWD/deploy/packetbeat-${VER}-linux-x86_64/* $PWD/deploy/packetbeat
 
+    [ -d $PWD/conf/packetbeat ] || mkdir -p $PWD/conf/packetbeat
+    cp $PWD/conf/packetbeat.yml $PWD/conf/packetbeat/
+
     echo "please update the conf/packetbeat.yml file then start the service."
 }
 
 __start() {
     echo -n "Starting packetbeat ... "
 
-    CONF_FILE=$PWD/conf/packetbeat.yml
+    CONF_FILE=$PWD/conf/packetbeat/packetbeat.yml
     # sudo chown root $CONF_FILE
 
     sudo $PWD/deploy/packetbeat/packetbeat \
