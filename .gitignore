@@ -10,12 +10,9 @@ sonarqube/sonarqube
 sonarqube/db
 elastic/deploy
 elastic/data
-elastic/conf/metricbeat.yml
-elastic/conf/packetbeat.yml
-elastic/conf/filebeat.yml
-elastic/conf/auditbeat.yml
-elastic/conf/apm-server.yml
-elastic/conf/fb.modules.d/
-elastic/conf/mb.modules.d/
 elastic/conf/elasticsearch/
-elastic/conf/kibana.yml
+elastic/conf/kibana/
+elastic/conf/auditbeat/
+elastic/conf/filebeat/
+elastic/conf/metricbeat/
+elastic/conf/packetbeat/
