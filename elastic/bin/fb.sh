@@ -76,7 +76,7 @@ __start() {
 
     sudo $PWD/deploy/filebeat/filebeat \
         -e -c $CONF_FILE \
-        --path.config=$PWD/conf \
+        --path.config=$PWD/conf/filebeat \
         --strict.perms=false \
         -d "publish" > /dev/null 2>&1 &
 

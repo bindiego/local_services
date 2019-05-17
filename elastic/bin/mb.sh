@@ -75,7 +75,7 @@ __start() {
 
     sudo $PWD/deploy/metricbeat/metricbeat \
         -e -c $CONF_FILE \
-        --path.config=$PWD/conf \
+        --path.config=$PWD/conf/metricbeat \
         --strict.perms=false \
         -d "publish" > /dev/null 2>&1 &
 
