@@ -58,18 +58,20 @@ __deploy() {
 
     #sudo chown -R root:root $PWD/deploy/auditbeat
 
-    echo "please update the conf/auditbeat.yml file then start the service."
+    [ -d $PWD/conf/auditbeat ] || mkdir -p $PWD/conf/auditbeat
+    cp $PWD/conf/auditbeat.yml $PWD/conf/auditbeat/
+
+    echo "please update the conf/auditbeat/auditbeat.yml file then start the service."
 }
 
 __start() {
     echo -n "Starting auditbeat ... "
 
-    CONF_FILE=$PWD/conf/auditbeat.yml
+    CONF_FILE=$PWD/conf/auditbeat/auditbeat.yml
     #sudo chown root $CONF_FILE
 
     sudo $PWD/deploy/auditbeat/auditbeat \
         -e -c $CONF_FILE \
-        --path.config=$PWD/conf \
         --strict.perms=false \
         -d "publish" > /dev/null 2>&1 &
 

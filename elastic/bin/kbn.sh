@@ -56,15 +56,15 @@ __deploy() {
 		tar xzf $PWD/deploy/kibana.tar.gz -C $PWD/deploy && \
 		cp -af $PWD/deploy/kibana-${VER}-linux-x86_64/* $PWD/deploy/kibana
 
-	if [ ! -f $PWD/conf/kibana.yml ]
-	then
-		cp -a $PWD/deploy/kibana/config/kibana.yml $PWD/conf/
-	fi
-    echo "please update the conf/kibana.yml file then start the service."
+    [ -d $PWD/conf/kibana ] || mkdir -p $PWD/conf/kibana
+    cp $PWD/conf/kibana.yml $PWD/conf/kibana/
+    echo "please update the conf/kibana/kibana.yml file then start the service."
 }
 
 __start() {
     echo -n "Starting kibana ... "
+
+    CONF_FILE=$PWD/conf/kibana/kibana.yml
 
 	$PWD/deploy/kibana/bin/kibana \
 		-p 5601 \
@@ -72,7 +72,7 @@ __start() {
 		--path.data=$PWD/data/kbn \
 		--host $IPADDR \
 		-e http://$IPADDR:9200 \
-        -c $PWD/conf/kibana.yml \
+        -c $CONF_FILE \
 		-l $PWD/data/kbn/logs/kbn.log > /dev/null 2>&1 &
 
     if [ $? -eq 0 ]

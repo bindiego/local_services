@@ -63,6 +63,7 @@ __deploy() {
 	then
 		mkdir -p $PWD/conf/elasticsearch
 		cp -a $PWD/deploy/elasticsearch/config/* $PWD/conf/elasticsearch/
+        cp $PWD/conf/es.jvm.options $PWD/conf/elasticsearch/jvm.options
 	fi
 }
 
