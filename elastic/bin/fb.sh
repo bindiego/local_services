@@ -58,13 +58,20 @@ __deploy() {
 
     # sudo chown -R root:root $PWD/deploy/filebeat
 
+    [ -d $PWD/conf/filebeat ] || mkdir -p $PWD/conf/filebeat
+    cp $PWD/conf/filebeat.yml $PWD/conf/filebeat/
+    cp -a $PWD/deploy/filebeat/modules.d \
+        $PWD/deploy/filebeat/module \
+        $PWD/deploy/filebeat/kibana \
+        $PWD/deploy/filebeat/fields.yml $PWD/conf/filebeat
+
     echo "please update the conf/filebeat.yml file then start the service."
 }
 
 __start() {
     echo -n "Starting filebeat ... "
 
-    CONF_FILE=$PWD/conf/filebeat.yml
+    CONF_FILE=$PWD/conf/filebeat/filebeat.yml
     # sudo chown root $CONF_FILE
 
     sudo $PWD/deploy/filebeat/filebeat \
