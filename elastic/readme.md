@@ -85,5 +85,47 @@ Finally, run the command
 sudo sysctl -p; sysctl -p
 ```
 
+### Use nginx as kibana proxy and force https with basic authentication
+### 用nginx做Kibana代理，并且强制https和使用基本认证
+
+**IMPORTANT: Run all commands in `elastic` folder**
+
+#### Preparation
+
+1. (Optional) generate self-signed certificate
+```
+./bin/cert-gen.sh
+```
+
+2. Creating a password file by using `htpasswd`
+This file is used to authenticate a user.
+```
+htpasswd -c conf/nginx/.htpasswd elastic
+```
+replace `elastic` with your desired username, `-c` option will create the file if the file doesn't exist. You can continously create more users by taking out the `-c` but look, you do not have authorization control anyway. So I presume one user is good for most of the cases. Or consider x-pack :)
+
+3. Update the nginx configuration file
+File is located at `conf/nginx/nginx.conf`
+
+if you have a domain name, uncomment
+```
+#server_name jenkins.domain.com;
+```
+in server 443 section, otherwise you can ignore
+
+**Do** change the settings bellow to reflect your environment
+```
+proxy_pass http://10.140.0.3:5601;
+proxy_redirect http://10.140.0.3:5601 https://10.140.0.3:5601;
+```
+
+#### Run nginx in docker
+
+Simply run the following command in the elastic folder will do the trick. It runs nginx in the docker, so docker is prereq for this. Or you can actually use the conf/nginx/nginx.conf for your own nginx instance.
+
+```
+./bin/nginx
+```
+
 ### AQI data 
 collected from http://www.stateair.net/
