@@ -59,7 +59,8 @@ __deploy() {
     # sudo chown -R root:root $PWD/deploy/metricbeat
 
     [ -d $PWD/conf/metricbeat ] || mkdir -p $PWD/conf/metricbeat
-    cp $PWD/conf/metricbeat.yml $PWD/conf/metricbeat/
+    [ -f $PWD/conf/metricbeat/metricbeat.yml ] || \
+        cp $PWD/conf/metricbeat.yml $PWD/conf/metricbeat/
     cp -a $PWD/deploy/metricbeat/modules.d \
         $PWD/deploy/metricbeat/kibana \
         $PWD/deploy/metricbeat/fields.yml $PWD/conf/metricbeat

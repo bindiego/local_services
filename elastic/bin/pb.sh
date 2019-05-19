@@ -57,7 +57,8 @@ __deploy() {
         cp -af $PWD/deploy/packetbeat-${VER}-linux-x86_64/* $PWD/deploy/packetbeat
 
     [ -d $PWD/conf/packetbeat ] || mkdir -p $PWD/conf/packetbeat
-    cp $PWD/conf/packetbeat.yml $PWD/conf/packetbeat/
+    [ -f $PWD/conf/packetbeat/packetbeat.yml ] || \
+        cp $PWD/conf/packetbeat.yml $PWD/conf/packetbeat/
 
     echo "please update the conf/packetbeat.yml file then start the service."
 }

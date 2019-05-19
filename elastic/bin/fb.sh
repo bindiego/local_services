@@ -59,7 +59,8 @@ __deploy() {
     # sudo chown -R root:root $PWD/deploy/filebeat
 
     [ -d $PWD/conf/filebeat ] || mkdir -p $PWD/conf/filebeat
-    cp $PWD/conf/filebeat.yml $PWD/conf/filebeat/
+    [ -f $PWD/conf/filebeat/filebeat.yml ] || \
+        cp $PWD/conf/filebeat.yml $PWD/conf/filebeat/
     cp -a $PWD/deploy/filebeat/modules.d \
         $PWD/deploy/filebeat/module \
         $PWD/deploy/filebeat/kibana \

@@ -59,7 +59,8 @@ __deploy() {
     #sudo chown -R root:root $PWD/deploy/heartbeat
 
     [ -d $PWD/conf/heartbeat ] || mkdir -p $PWD/conf/heartbeat
-    cp $PWD/conf/heartbeat.yml $PWD/conf/heartbeat/
+    [ -f $PWD/conf/heartbeat/heartbeat.yml ] || \
+        cp $PWD/conf/heartbeat.yml $PWD/conf/heartbeat/
 
     echo "please update the conf/heartbeat/heartbeat.yml file then start the service."
 }

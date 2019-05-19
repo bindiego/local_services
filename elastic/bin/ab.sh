@@ -59,7 +59,8 @@ __deploy() {
     #sudo chown -R root:root $PWD/deploy/auditbeat
 
     [ -d $PWD/conf/auditbeat ] || mkdir -p $PWD/conf/auditbeat
-    cp $PWD/conf/auditbeat.yml $PWD/conf/auditbeat/
+    [ -f $PWD/conf/auditbeat/auditbeat.yml ] || \
+        cp $PWD/conf/auditbeat.yml $PWD/conf/auditbeat/
 
     echo "please update the conf/auditbeat/auditbeat.yml file then start the service."
 }
