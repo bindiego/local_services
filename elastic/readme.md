@@ -26,7 +26,7 @@
 
 `cert-gen.sh` - generate certificates for nginx
 
-Use commands for each service
+#### Use commands for each service
 
 `$cmd deploy` -> follow the prompts to update the configurations -> `$cmd start`, then you should have it up and running. Also support `status`, `stop` and `restart`
 
