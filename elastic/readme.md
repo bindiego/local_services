@@ -1,3 +1,32 @@
+## Quick start guide 快速开始
+
+### Commands explained - in `bin` folder
+
+`ab.sh` - Auditbeat
+`fb.sh` - Filebeat
+`mb.sh` - Metricbeat
+`pb.sh` - Packetbeat
+`hb.sh` - Heartbeat
+
+`es.sh` - Elasticsearch
+`kbn.sh` - Kibana
+
+`apm.sh` - APM server
+
+`ca-gen.sh` - generate certificates for Elasticsearch
+`es-passwd.sh` - setup default users' passwords in Elasticsearch
+
+`nginx.sh` - control nginx in docker
+`cert-gen.sh` - generate certificates for nginx
+
+Use commands for each service
+
+`$cmd deploy` -> follow the prompts to update the configurations -> `$cmd start`, then you should have it up and running. Also support `status`, `stop` and `restart`
+
+tls connections is not turned on by default, you can either set it up without using nginx or simply use nginx for frontend only.
+
+---
+
 ### Preface
 
 The easiest way to manage Elastic Staick
@@ -126,6 +155,3 @@ Simply run the following command in the elastic folder will do the trick. It run
 ```
 ./bin/nginx
 ```
-
-### AQI data 
-collected from http://www.stateair.net/
