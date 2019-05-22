@@ -59,12 +59,16 @@ __deploy() {
 		tar xzf $PWD/deploy/elasticsearch.tar.gz -C $PWD/deploy && \
         cp -af $PWD/deploy/elasticsearch-$VER/* $PWD/deploy/elasticsearch
 
+    $PWD/deploy/elasticsearch/bin/elasticsearch-keystore create
+
 	if [ ! -d $PWD/conf/elasticsearch ]
 	then
 		mkdir -p $PWD/conf/elasticsearch
 		cp -a $PWD/deploy/elasticsearch/config/* $PWD/conf/elasticsearch/
         cp $PWD/conf/es.jvm.options $PWD/conf/elasticsearch/jvm.options
 	fi
+
+    echo "Security features are turned on v7.1.0 onwards, please run bin/es.passwd.sh to setup and for all other components, e.g. Kibana, Beats & APM etc."
 }
 
 __start() {
@@ -81,13 +85,13 @@ __start() {
 		-Epath.data=$PWD/data/es \
 		-Epath.logs=$PWD/data/es/logs \
 		-Enetwork.host=0.0.0.0 \
-		-Ediscovery.type=single-node
+		-Ediscovery.type=single-node \
+        -Expack.security.enabled=true
         #-Expack.security.transport.ssl.enabled=true \
         #-Expack.security.transport.ssl.verification_mode=certificate \
         #-Expack.security.transport.ssl.keystore.path=certs/elastic-certificates.p12 \
         #-Expack.security.transport.ssl.truststore.path=certs/elastic-certificates.p12 \
         #-Expack.notification.slack.account.monitoring.url=https://hooks.slack.com/services/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
-        #-Expack.security.enabled=false
 		#-Enetwork.host=$IPADDR
         #-Ebootstrap.memory_lock=true \
 		#-Ecluster.initial_master_nodes=["tiger"] \
