@@ -57,7 +57,8 @@ __deploy() {
 		cp -af $PWD/deploy/kibana-${VER}-linux-x86_64/* $PWD/deploy/kibana
 
     [ -d $PWD/conf/kibana ] || mkdir -p $PWD/conf/kibana
-    cp $PWD/conf/kibana.yml $PWD/conf/kibana/
+    [ -f $PWD/conf/kibana/kibana.yml ] || \
+        cp $PWD/conf/kibana.yml $PWD/conf/kibana/
     echo "please update the conf/kibana/kibana.yml file then start the service."
 }
 
