@@ -61,8 +61,9 @@ __deploy() {
     [ -d $PWD/conf/metricbeat ] || mkdir -p $PWD/conf/metricbeat
     [ -f $PWD/conf/metricbeat/metricbeat.yml ] || \
         cp $PWD/conf/metricbeat.yml $PWD/conf/metricbeat/
-    cp -a $PWD/deploy/metricbeat/modules.d \
-        $PWD/deploy/metricbeat/kibana \
+    [ -d $PWD/conf/metricbeat/modules.d ] || \
+        cp -a $PWD/deploy/metricbeat/modules.d $PWD/conf/metricbeat
+    cp -a $PWD/deploy/metricbeat/kibana \
         $PWD/deploy/metricbeat/fields.yml $PWD/conf/metricbeat
 
     echo "please update the conf/metricbeat/metricbeat.yml file then start the service."

@@ -61,8 +61,9 @@ __deploy() {
     [ -d $PWD/conf/filebeat ] || mkdir -p $PWD/conf/filebeat
     [ -f $PWD/conf/filebeat/filebeat.yml ] || \
         cp $PWD/conf/filebeat.yml $PWD/conf/filebeat/
-    cp -a $PWD/deploy/filebeat/modules.d \
-        $PWD/deploy/filebeat/module \
+    [ -d $PWD/conf/filebeat/modules.d ] || \
+        cp -a $PWD/deploy/filebeat/modules.d $PWD/conf/filebeat
+    cp -a $PWD/deploy/filebeat/module \
         $PWD/deploy/filebeat/kibana \
         $PWD/deploy/filebeat/fields.yml $PWD/conf/filebeat
 
