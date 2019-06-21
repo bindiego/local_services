@@ -1,0 +1,20 @@
+#!/bin/bash
+
+pwd=`pwd`
+
+[ -d data ] || mkdir data
+#[ -d logs ] || mkdir logs
+
+#sudo chown 999:docker logs
+
+docker run --name ch \
+  -p 8123:8123 \
+  -p 9000:9000 \
+  --ulimit nofile=262144:262144 \
+  -v ${pwd}/data:/var/lib/clickhouse \
+  --restart=unless-stopped \
+  -m 2G --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  -d yandex/clickhouse-server
+
+  # -v ${pwd}/conf/config.xml:/etc/clickhouse-server/config.xml \

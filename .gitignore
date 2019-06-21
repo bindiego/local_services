@@ -1,3 +1,4 @@
+clickhouse/data
 mysql/data
 mysql/logs
 postgres/data
