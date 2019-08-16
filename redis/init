@@ -4,12 +4,12 @@ pwd=`pwd`
 
 [ -d data ] || mkdir data
 
-docker run --name ptredis \
+docker run --name redis \
   -p 46379:6379 \
   -v ${pwd}/data:/data \
   --restart=unless-stopped \
   -m 256M --memory-swap -1 \
   --cpuset-cpus="0,1" \
-  -d redis:3.2-alpine \
+  -d redis:5.0-alpine \
   redis-server #/usr/local/etc/redis/redis.conf
   #-v ${pwd}/redis.conf:/usr/local/etc/redis/redis.conf \
