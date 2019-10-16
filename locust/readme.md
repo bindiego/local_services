@@ -2,7 +2,11 @@
 
 The code here is dedicated for GKE (Google managed k8s on GCP). But if you could easily port to your on-prem k8s environment without too much work.
 
+代码主要是针对GKE（谷歌托管k8s）的，少做修改就可以改为本地k8s集群部署。主要是Docker容器构建推送的registry和k8s ymal里镜像的位置。其他都一样，有问题欢迎大家及时反馈。
+
 ## Deploy Load Testing tool Locust on k8s 
+
+主要目的是在GEK（k8s）上快速部署一个Locust压测工具。
 
 ### Prepare your GCP project key environment
 
