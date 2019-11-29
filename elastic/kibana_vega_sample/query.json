@@ -1,0 +1,24 @@
+GET activity/_search
+{
+  "profile": "true", 
+	"size": 0,
+	"aggs": {
+  	"table": {
+    	"composite": {
+      	"size": 100,
+      	"sources": [
+        	{
+          	"stk1": {
+            	"terms": {"field": "travelled_from.keyword"}
+          	}
+        	},
+        	{
+          	"stk2": {
+            	"terms": {"field": "travelled_to.keyword"}
+          	}
+        	}
+      	]
+    	}
+  	}
+	}
+}
