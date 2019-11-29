@@ -1,0 +1,11 @@
+POST activity/_doc/
+{
+  "@timestamp": "2020-01-17T12:40:00Z+0800",
+  "duration": 11,
+  "type" : "travel",
+  "travel" : "yes",
+  "transportation" : "air",
+  "travelled_from": "Vancouver",
+  "travelled_to": "Beijing",
+  "comments": "Retreat"
+}
