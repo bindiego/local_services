@@ -3,14 +3,17 @@
 pwd=`pwd`
 
 [ -d data ] || mkdir data && sudo chown -R 200 data
+[ -d user ] || mkdir user && sudo chown -R 200 user
 
 # Default credentials are: admin / admin123
 
 docker run --name nexus \
   -p 28081:8081 \
   -v ${pwd}/data:/nexus-data \
-  -e INSTALL4J_ADD_VM_PARAMS="-Xms1g -Xmx1g -XX:MaxDirectMemorySize=1g" \
+  -v ${pwd}/user:/usr-root \
   --restart=unless-stopped \
-  -m 1G --memory-swap -1 \
+  -m 3G --memory-swap -1 \
+  -e INSTALL4J_ADD_VM_PARAMS="-Xms2g -Xmx2g -XX:MaxDirectMemorySize=3g -Djava.util.prefs.userRoot=/usr-root" \
   --cpuset-cpus="0,1" \
-  -d sonatype/nexus3:3.6.1
+  -d sonatype/nexus3
+

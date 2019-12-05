@@ -4,6 +4,7 @@ mysql/logs
 postgres/data
 mongodb/data
 nexus/data
+nexus/user
 log
 *.pyc
 *.db
