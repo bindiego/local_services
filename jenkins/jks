@@ -1,9 +1,10 @@
 #!/bin/sh
 
 # Author: Bin Wu
+# Updated: 5/Dec/2019
 
-INSTDIR=/home/ptmind/tools/jenkins
-JENKINS_HOME=/home/ptmind/tools/jenkins_home
+INSTDIR=/home/binwu/tools/jenkins
+JENKINS_HOME=/home/binwu/tools/jenkins_home
 LOGDIR=$INSTDIR/logs
 LOGFILE=$LOGDIR/jenkins.log
 JAVA=$(which java)
@@ -17,7 +18,9 @@ __start() {
     echo -n "Starting Jenkins ... "
 
     #sudo nohup $JAVA -jar $INSTDIR/lib/jenkins.war --httpPort=11080 & > $LOGFILE 2>&1
-    $JAVA -Dhudson.util.ProcessTree.disable=true \
+    $JAVA -Xmx2g \
+      -Djava.awt.headless=true \
+      -Dhudson.util.ProcessTree.disable=true \
       -DJENKINS_HOME=${JENKINS_HOME} \
       -DHUDSON_HOME=${JENKINS_HOME} \
       -Duser.timezone=Asia/Shanghai \

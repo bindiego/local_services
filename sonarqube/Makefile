@@ -1,6 +1,6 @@
 pwd := $(shell pwd)
 ver := 1.0
-hostip := 172.16.100.103
+hostip := 10.140.0.3
 
 init:
 	[ -d sonarqube ] || mkdir -p sonarqube/{conf,data,extensions,lib} && \

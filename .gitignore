@@ -18,3 +18,4 @@ elastic/conf/filebeat/
 elastic/conf/metricbeat/
 elastic/conf/packetbeat/
 elastic/conf/heartbeat/
+jenkins/jenkins_home/
