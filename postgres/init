@@ -7,11 +7,11 @@ pwd=`pwd`
 docker run --name rdb-postgres \
   -p 5432:5432 \
   -v ${pwd}/data:/var/lib/postgresql/data \
-  -e POSTGRES_DB=ptmind \
-  -e POSTGRES_USER=ptmind \
-  -e POSTGRES_PASSWORD=Ptmind2016 \
+  -e POSTGRES_DB=gcloud \
+  -e POSTGRES_USER=dingo \
+  -e POSTGRES_PASSWORD=Dingo2019 \
   --restart=unless-stopped \
   -m 1G --memory-swap -1 \
   --cpuset-cpus="0,1" \
-  -d postgres:10.0
+  -d postgres:12
 
