@@ -2,6 +2,7 @@
 
 # Author: Bin Wu
 # Updated: 5/Dec/2019
+# JDK11 may have the awt issue, JDK8 works as intended
 
 INSTDIR=/home/binwu/tools/jenkins
 JENKINS_HOME=/home/binwu/tools/jenkins_home
