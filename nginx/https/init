@@ -2,6 +2,8 @@
 
 pwd=`pwd`
 
+[ -d logs ] || mkdir -p logs
+
 docker run --name nginx \
   -p 80:80 \
   -p 443:443 \
@@ -9,6 +11,7 @@ docker run --name nginx \
   -v ${pwd}/conf.d:/etc/nginx/conf.d:ro \
   -v ${pwd}/conf:/opt/nginx/conf:ro \
   -v ${pwd}/www/html:/var/www/html:rw \
+  -v ${pwd}/logs:/var/log/nginx:rw \
   --restart=unless-stopped \
   -m 512M --memory-swap -1 \
   --cpuset-cpus="0,1" \
