@@ -21,3 +21,5 @@ elastic/conf/packetbeat/
 elastic/conf/heartbeat/
 jenkins/jenkins_home/
 nginx/https/logs/
+code-server/data/
+code-server/project/

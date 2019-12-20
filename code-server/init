@@ -1,0 +1,18 @@
+#!/bin/bash
+
+pwd=`pwd`
+
+[ -d data ] || mkdir -p data
+[ -d project ] || mkdir -p project
+
+docker run --name code-server \
+  -u `id -u`:`id -g` \
+  -p 4480:8080 \
+  -v "${pwd}/data/code-server:/home/coder/.local/share/code-server" \
+  -v "${pwd}/project:/home/coder/project" \
+  --restart=unless-stopped \
+  -m 2G --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  -d codercom/code-server:v2
+
+  # -v "${HOME}/workspace:/home/coder/project" \
