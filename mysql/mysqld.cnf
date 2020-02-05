@@ -1,8 +1,8 @@
-#
-# The MySQL  Server configuration file.
-#
-# For explanations see
-# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+# https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html
+
+[mysqld_safe]
+log_error=/var/log/mysql/mysql-error.log
+nice    = 0
 
 [mysqld]
 pid-file        = /var/run/mysqld/mysqld.pid
@@ -20,5 +20,69 @@ long_query_time = 2
 log_queries_not_using_indexes   = 1
 log_slow_admin_statements       = 1
 
-[mysqld_safe]
-log_error=/var/log/mysql/mysql-error.log
+secure-file-priv= NULL
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+# Engine
+default-storage-engine  = InnoDB
+
+# Bin logs
+binlog-format           = ROW
+log-bin                 = /var/lib/mysql/mysql-bin
+log-slave-updates       = 1
+expire-logs-days        = 90
+sync-binlog             = 1
+max_binlog_size         = 100M
+
+server-id = 1 # randomize it incase of multiple servers
+
+# InnoDB
+innodb-buffer-pool-size         = 2G
+innodb_buffer_pool_instances    = 4
+# innodb_additional_mem_pool_size = 20M
+innodb_log_buffer_size          = 8M
+innodb-log-files-in-group       = 2
+innodb-log-file-size            = 256M
+innodb-file-per-table           = 1
+innodb-flush-log-at-trx-commit  = 1
+innodb-flush-method             = O_DIRECT
+
+# With virtual synchrony redundancy, make write queries faster
+innodb_doublewrite              = 1
+
+# This is a recommended tuning variable for performance
+# innodb_locks_unsafe_for_binlog  = 1
+
+# Safety
+max-connect-errors      = 1000000
+key_buffer_size         = 16M
+max_allowed_packet      = 128M
+skip-name-resolve
+sysdate-is-now          = 1
+innodb                  = FORCE
+innodb-strict-mode      = 1
+
+wait_timeout            = 60
+interactive_timeout     = 60
+
+# Buffers
+sort_buffer_size        = 16M
+read_buffer_size        = 2M
+join_buffer_size        = 8M
+read_rnd_buffer_size    = 16M
+
+# thread_concurrency      = 4 # Max CPU * 2
+
+# CACHES AND LIMITS #
+tmp-table-size          = 128M
+max-heap-table-size     = 128M
+# query-cache-type        = 0
+# query-cache-size        = 0
+# query_cache_limit       = 1M
+max-connections         = 5000
+thread-cache-size       = 50
+thread_stack            = 560K
+open-files-limit        = 65535
+table-definition-cache  = 1024
+table-open-cache        = 4000
