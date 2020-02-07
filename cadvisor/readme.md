@@ -30,4 +30,4 @@ htpasswd -c -i -b auth.htpasswd <USERNAME> <PASSWORD>
 ./cadv_secured
 ```
 
-access `localhost:12080` with the username and password you set.
+Access `localhost:12080` with the username and password you set. Or access it via [nginx](https://github.com/bindiego/local_services/blob/develop/nginx/https/conf.d/cadvisor.bindiego.com.conf)
