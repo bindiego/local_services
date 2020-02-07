@@ -30,4 +30,4 @@ htpasswd -c -i -b auth.htpasswd <USERNAME> <PASSWORD>
 ./cadv_secured
 ```
 
-access `localhost:12080` with <USERNAME> & <PASSWORD>
+access `localhost:12080` with the username and password you set.
