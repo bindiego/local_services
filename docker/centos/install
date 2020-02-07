@@ -4,21 +4,25 @@ pwd=`pwd`
 
 # uninstall old versions
 sudo yum remove docker \
+  docker-client \
+  docker-client-latest \
   docker-common \
-  docker-selinux \
+  docker-latest \
+  docker-latest-logrotate \
+  docker-logrotate \
   docker-engine
 
 # setup repository
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 sudo yum-config-manager \
-  --add-repo \
-  https://download.docker.com/linux/centos/docker-ce.repo
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
 
 # update yum index
 sudo yum makecache fast
 
 # install docker CE
-sudo yum install -y docker-ce
+sudo yum install -y docker-ce docker-ce-cli containerd.io
 
 # start docker
 sudo systemctl start docker
