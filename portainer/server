@@ -1,0 +1,17 @@
+#!/bin/bash -ex
+
+pwd=`pwd`
+
+[ -d data ] || mkdir -p data
+
+docker run \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v ${pwd}/data:/data \
+  --publish=18000:8000 \
+  --publish=19000:9000 \
+  --restart=unless-stopped \
+  -m 1G --memory-swap -1 \
+  --cpuset-cpus="0,1" \
+  --detach=true \
+  --name=portainer \
+  portainer/portainer
