@@ -4,7 +4,7 @@ pwd=`pwd`
 
 [ -d data ] || mkdir data
 
-docker run --name rdb-postgres \
+docker run --name postgres \
   -p 5432:5432 \
   -v ${pwd}/data:/var/lib/postgresql/data \
   -e POSTGRES_DB=gcloud \
