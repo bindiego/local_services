@@ -56,7 +56,14 @@ __deploy() {
 		tar xzf $PWD/deploy/apm.tar.gz -C $PWD/deploy && \
 		cp -af $PWD/deploy/apm-server-${VER}-linux-x86_64/* $PWD/deploy/apm
 
-    echo "please update the deploy/apm/apm-server.yml file then start the service."
+    [ -d $PWD/conf/apm ] || mkdir -p $PWD/conf/apm
+    [ -f $PWD/conf/apm/apm-server.yml ] || \
+        cp $PWD/conf/apm-server.yml $PWD/conf/apm/
+    cp -a $PWD/deploy/apm/fields.yml \
+        $PWD/deploy/apm/ingest \
+        $PWD/deploy/apm/kibana $PWD/conf/apm
+
+    echo "please update the conf/apm/apm-server.yml file then start the service."
 }
 
 __setup() {
@@ -69,14 +76,19 @@ __setup() {
 __start() {
     echo -n "Starting apm ... "
 
-    CONF_FILE=$PWD/conf/apm-server.yml
+    CONF_FILE=$PWD/conf/apm/apm-server.yml
 
 	$PWD/deploy/apm/apm-server \
         -e -c $CONF_FILE \
+        --path.config=$PWD/conf/apm \
+        --path.data=$PWD/data/apm \
+        --path.logs=$PWD/data/apm/logs \
+        --strict.perms=false \
         -E output.elasticsearch.hosts=$IPADDR:9200 \
         -E apm-server.host=$IPADDR:8200 \
         -E logging.to_files=true \
-        -E logging.files.path=$PWD/data/apm/logs > /dev/null 2>&1 &
+        -d "publish" > /dev/null 2>&1 &
+        # -E logging.files.path=$PWD/data/apm/logs \
 
     if [ $? -eq 0 ]
     then

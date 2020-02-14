@@ -19,6 +19,7 @@ elastic/conf/filebeat/
 elastic/conf/metricbeat/
 elastic/conf/packetbeat/
 elastic/conf/heartbeat/
+elastic/conf/apm/
 jenkins/jenkins_home/
 nginx/https/logs/
 code-server/data/
