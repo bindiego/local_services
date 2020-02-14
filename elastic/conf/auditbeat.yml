@@ -7,25 +7,6 @@
 # You can find the full configuration reference here:
 # https://www.elastic.co/guide/en/beats/auditbeat/index.html
 
-#============================  Config Reloading ================================
-
-# Config reloading allows to dynamically load modules. Each file which is
-# monitored must contain one or multiple modules as a list.
-auditbeat.config.modules:
-
-  # Glob pattern for configuration reloading
-  path: ${path.config}/conf.d/*.yml
-
-  # Period on which files under path should be checked for changes
-  reload.period: 10s
-
-  # Set to true to enable config reloading
-  reload.enabled: true
-
-# Maximum amount of time to randomly delay the start of a dataset. Use 0 to
-# disable startup delay.
-auditbeat.max_start_delay: 10s
-
 #==========================  Modules configuration =============================
 auditbeat.modules:
 
@@ -65,27 +46,6 @@ auditbeat.modules:
   - /sbin
   - /usr/sbin
   - /etc
-  - /home/binwu/tools/go
-  - /home/binwu/tools/mvn
-  - /home/binwu/tools/jdk
-  - /home/binwu/tools/gradle
-  - /home/binwu/bin
-
-  exclude_files:
-  - '(?i)\.sw[nop]$'
-  - '~$'
-  - '/\.git($|/)'
-
-  scan_at_start: true
-
-  scan_rate_per_sec: 50 MiB
-
-  max_file_size: 100 MiB
-
-  hash_types: [sha1]
-
-  # Detect changes to files included in subdirectories. Disabled by default.
-  recursive: true
 
 - module: system
   datasets:
@@ -116,12 +76,6 @@ setup.template.settings:
   #index.codec: best_compression
   #_source.enabled: false
 
-setup.template.name: "auditbeat"
-
-setup.template.pattern: "auditbeat-*"
-  
-setup.template.overwrite: true
-
 #================================ General =====================================
 
 # The name of the shipper that publishes the network data. It can be used to group
@@ -142,7 +96,7 @@ setup.template.overwrite: true
 # These settings control loading the sample dashboards to the Kibana index. Loading
 # the dashboards is disabled by default and can be enabled either by setting the
 # options here or by using the `setup` command.
-setup.dashboards.enabled: true
+#setup.dashboards.enabled: false
 
 # The URL from where to download the dashboards archive. By default this URL
 # has a value which is computed based on the Beat name and version. For released
@@ -160,7 +114,7 @@ setup.kibana:
   # Scheme and port can be left out and will be set to the default (http and 5601)
   # In case you specify and additional path, the scheme is required: http://localhost:5601/path
   # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
-  host: "localhost:5601"
+  #host: "localhost:5601"
 
   # Kibana Space ID
   # ID of the Kibana Space into which the dashboards should be loaded. By default,
@@ -169,7 +123,7 @@ setup.kibana:
 
 #============================= Elastic Cloud ==================================
 
-# These settings simplify using auditbeat with the Elastic Cloud (https://cloud.elastic.co/).
+# These settings simplify using Auditbeat with the Elastic Cloud (https://cloud.elastic.co/).
 
 # The cloud.id setting overwrites the `output.elasticsearch.hosts` and
 # `setup.kibana.host` options.
@@ -189,11 +143,13 @@ output.elasticsearch:
   # Array of hosts to connect to.
   hosts: ["localhost:9200"]
 
-  # Optional protocol and basic auth credentials.
+  # Protocol - either `http` (default) or `https`.
   #protocol: "https"
+
+  # Authentication credentials - either API key or username/password.
+  #api_key: "id:api_key"
   #username: "elastic"
   #password: "changeme"
-  index: "auditbeat-%{[agent.version]}-%{+yyyy.MM}"
 
 #----------------------------- Logstash output --------------------------------
 #output.logstash:
@@ -230,20 +186,27 @@ processors:
 # "publish", "service".
 #logging.selectors: ["*"]
 
-#============================== Xpack Monitoring ===============================
+#============================== X-Pack Monitoring ===============================
 # auditbeat can export internal metrics to a central Elasticsearch monitoring
 # cluster.  This requires xpack monitoring to be enabled in Elasticsearch.  The
 # reporting is disabled by default.
 
 # Set to true to enable the monitoring reporter.
-xpack.monitoring.enabled: true
+#monitoring.enabled: false
+
+# Sets the UUID of the Elasticsearch cluster under which monitoring data for this
+# Auditbeat instance will appear in the Stack Monitoring UI. If output.elasticsearch
+# is enabled, the UUID is derived from the Elasticsearch cluster referenced by output.elasticsearch.
+#monitoring.cluster_uuid:
 
 # Uncomment to send the metrics to Elasticsearch. Most settings from the
-# Elasticsearch output are accepted here as well. Any setting that is not set is
-# automatically inherited from the Elasticsearch output configuration, so if you
-# have the Elasticsearch output configured, you can simply uncomment the
-# following line.
-#xpack.monitoring.elasticsearch:
+# Elasticsearch output are accepted here as well.
+# Note that the settings should point to your Elasticsearch *monitoring* cluster.
+# Any setting that is not set is automatically inherited from the Elasticsearch
+# output configuration, so if you have the Elasticsearch output configured such
+# that it is pointing to your Elasticsearch monitoring cluster, you can simply
+# uncomment the following line.
+#monitoring.elasticsearch:
 
 #================================= Migration ==================================
 
