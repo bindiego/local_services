@@ -21,26 +21,11 @@ heartbeat.config.monitors:
 
 # Configure monitors inline
 heartbeat.monitors:
-- type: http
-
-  name: elasticsearch
-
-  enabled: true
-
-  # List or urls to query
-  urls: ["http://10.140.0.3:9200"]
-
-  # Configure task schedule
-  schedule: '@every 10s'
-
-  # Total test connection and data exchange timeout
-  #timeout: 16s
-  
 - type: icmp # monitor type `icmp` (requires root) uses ICMP Echo Request to ping
              # configured hosts
 
   # Monitor name used for job name and document type.
-  name: bindiegoping
+  name: bindiego_host
 
   # Enable/Disable monitor
   enabled: true
