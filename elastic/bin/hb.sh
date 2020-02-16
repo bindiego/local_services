@@ -61,6 +61,10 @@ __deploy() {
     [ -d $PWD/conf/heartbeat ] || mkdir -p $PWD/conf/heartbeat
     [ -f $PWD/conf/heartbeat/heartbeat.yml ] || \
         cp $PWD/conf/heartbeat.yml $PWD/conf/heartbeat/
+    [ -d $PWD/conf/heartbeat/monitors.d ] || \
+        cp -a $PWD/deploy/heartbeat/monitors.d $PWD/conf/heartbeat
+    cp -a $PWD/deploy/heartbeat/kibana \
+        $PWD/deploy/heartbeat/fields.yml $PWD/conf/heartbeat
 
     echo "please update the conf/heartbeat/heartbeat.yml file then start the service."
 }
@@ -73,6 +77,9 @@ __start() {
 
     sudo $PWD/deploy/heartbeat/heartbeat \
         -e -c $CONF_FILE \
+        --path.config=$PWD/conf/heartbeat \
+        --path.data=$PWD/data/hb \
+        --path.logs=$PWD/data/hb/logs \
         --strict.perms=false \
         -d "publish" > /dev/null 2>&1 &
 

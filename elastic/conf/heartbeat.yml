@@ -15,7 +15,7 @@ heartbeat.config.monitors:
   # Directory + glob pattern to search for configuration files
   path: ${path.config}/monitors.d/*.yml
   # If enabled, heartbeat will periodically check the config.monitors path for changes
-  reload.enabled: false
+  reload.enabled: true
   # How often to check for changes
   reload.period: 5s
 
@@ -23,14 +23,65 @@ heartbeat.config.monitors:
 heartbeat.monitors:
 - type: http
 
+  name: elasticsearch
+
+  enabled: true
+
   # List or urls to query
-  urls: ["http://localhost:9200"]
+  urls: ["http://10.140.0.3:9200"]
 
   # Configure task schedule
   schedule: '@every 10s'
 
   # Total test connection and data exchange timeout
   #timeout: 16s
+  
+- type: icmp # monitor type `icmp` (requires root) uses ICMP Echo Request to ping
+             # configured hosts
+
+  # Monitor name used for job name and document type.
+  name: bindiegoping
+
+  # Enable/Disable monitor
+  enabled: true
+
+  # Configure task schedule using cron-like syntax
+  schedule: '*/10 * * * * * *' # exactly every 5 seconds like 10:00:00, 10:00:05, ...
+
+  # List of hosts to ping
+  hosts: ["10.140.0.3"]
+
+  # Configure IP protocol types to ping on if hostnames are configured.
+  # Ping all resolvable IPs if `mode` is `all`, or only one IP if `mode` is `any`.
+  ipv4: true
+  ipv6: true
+  mode: any
+
+  # Total running time per ping test.
+  timeout: 16s
+
+  # Waiting duration until another ICMP Echo Request is emitted.
+  wait: 1s
+
+- type: http # monitor type `http`. Connect via HTTP an optionally verify response
+
+  # Monitor name used for job name and document type
+  name: nginx
+
+  # Enable/Disable monitor
+  enabled: true
+
+  # Configure task schedule
+  schedule: '@every 5s' # every 5 seconds from start of beat
+
+  # Configure URLs to ping
+  urls: ["http://10.140.0.3/health-check"]
+
+  # Configure IP protocol types to ping on if hostnames are configured.
+  # Ping all resolvable IPs if `mode` is `all`, or only one IP if `mode` is `any`.
+  ipv4: true
+  ipv6: true
+  mode: any
 
 #==================== Elasticsearch template setting ==========================
 
@@ -65,7 +116,10 @@ setup.kibana:
   # Scheme and port can be left out and will be set to the default (http and 5601)
   # In case you specify and additional path, the scheme is required: http://localhost:5601/path
   # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
-  #host: "localhost:5601"
+  host: "10.140.0.3:5601"
+
+  username: "elastic"
+  password: ""
 
   # Kibana Space ID
   # ID of the Kibana Space into which the dashboards should be loaded. By default,
@@ -99,8 +153,16 @@ output.elasticsearch:
 
   # Authentication credentials - either API key or username/password.
   #api_key: "id:api_key"
-  #username: "elastic"
-  #password: "changeme"
+  username: "elastic"
+  password: "fToaSYStJ5Yaphhz"
+
+  # Number of workers per Elasticsearch host.
+  worker: 1
+
+  # Optional index name. The default is "heartbeat" plus date
+  # and generates [heartbeat-]YYYY.MM.DD keys.
+  # In case you modify this pattern you must update setup.template.name and setup.template.pattern accordingly.
+  index: "heartbeat-%{[agent.version]}-%{+yyyy.MM}"
 
 #----------------------------- Logstash output --------------------------------
 #output.logstash:
@@ -146,7 +208,7 @@ processors:
 # reporting is disabled by default.
 
 # Set to true to enable the monitoring reporter.
-#monitoring.enabled: false
+monitoring.enabled: true
 
 # Sets the UUID of the Elasticsearch cluster under which monitoring data for this
 # Heartbeat instance will appear in the Stack Monitoring UI. If output.elasticsearch
@@ -166,3 +228,69 @@ processors:
 
 # This allows to enable 6.7 migration aliases
 #migration.6_to_7.enabled: true
+
+#============================== Dashboards =====================================
+# These settings control loading the sample dashboards to the Kibana index. Loading
+# the dashboards are disabled by default and can be enabled either by setting the
+# options here, or by using the `-setup` CLI flag or the `setup` command.
+setup.dashboards.enabled: false
+    
+#============================== Template =====================================
+
+# A template is used to set the mapping in Elasticsearch
+# By default template loading is enabled and the template is loaded.
+# These settings can be adjusted to load your own template or overwrite existing ones.
+
+# Set to false to disable template loading.
+setup.template.enabled: true
+    
+setup.template.name: "heartbeat-%{[agent.version]}"
+
+setup.template.pattern: "heartbeat-%{[agent.version]}-*"
+
+# Elasticsearch template settings
+setup.template.settings:
+
+  # A dictionary of settings to place into the settings.index dictionary
+  # of the Elasticsearch template. For more details, please check
+  # https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
+  index:
+    number_of_shards: 1
+    codec: best_compression
+    #number_of_routing_shards: 30
+
+#================================ Logging ======================================
+# There are four options for the log output: file, stderr, syslog, eventlog
+# The file output is the default.
+
+# Sets log level. The default log level is info.
+# Available log levels are: error, warning, info, debug
+#logging.level: info
+
+# Enable debug output for selected components. To enable all selectors use ["*"]
+# Other available selectors are "beat", "publish", "service"
+# Multiple selectors can be chained.
+#logging.selectors: [ ]
+
+# Send all logging output to stderr. The default is false.
+#logging.to_stderr: false
+
+# Send all logging output to syslog. The default is false.
+#logging.to_syslog: false
+
+# Send all logging output to Windows Event Logs. The default is false.
+#logging.to_eventlog: false
+
+# If enabled, Heartbeat periodically logs its internal metrics that have changed
+# in the last period. For each metric that changed, the delta from the value at
+# the beginning of the period is logged. Also, the total values for
+# all non-zero internal metrics are logged on shutdown. The default is true.
+#logging.metrics.enabled: true
+
+# The period after which to log the internal metrics. The default is 30s.
+#logging.metrics.period: 30s
+
+# Logging to rotating files. Set logging.to_files to false to disable logging to
+# files.
+logging.to_files: true
+# logging.files:
