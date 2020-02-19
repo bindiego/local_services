@@ -14,6 +14,8 @@ run:
 		-m 512M --memory-swap -1 \
 		--cpuset-cpus="0,1" \
 		-d dingosocks
+logs:
+	@docker logs dingosocks
 
 clean:
 	@-docker rm -v $(docker ps -a -q -f status=dead)
