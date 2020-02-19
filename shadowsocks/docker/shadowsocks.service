@@ -1,0 +1,10 @@
+[Unit]
+Description=Shadowsocks Server
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/ss-server -c /etc/shadowsocks-libev/config.json -u
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
