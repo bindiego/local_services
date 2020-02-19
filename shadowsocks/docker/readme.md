@@ -20,6 +20,16 @@ Install docker first.
 
 Done.
 
+### Client configuration
+
+#### Phone
+
+![](https://raw.githubusercontent.com/bindiego/localservices/develop/images/phone.png)
+
+#### Computer
+
+![](https://raw.githubusercontent.com/bindiego/localservices/develop/images/mac.png)
+
 ## To-do
 
 - Switch to Alpine. I need this in about an hour so ... ye, when I have time or this stopped working one day :)
