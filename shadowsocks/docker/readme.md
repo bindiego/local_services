@@ -2,7 +2,7 @@
 
 ### Prerequisites
 
-Install docker first.
+Install docker first. 先安装一下Docker吧，下面的脚本很快搞定。
 
 [How to install docker on Ubuntu or Centos](https://github.com/bindiego/local_services/tree/develop/docker)
 
@@ -10,7 +10,7 @@ Install docker first.
 
 ```make build```
 
-### update the config.json according to your needs
+### update the config.json according to your needs 更新一下配置文件，主要就密码就好了
 
 ```vim config.json```, yes vim FTW
 
@@ -20,7 +20,9 @@ Install docker first.
 
 Done.
 
-### Client configuration
+```make all``` 构建镜像然后跑起来
+
+### Client configuration 客户端配置，看下截图吧，比较简单
 
 #### Phone
 
