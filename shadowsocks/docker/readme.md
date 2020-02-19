@@ -24,11 +24,11 @@ Done.
 
 #### Phone
 
-![](https://raw.githubusercontent.com/bindiego/local_services/develop/images/phone.png)
+![](https://raw.githubusercontent.com/bindiego/local_services/develop/shadowsocks/docker/images/phone.png)
 
 #### Computer
 
-![](https://raw.githubusercontent.com/bindiego/local_services/develop/images/mac.png)
+![](https://raw.githubusercontent.com/bindiego/local_services/develop/shadowsocks/docker/images/mac.png)
 
 ## To-do
 
