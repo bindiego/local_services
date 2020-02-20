@@ -15,7 +15,7 @@ run:
 		--cpuset-cpus="0,1" \
 		-d dingosocks
 logs:
-	@docker logs dingosocks
+	@docker logs -f --tail 200 dingosocks
 
 clean:
 	@-docker rm -v $(docker ps -a -q -f status=dead)
