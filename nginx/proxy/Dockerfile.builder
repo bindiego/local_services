@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-LABEL maintainer="Bin Wu <binwu@google.com"
+LABEL maintainer="Bin Wu <binwu@google.com>"
 
 RUN apt-get update \
     && apt-get install --no-install-recommends --no-install-suggests -y gnupg1 ca-certificates \
