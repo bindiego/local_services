@@ -1,0 +1,3 @@
+#!/bin/bash
+
+gsutil ls gs://cloud-profiler/java/cloud-profiler-*
