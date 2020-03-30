@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: glb-ingress
+  annotations:
+    kubernetes.io/ingress.class: gce
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: hello-kubernetes
+          servicePort: 80
