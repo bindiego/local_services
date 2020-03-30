@@ -1,6 +1,6 @@
 ### GKE GLB + NEG
 
-#### First thing first, setup credntials
+#### First thing first, setup credentials
 
 ```
 gcloud container clusters get-credentials "<cluster_name>" --zone "<zone>" --project "<project_id>"
