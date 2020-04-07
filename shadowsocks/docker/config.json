@@ -5,7 +5,7 @@
   "password":"wubin123",
   "timeout":600,
   "method":"chacha20-ietf-poly1305",
-  "fast_open":true,
+  "fast_open":false,
   "workers":1,
   "plugin": "obfs-server",
   "plugin_opts": "obfs=tls;obfs-host=www.baidu.com"
