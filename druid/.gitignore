@@ -1,0 +1,6 @@
+druid-*
+zookeeper-*
+druidconfs
+druiddata
+db
+zk

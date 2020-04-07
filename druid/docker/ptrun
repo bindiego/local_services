@@ -1,0 +1,78 @@
+#!/bin/sh
+
+cd /opt/druid
+
+pwd=`pwd`
+
+# config external services
+
+echo -n "configuring external services ... "
+
+rdbip=172.16.100.102
+rdbport=43306
+zkip=172.16.100.102
+zkport=42181
+mcip=172.16.100.102
+mcport=41211
+
+egrep -lRZ "\%RDBIP\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%RDBIP\%/${rdbip}/g"
+
+egrep -lRZ "\%RDBPORT\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%RDBPORT\%/${rdbport}/g"
+
+egrep -lRZ "\%ZKIP\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%ZKIP\%/${zkip}/g"
+
+egrep -lRZ "\%ZKPORT\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%ZKPORT\%/${zkport}/g"
+
+egrep -lRZ "\%MC_IP\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%MC_IP\%/${mcip}/g"
+
+egrep -lRZ "\%MC_PORT\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%MC_PORT\%/${mcport}/g"
+
+echo "done."
+
+# confg druid services
+
+echo -n "configuring druid services ... "
+
+ol_ip=172.16.100.102
+mm_ip=172.16.100.102
+coord_ip=172.16.100.102
+hist_ip=172.16.100.102
+broker_ip=172.16.100.102
+rt_ip=172.16.100.102
+
+egrep -lRZ "\%OL_IP\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%OL_IP\%/${ol_ip}/g"
+
+egrep -lRZ "\%MM_IP\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%MM_IP\%/${mm_ip}/g"
+
+egrep -lRZ "\%COORD_IP\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%COORD_IP\%/${coord_ip}/g"
+
+egrep -lRZ "\%HIST_IP\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%HIST_IP\%/${hist_ip}/g"
+
+egrep -lRZ "\%BROKER_IP\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%BROKER_IP\%/${broker_ip}/g"
+
+egrep -lRZ "\%RT_IP\%" ${pwd}/conf \
+  | xargs -0 -l sed -i -e "s/\%RT_IP\%/${rt_ip}/g"
+
+echo "done."
+
+# start druid
+usage="Usage: ptrun (<component>) (start|stop|status)"
+
+if [ $# -lt 1 ]; then
+  echo $usage
+  exit 1
+fi
+
+echo "starting druid as ${1}"
+sh ./bin/node.sh $1 $2
