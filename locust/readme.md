@@ -70,6 +70,8 @@ sed -i -e "s/\[PROJECT_ID\]/$PROJECT/g" kubernetes-config/locust-master-controll
 sed -i -e "s/\[PROJECT_ID\]/$PROJECT/g" kubernetes-config/locust-worker-controller.yaml
 ```
 
+Same caveat here, after this substitutions, you need to check the image id to replace ':' with '/' accordingly.
+
 ### Deploy Locust master and worker nodes
 
 ```
