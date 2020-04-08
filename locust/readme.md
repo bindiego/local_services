@@ -94,6 +94,10 @@ EXTERNAL_IP=$(kubectl get svc locust-master -o yaml | grep ip | awk -F":" '{prin
 kubectl scale deployment/locust-worker --replicas=20
 ```
 
+### (optional) Use `makefile` embeded tasks to run your tests
+
+Check the `makefile` for details, you may need to update `kubernetes-config/locust-worker-controller.yaml` for every new test.
+
 ### Cleaning up
 
 ```
