@@ -51,6 +51,12 @@ gcloud container clusters get-credentials $CLUSTER \
 
 You have to update the `tasks.py` for your testing plan. Also, you may need to build different images for different testing workloads.
 
+##### Caveats
+
+For `$PROJECT` has a ':' charactor or say organization name, you need to replace ':' with '/'. For example
+
+abc.com:my-project => abc.com/my-project
+
 ```
 gcloud builds submit --tag gcr.io/$PROJECT/locust-tasks:latest docker-image/.
 ```
@@ -63,6 +69,8 @@ sed -i -e "s/\[TARGET_HOST\]/$TARGET/g" kubernetes-config/locust-worker-controll
 sed -i -e "s/\[PROJECT_ID\]/$PROJECT/g" kubernetes-config/locust-master-controller.yaml
 sed -i -e "s/\[PROJECT_ID\]/$PROJECT/g" kubernetes-config/locust-worker-controller.yaml
 ```
+
+Same caveat here, after this substitutions, you need to check the image id to replace ':' with '/' accordingly.
 
 ### Deploy Locust master and worker nodes
 
