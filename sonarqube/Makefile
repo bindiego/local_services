@@ -41,7 +41,7 @@ sonar: init
 		-e SONARQUBE_JDBC_USERNAME=sonar \
 		-e SONARQUBE_JDBC_PASSWORD=sonar \
 		-e SONARQUBE_JDBC_URL=jdbc:postgresql://$(hostip):35432/sonar \
-		-m 2G --memory-swap -1 \
+		-m 8G --memory-swap -1 \
 		--cpuset-cpus="0,1" \
 		-d sonarqube:lts
 
