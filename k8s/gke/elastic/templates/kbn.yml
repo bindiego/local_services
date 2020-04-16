@@ -1,0 +1,24 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+    name: kbn 
+spec:
+    version: 7.6.2
+    count: 1
+    config:
+        elasticsearch.requestHeadersWhitelist:
+        - authorization
+    elasticsearchRef:
+        name: dingo
+        # namespace: default
+    podTemplate:
+        spec:
+            containers:
+            - name: Kibana
+              resources:
+                  requests:
+                      memroy: 1Gi
+                      cpu: 1
+                  limits:
+                      memory: 2Gi
+                      cpu: 2
