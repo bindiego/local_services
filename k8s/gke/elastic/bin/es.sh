@@ -22,7 +22,7 @@ __deploy() {
 
 __status() {
     passwd=$(__password)
-    lb_ip=`kubectl get services dingo-es-http -o jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+    lb_ip=`kubectl get services ${es_cluster_name}-es-http -o jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
     curl -u "elastic:$passwd" -k "https://$lb_ip:9200"
 }
