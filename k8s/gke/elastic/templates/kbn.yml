@@ -5,6 +5,10 @@ metadata:
 spec:
     version: 7.6.2
     count: 1
+    http:
+        service:
+            spec:
+                type: LoadBalancer
     config:
         elasticsearch.requestHeadersWhitelist:
         - authorization
@@ -14,10 +18,10 @@ spec:
     podTemplate:
         spec:
             containers:
-            - name: Kibana
+            - name: kibana
               resources:
                   requests:
-                      memroy: 1Gi
+                      memory: 1Gi
                       cpu: 1
                   limits:
                       memory: 2Gi
