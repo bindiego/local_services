@@ -10,29 +10,24 @@ region=asia-east1
 project_id=google.com:bin-wus-learning-center
 default_pool=default-pool
 
-es_cluster_name=dingo
+kbn_name=kbn
 
 __usage() {
-    echo "Usage: ./bin/es.sh {deploy|password|status}"
+    echo "Usage: ./bin/kbn.sh {deploy|status|clean}"
 }
 
 __deploy() {
-    kubectl apply -f $pwd/deploy/es.yml
+    kubectl apply -f $pwd/deploy/kbn.yml
 }
 
 __clean() {
-    kubectl delete -f $pwd/deploy/es.yml
+    kubectl delete -f $pwd/deploy/kbn.yml
 }
 
 __status() {
-    passwd=$(__password)
-    lb_ip=`kubectl get services ${es_cluster_name}-es-http -o jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+    lb_ip=`kubectl get services ${kbn_name}-kb-http -o jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
-    curl -u "elastic:$passwd" -k "https://$lb_ip:9200"
-}
-
-__password() {
-    kubectl get secret ${es_cluster_name}-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode
+    echo "http://${lb_ip}:5601"
 }
 
 __main() {
@@ -43,9 +38,6 @@ __main() {
         case $1 in
             deploy|d)
                 __deploy
-                ;;
-            password|pwd|pw|p)
-                __password
                 ;;
             status|s)
                 __status

@@ -48,7 +48,7 @@ __create() {
     # sysctl -w vm.max_map_count=262144 for every GKE node
     $pwd/bin/gke_sysctl_vmmaxmapcount.sh
 
-    # deploy Elastic operator
+    # Install ECK: deploy Elastic operator
     # https://download.elastic.co/downloads/eck/1.0.1/all-in-one.yaml
     kubectl apply -f $pwd/conf/all-in-one.yaml
 
