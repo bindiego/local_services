@@ -6,7 +6,7 @@ pwd=`pwd`
 glb_name=elk-static-ip
 
 __usage() {
-    echo "Usage: ./bin/glb.sh {reserve|release}"
+    echo "Usage: ./bin/glb.sh {reserve|release|status|deploy|clean}"
 }
 
 __reserve_ip() {
@@ -18,7 +18,16 @@ __release_ip() {
 }
 
 __status() {
-    gcloud compute addresses list --filter="name=$glb_name"
+    # gcloud compute addresses list --filter="name=$glb_name"
+    gcloud compute addresses describe $glb_name --global
+}
+
+__deploy() {
+    kubectl apply -f $pwd/deploy/lb.yml
+}
+
+__clean() {
+    kubectl delete -f $pwd/deploy/lb.yml
 }
 
 __main() {
@@ -30,11 +39,17 @@ __main() {
             reserve|r)
                 __reserve_ip
                 ;;
-            release|clean)
+            release)
                 __release_ip
                 ;;
             status|s)
                 __status
+                ;;
+            deploy|d)
+                __deploy
+                ;;
+            clean)
+                __clean
                 ;;
             *)
                 __usage

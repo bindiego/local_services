@@ -4,10 +4,10 @@ metadata:
     name: dingo
 spec:
     version: 7.6.2
-    http:
-        service:
-            spec:
-                type: LoadBalancer
+    #http:
+        #service:
+            #spec:
+                #type: LoadBalancer
     secureSettings:
     - secretName: gcs-credentials
     nodeSets:
@@ -44,6 +44,10 @@ spec:
                   matchLables:
                       elasticsearch.k8s.elastic.co/cluster-name: dingo
       podTemplate:
+          metadata:
+              labels:
+                  ingest: "on"
+                  coord: "on"
           spec:
               containers:
               - name: elasticsearch

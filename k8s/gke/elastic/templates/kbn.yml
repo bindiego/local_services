@@ -5,10 +5,10 @@ metadata:
 spec:
     version: 7.6.2
     count: 1
-    http:
-        service:
-            spec:
-                type: LoadBalancer
+    #http:
+        #service:
+            #spec:
+                #type: LoadBalancer
     config:
         elasticsearch.requestHeadersWhitelist:
         - authorization
@@ -16,6 +16,9 @@ spec:
         name: dingo
         # namespace: default
     podTemplate:
+        metadata:
+            labels:
+                k8na: "on"
         spec:
             containers:
             - name: kibana
