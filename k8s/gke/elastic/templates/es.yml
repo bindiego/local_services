@@ -17,11 +17,12 @@ spec:
           node.master: true
           node.data: true
           node.ingest: true
-          xpack.ml.enabled: false
+          node.ml: true
+          xpack.ml.enabled: true
           node.store.allow_mmap: true
           index.store.type: hybridfs
-          node.attr.zone: asia-east1-a
           cluster.routing.allocation.awareness.attributes: zone
+          node.attr.zone: asia-east1-a
           cluster.remote.connect: true
           xpack.security.authc.anonymous.roles: monitoring_user
       volumeClaimTemplates:
