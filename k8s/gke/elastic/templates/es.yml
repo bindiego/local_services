@@ -23,6 +23,7 @@ spec:
           node.attr.zone: asia-east1-a
           cluster.routing.allocation.awareness.attributes: zone
           cluster.remote.connect: true
+          xpack.security.authc.anonymous.roles: monitoring_user
       volumeClaimTemplates:
       - metadata:
           name: elasticsearch-data
