@@ -6,6 +6,10 @@
 
 # Run this every time you scaled your gke cluster
 
+__usage() {
+    echo "Usage: ./bin/gke_sysctl_vmmaxmapcount.sh {fix|check}"
+}
+
 __nodes() {
 	kubectl get nodes -o custom-columns=n:.metadata.name --no-headers
 }
@@ -31,12 +35,42 @@ __ssh() {
 }
 
 		#__gcloud_ssh $node \
-# use either __gcloud_ssh or _ssh @line:37
-__main() {
+__fix() {
+    echo "=== Fixing GKE nodes"
+
 	for node in $(__nodes); do
 		__ssh $node \
 			"echo -n before: && sysctl -n vm.max_map_count && sysctl -w vm.max_map_count=262144 && echo -n after: && sysctl -n vm.max_map_count"
 	done
 }
 
-__main
+		#__gcloud_ssh $node \
+__check() {
+    echo "=== Checking GKE nodes"
+
+	for node in $(__nodes); do
+		__ssh $node \
+			"sysctl -n vm.max_map_count"
+	done
+}
+
+__main() {
+    if [ $# -eq 0 ]
+    then
+        __check
+    else
+        case $1 in
+            check|chk)
+                __check
+                ;;
+            fix|f)
+                __fix
+                ;;
+            *)
+                __check
+                ;;
+        esac
+    fi
+}
+
+__main $@

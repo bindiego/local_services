@@ -110,7 +110,11 @@ __scale() {
 }
 
 __fix() {
-    $pwd/bin/gke_sysctl_vmmaxmapcount.sh
+    $pwd/bin/gke_sysctl_vmmaxmapcount.sh fix
+}
+
+__check() {
+    $pwd/bin/gke_sysctl_vmmaxmapcount.sh check
 }
 
 __main() {
@@ -130,6 +134,9 @@ __main() {
                 ;;
             fix|f)
                 __fix
+                ;;
+            check|chk)
+                __check
                 ;;
             *)
                 __usage
