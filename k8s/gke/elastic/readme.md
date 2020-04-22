@@ -1,6 +1,8 @@
 ## GKE setup
 
-### Setup `sysctl -w vm.max_map_count=262144`
+### Setup `sysctl -w vm.max_map_count=262144` - **Deprecated** switched to daemonset to address this issue now
+
+*Still working if you still this way to fix nodes*
 
 You will need to run `./bin/gke.sh fix` every time you scaled up the cluster.
 

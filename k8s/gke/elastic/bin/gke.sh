@@ -11,7 +11,7 @@ project_id=google.com:bin-wus-learning-center
 default_pool=default-pool
 
 __usage() {
-    echo "Usage: ./bin/gke.sh {create|del|scale|fix}"
+    echo "Usage: ./bin/gke.sh {create|(delete,del,d)|scale|fix}"
 }
 
 __create() {
@@ -46,7 +46,10 @@ __create() {
         --project ${project_id}
 
     # sysctl -w vm.max_map_count=262144 for every GKE node
-    $pwd/bin/gke_sysctl_vmmaxmapcount.sh
+    # Option 1
+    # $pwd/bin/gke_sysctl_vmmaxmapcount.sh
+    # Option 2
+    kubectl apply -f $pwd/conf/node-daemon.yml
 
     # Install ECK: deploy Elastic operator
     # https://download.elastic.co/downloads/eck/1.0.1/all-in-one.yaml
@@ -90,7 +93,7 @@ __add_preemptible_pool() {
     --enable-autorepair
 }
 
-__deleted() {
+__delete() {
     echo "Y" | gcloud container clusters delete $cluster_name \
         --region $region
 }
@@ -119,7 +122,7 @@ __main() {
             create|c)
                 __create
                 ;;
-            delete|d)
+            delete|del|d)
                 __delete
                 ;;
             scale|s)
