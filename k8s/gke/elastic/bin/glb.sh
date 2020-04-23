@@ -11,6 +11,8 @@ __usage() {
 
 __reserve_ip() {
     gcloud compute addresses create $glb_name --global
+
+    gcloud compute addresses describe $glb_name --global | grep "address:" | cut -d ' ' -f 2
 }
 
 __release_ip() {
