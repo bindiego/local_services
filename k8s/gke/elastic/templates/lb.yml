@@ -97,6 +97,7 @@ metadata:
 spec:
     # https://github.com/kubernetes/ingress-gce/blob/master/pkg/loadbalancers/l7.go#L149
     # https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs
+    # https://kubernetes.io/docs/concepts/services-networking/ingress/
     tls:
     - hosts: 
       - k8es.ingest.bindiego.com
