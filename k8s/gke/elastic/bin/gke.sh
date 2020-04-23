@@ -9,6 +9,9 @@ region=asia-east1
 # zone=asia-east1-a
 project_id=google.com:bin-wus-learning-center
 default_pool=default-pool
+nodes_per_zone=3 # per zone
+# machine_type=n2-standard-4
+machine_type=n1-standard-4
 
 __usage() {
     echo "Usage: ./bin/gke.sh {create|(delete,del,d)|scale|fix}"
@@ -21,15 +24,16 @@ __create() {
     gcloud beta container \
         --project "${project_id}" clusters create "$cluster_name" \
         --region "${region}" \
+        --node-locations "${region}-a","${region}-b" \
         --no-enable-basic-auth \
         --release-channel "rapid" \
-        --machine-type "n2-standard-2" \
+        --machine-type "$machine_type" \
         --image-type "COS" \
         --disk-type "pd-ssd" \
         --disk-size "100" \
         --metadata disable-legacy-endpoints=true \
         --scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" \
-        --num-nodes "1" \
+        --num-nodes "$nodes_per_zone" \
         --enable-stackdriver-kubernetes \
         --enable-ip-alias \
         --network "projects/${project_id}/global/networks/default" \

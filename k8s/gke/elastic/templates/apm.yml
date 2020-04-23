@@ -1,27 +1,19 @@
-apiVersion: kibana.k8s.elastic.co/v1
-kind: Kibana
+apiVersion: apm.k8s.elastic.co/v1
+kind: ApmServer
 metadata:
-    name: dingo-kbn 
+      name: dingo-apm
 spec:
     version: 7.6.2
     count: 1
-    #http:
-        #service:
-            #spec:
-                #type: LoadBalancer
-    config:
-        elasticsearch.requestHeadersWhitelist:
-        - authorization
     elasticsearchRef:
         name: dingo
-        # namespace: default
     podTemplate:
         metadata:
             labels:
-                k8na: "on"
+                apm: "on"
         spec:
             containers:
-            - name: kibana
+            - name: apm-server
               resources:
                   requests:
                       memory: 1Gi

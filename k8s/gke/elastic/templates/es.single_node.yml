@@ -11,7 +11,7 @@ spec:
     secureSettings:
     - secretName: gcs-credentials
     nodeSets:
-    - name: zone-a-master
+    - name: dingli
       count: 1
       config:
           node.master: true
@@ -21,8 +21,6 @@ spec:
           xpack.ml.enabled: true
           node.store.allow_mmap: true
           index.store.type: hybridfs
-          cluster.routing.allocation.awareness.attributes: zone
-          node.attr.zone: asia-east1-a
           cluster.remote.connect: true
           xpack.security.authc.anonymous.roles: monitoring_user
       volumeClaimTemplates:
@@ -55,14 +53,14 @@ spec:
               - name: elasticsearch
                 resources:
                     requests:
-                        memory: 8Gi
-                        cpu: 1
+                        memory: 4Gi
+                        #cpu: 1
                     limits:
-                        memory: 8Gi
-                        cpu: 2
+                        memory: 4Gi
+                        #cpu: 2
                 env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms4g -Xmx4g"
+                  value: "-Xms2g -Xmx2g"
                 - name: PRE_STOP_MAX_WAIT_SECONDS
                   value: "20"
                 - name: PRE_STOP_ADDITIONAL_WAIT_SECONDS
@@ -91,21 +89,3 @@ spec:
                 - -c
                 - |
                   bin/elasticsearch-plugin install --batch repository-gcs
-              affinity:
-                  podAntiAffinity:
-                      preferredDuringSchedulingIgnoredDuringExecution:
-                      - weight: 100
-                        podAffinityTerm:
-                            labelSelector:
-                                matchLabels:
-                                    elasticsearch.k8s.elastic.co/cluster-name: dingo
-                            topologyKey: kubernetes.io/hostname
-                  nodeAffinity:
-                      requiredDuringSchedulingIgnoredDuringExecution:
-                          nodeSelectorTerms:
-                          - matchExpressions:
-                              # - key: topology.kubernetes.io/zone # v1.18+
-                              - key: failure-domain.beta.kubernetes.io/zone
-                                operator: In
-                                values:
-                                - asia-east1-a
