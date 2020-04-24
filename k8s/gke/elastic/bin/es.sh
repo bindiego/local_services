@@ -4,11 +4,6 @@
 
 pwd=`pwd`
 ipaddr=$(hostname -I | cut -d ' ' -f 1)
-cluster_name=elk
-region=asia-east1
-# zone=asia-east1-a
-project_id=google.com:bin-wus-learning-center
-default_pool=default-pool
 
 es_cluster_name=dingo
 
