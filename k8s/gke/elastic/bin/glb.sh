@@ -19,6 +19,14 @@ __release_ip() {
     echo "Y" | gcloud compute addresses delete $glb_name --global
 }
 
+__cert() {
+    # delete the certificate
+    kubectl delete -f $pwd/deploy/cert.yml
+
+    # create the certificate
+    kubectl apply -f $pwd/deploy/cert.yml
+}
+
 __status() {
     # gcloud compute addresses list --filter="name=$glb_name"
     gcloud compute addresses describe $glb_name --global
@@ -46,6 +54,9 @@ __main() {
                 ;;
             status|s)
                 __status
+                ;;
+            cert)
+                __cert
                 ;;
             deploy|d)
                 __deploy
