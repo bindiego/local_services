@@ -16,7 +16,14 @@ __usage() {
     echo "Usage: ./bin/es.sh {deploy|password|status}"
 }
 
+__init_gcp_credentials() {
+    # FIXME: you may want a minimal privilege service account here just for GCS
+    cp $GOOGLE_APPLICATION_CREDENTIALS $pwd/conf/gcs.client.default.credentials_file
+}
+
 __deploy() {
+    __init_gcp_credentials
+
     kubectl apply -f $pwd/deploy/es.yml
 }
 
