@@ -12,8 +12,9 @@ __usage() {
 }
 
 __init_gcp_credentials() {
-    # FIXME: you may want a minimal privilege service account here just for GCS
-    cp $GOOGLE_APPLICATION_CREDENTIALS $pwd/conf/gcs.client.default.credentials_file
+    # FIXME: you may want a minimum privilege service account here just for GCS
+    [ -f $pwd/conf/gcs.client.default.credentials_file ] || \
+        cp $GOOGLE_APPLICATION_CREDENTIALS $pwd/conf/gcs.client.default.credentials_file
 }
 
 __deploy() {
