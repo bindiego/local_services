@@ -1,18 +1,12 @@
-## GKE setup
-
-### Setup `sysctl -w vm.max_map_count=262144` - **Deprecated** switched to daemonset to address this issue now
-
-*Still working if you still this way to fix nodes*
-
-You will need to run `./bin/gke.sh fix` every time you scaled up the cluster.
-
-Alternatively, add your [public key](https://console.cloud.google.com/compute/metadata/sshKeys) to meta, so you could use `ssh` rather than `gcloud compute ssh` @line:37 in `gke_sysctl_vmmaxmapcount.sh`
-
-## Run Elasticsearch on k8s
+# Elastic Stack on k8s
 
 [Official ECK](https://www.elastic.co/guide/en/cloud-on-k8s/1.0/k8s-quickstart.html#k8s-deploy-eck)
 
+[Official Dockers](https://www.docker.elastic.co) & [source repo](https://github.com/elastic/dockerfiles)
+
 [yq](https://mikefarah.gitbook.io/yq/) is a nice tool for yaml templating
+
+## How to deploy
 
 ### Setup file repository & snapshots
 
