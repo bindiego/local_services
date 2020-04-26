@@ -61,7 +61,7 @@ Run `make init_allrole`
 | Ingest x 1       | Ingest x 1       |
 | Data x 2         | Data x 2         |
 | Coordinating x 1 | Coordinating x 1 |
-| ML x 1 on an available node         |
+| ML x 1 | on any available node      |
 
 You could even further adjust this to a single zone or 3 zones with forced shared allocation awareness, let's discuss more details in the **Advanced topics** so you could configure based on your needs.
 
@@ -168,6 +168,8 @@ curl -u "elastic:<passwd>" -k "https://k8es.ingest.bindiego.com"
 ```
 curl -u "elastic:<passwd>" -k "https://k8es.client.bindiego.com"
 ```
+
+Feel free to remove `-k` option since your certificate is managed by Google.
 
 We done by now. Further things todo:
 
