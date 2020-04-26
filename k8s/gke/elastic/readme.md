@@ -16,7 +16,7 @@ Now we are good to go!
 
 ## Quickstart
 
-Check the advanced topics if you would like to:
+Check the [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics) if you would like to:
 
 - Customize the size of your k8s/GKE nodes and pools
 - Elasticsearch topology & caveats
@@ -39,7 +39,7 @@ Change the `region` variable on your choice, `asia-east1` by default.
 
 #### Choose a predefined Elasticsearch deployment
 
-You can later adjust all these settings to archieve your own goal. We will discuss more in **Advanced topics**.
+You can later adjust all these settings to archieve your own goal. We will discuss more in [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics).
 
 ##### Option 1: Single node 
 
@@ -63,7 +63,7 @@ Run `make init_allrole`
 | Coordinating x 1 | Coordinating x 1 |
 | ML x 1 | on any available node      |
 
-You could even further adjust this to a single zone or 3 zones with forced shared allocation awareness, let's discuss more details in the **Advanced topics** so you could configure based on your needs.
+You could even further adjust this to a single zone or 3 zones with forced shared allocation awareness, let's discuss more details in the [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics) so you could configure based on your needs.
 
 Run `make init_prod`
 
@@ -73,7 +73,7 @@ We use this credential for Elasticsearch cluster to manage it's snapshots. On GK
 
 Please consult [How to create & manage service accounts](https://cloud.google.com/iam/docs/creating-managing-service-accounts). Simply download the key, a json file, then name it `gcs.client.default.credentials_file` and put it into `conf` dir. We only need the permission to manipulate GCS, so make sure it has only the minimum permissions granted.
 
-By now, in your *working directory*, you should be able to run `cat ./conf/gcs.client.default.credentials_file` to check the existence and the contents of the file. If you didn't do this, the auto script will later use `$GOOGLE_APPLICATION_CREDENTIALS`  environment variable to copy that file to the destination. You cannot skip this by now let's talk about how to disble in **Advanced topics** if you really have to. 
+By now, in your *working directory*, you should be able to run `cat ./conf/gcs.client.default.credentials_file` to check the existence and the contents of the file. If you didn't do this, the auto script will later use `$GOOGLE_APPLICATION_CREDENTIALS`  environment variable to copy that file to the destination. You cannot skip this by now let's talk about how to disble in [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics) if you really have to. 
 
 ### Launch GKE/k8s cluster
 
@@ -174,7 +174,7 @@ Feel free to remove `-k` option since your certificate is managed by Google.
 We done by now. Further things todo:
 
 - Setup the file repo & snapshots to backup your data 
-- Go to **Advanced topics** for more complex setups, mostly about manipulating yml files.
+- Go to [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics) for more complex setups, mostly about manipulating yml files.
 
 ### Setup file repository & snapshots
 
