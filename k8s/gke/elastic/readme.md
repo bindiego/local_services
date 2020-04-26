@@ -19,7 +19,8 @@ Now we are good to go!
 Check the [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics) if you would like to:
 
 - Customize the size of your k8s/GKE nodes and pools
-- Elasticsearch topology & caveats
+- Elasticsearch topology
+- k8s/GKE & Elasticsearch node sizing
 - Use your own meaningful names for workloads/services/ingress etc.
 
 ### Preparations
