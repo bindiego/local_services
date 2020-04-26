@@ -3,7 +3,6 @@
 # Author: Bin Wu <binwu@google.com>
 
 pwd=`pwd`
-ipaddr=$(hostname -I | cut -d ' ' -f 1)
 cluster_name=elk
 region=asia-east1
 # zone=asia-east1-a

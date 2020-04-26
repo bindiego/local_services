@@ -3,7 +3,6 @@
 # Author: Bin Wu <binwu@google.com>
 
 pwd=`pwd`
-ipaddr=$(hostname -I | cut -d ' ' -f 1)
 
 kbn_name=kbn
 
