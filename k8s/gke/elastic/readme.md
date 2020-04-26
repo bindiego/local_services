@@ -264,6 +264,8 @@ spec:
 
 ### Elasticsearch nodes topology
 
+### k8s/GKE cluster node & Elasticsearch node sizing
+
 ### Ingress
 
 ### Miscs
