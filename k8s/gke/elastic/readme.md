@@ -1,10 +1,16 @@
-# Elastic Stack on k8s
+# Elastic Stack on k8s/GKE
 
-[Official ECK](https://www.elastic.co/guide/en/cloud-on-k8s/1.0/k8s-quickstart.html#k8s-deploy-eck)
+This project is currently in a MVP (Minimum Viable Product) status. So the entire process may invovle some manual setups (find & replace in a text editor). Once you familiar with the sturcture, you will find it's extremely easy. I am not sure if [Helm](https://helm.sh/) can achieve the flexiblity for this kind of data layer products. Let's start with simplicity anyway.
 
-[Official Dockers](https://www.docker.elastic.co) & [source repo](https://github.com/elastic/dockerfiles)
+## Prerequisites
 
-[yq](https://mikefarah.gitbook.io/yq/) is a nice tool for yaml templating
+Suppose you already have access to Google Cloud Platform with proper permissions. We will use [Official ECK](https://www.elastic.co/guide/en/cloud-on-k8s/1.0/k8s-quickstart.html#k8s-deploy-eck) operator with [Official Dockers](https://www.docker.elastic.co) & [source repo](https://github.com/elastic/dockerfiles). They are all open source and free, especially the operator can handle the Elasticsearch nodes migration is a pro-way and lot more. 
+
+Once you checked out this repo, make sure you stay in this folder as your working directory, `local_services/k8s/gke/elastic`
+
+In case you do **not** have `gcloud` installed, you can run `./bin/gcloud install` to get it. Run `./bin/gcloud` for other usages, but importantly, make sure you have `kubectl` properly installed, or you can run `./bin/gcloud kubectl` to have it setted up.
+
+Now you are good to go!
 
 ## How to deploy
 
@@ -45,7 +51,7 @@ kubectl create secret generic kibana-elasticsearch-credentials --from-literal=el
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
-  name: kibana-sample
+  name: kbn
   spec:
     version: 7.6.2
     count: 1
@@ -63,7 +69,7 @@ or the Elasticsearch cluster is using a slef-signed certificate, create a k8s se
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
-  name: kibana-sample
+  name: kbn
 spec:
   version: 7.6.2
   count: 1
@@ -89,3 +95,15 @@ spec:
 ```
 
 ## APM Server
+
+(TBD)
+
+## Advanced topics
+
+### Storage
+
+### Elasticsearch nodes topology
+
+### Ingress
+
+### Miscs
