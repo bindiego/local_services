@@ -8,7 +8,7 @@ init:
 	@[ -f deploy/lb.yml ] || cp -a templates/lb.yml deploy/
 
 init_single: init
-	@sed 's/asia-east1/$(region)/g' templates/es.single_node.yml > deploy/es.yml
+	@cp -a templates/es.single_node.yml deploy/es.yml
 
 init_allrole: init
 	@sed 's/asia-east1/$(region)/g' templates/es.all_role.yml > deploy/es.yml
