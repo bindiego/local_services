@@ -271,30 +271,56 @@ We have predefined 4 different types of storage, you could refer to the `./deplo
 
 type: zonal SSD
 
-best for: Data nodes, Master nodes, ML nodes
+best for: Data nodes (hot/warm), Master nodes, ML nodes
 
 2. dingo-pdssd-ha
 
 type: regional SSD
 
-best for: Master nodes, Data nodes
+best for: Master nodes, Data nodes (hot/warm)
 
 3. dingo-pdhdd
 
 type: zonal HDD
 
-best for: ML nodes, Ingest nodes, Coordinating nodes, Kibana, APM
+best for: ML nodes, Ingest nodes, Coordinating nodes, Kibana, APM, Data nodes (cold)
 
 4. dingo-pdhdd-ha
 
 type: regional HDD
 
+best for: Data nodes (cold)
+
 ### Elasticsearch nodes topology
 
 ### k8s/GKE cluster node & Elasticsearch node sizing
 
-### Ingress
+#### Scale GKE cluster default-pool
+
+`./bin/gke.sh scale <number>`
+
+NOTE: the `<nubmer>` here is number of nodes in **each zone**
+
+#### Scale the workloads
+
+1. Elasticsearch
+
+Update `spec.nodeSets.count` for the specific group of nodes, then `./bin/es.sh deploy`
+
+2. All others
+
+Update `spec.count`, then `./bin/kbn.sh deploy` for Kibana and so on so forth.
 
 ### Upgrade
 
+Simply update `spec.version` then run `./deploy/es.sh deploy` and you done. All other services, e.g. Kibana, APM will be the same.
+
+NOTE: downgrade is **NOT** supported
+
+We have always set `spec.nodeSets.updateStrategy.changeBudget.maxUnavailable` smaller than `spec.nodeSets.count`, usually `N - 1`. If the `count` is `1`, then set the `maxUnavailable` to `-1`.
+
+In case if you have 3 master nodes across 3 zones and defined in 3 nodeSets, you do not have to worry about they may offline at the same time. The ECK operator could handle that very well :)
+
 ### Miscs
+
+#### Clean up
