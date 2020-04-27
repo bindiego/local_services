@@ -60,7 +60,7 @@ __deploy() {
     [ -f $PWD/conf/packetbeat/packetbeat.yml ] || \
         cp $PWD/conf/packetbeat.yml $PWD/conf/packetbeat/
 
-    echo "please update the conf/packetbeat.yml file then start the service."
+    echo "please update the conf/packetbeat/packetbeat.yml file then start the service."
 }
 
 __start() {

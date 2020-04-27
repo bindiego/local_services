@@ -67,7 +67,7 @@ __deploy() {
         $PWD/deploy/filebeat/kibana \
         $PWD/deploy/filebeat/fields.yml $PWD/conf/filebeat
 
-    echo "please update the conf/filebeat.yml file then start the service."
+    echo "please update the conf/filebeat/filebeat.yml file then start the service."
 }
 
 __start() {
