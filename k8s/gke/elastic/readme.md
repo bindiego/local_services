@@ -182,21 +182,49 @@ We done by now. Further things todo:
 Configure GCS (Google Cloud Storage) bucket
 
 ```
-PUT /_snapshot/my_gcs_repository
+PUT /_snapshot/dingo_gcs_repo
 {
     "type": "gcs",
-        "settings": {
-        "bucket": "my_bucket",
-        "client": "default"
+    "settings": {
+      "bucket": "bucket_name",
+      "base_path": "es_backup",
+      "compress": true
     }
 }
+```
+
+or
+
+```
+curl -X PUT \
+  -u "elastic:<password>" \
+  "https://k8es.client.bindiego.com/_snapshot/dingo_gcs_repo" \
+  -H "Content-Type: application/json" -d '{
+    "type": "gcs",
+      "settings": {
+        "bucket": "bucket_name",
+        "base_path": "es_backup",
+        "compress": true
+      }
+  }' 
 ```
 
 Test snapshot
 
 ```
-PUT /_snapshot/my_gcs_repository/test-snapshot
+PUT /_snapshot/dingo_gcs_repo/test-snapshot
 ```
+
+or, take a daily snapshot with date as part of the name
+
+```
+curl -X PUT \
+  -u "elastic:<password>" \
+  "https://k8es.client.bindiego.com/_snapshot/dingo_gcs_repo/test-snapshot_`date +'%Y_%m_%d'`" \
+  -H "Content-Type: application/json" -d '{}'
+```
+
+More details about [Snapshot & restore](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html) and lifecycle policies etc.
 
 ## Kibana
 
@@ -310,6 +338,12 @@ Update `spec.nodeSets.count` for the specific group of nodes, then `./bin/es.sh 
 2. All others
 
 Update `spec.count`, then `./bin/kbn.sh deploy` for Kibana and so on so forth.
+
+#### Workloads sizing
+
+1. Elasticsearch
+
+2. All others
 
 ### Upgrade
 
