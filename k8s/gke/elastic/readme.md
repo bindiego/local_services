@@ -263,6 +263,32 @@ spec:
 
 ### Storage
 
+We have predefined 4 different types of storage, you could refer to the `./deploy/es.yml`  file, section `spec.nodeSets[].volumeClaimTemplates.spec.storageClassName` to find out what we used for each different ES node.
+
+[Detailed information](https://cloud.google.com/compute/docs/disks)
+
+1. dingo-pdssd
+
+type: zonal SSD
+
+best for: Data nodes, Master nodes, ML nodes
+
+2. dingo-pdssd-ha
+
+type: regional SSD
+
+best for: Master nodes, Data nodes
+
+3. dingo-pdhdd
+
+type: zonal HDD
+
+best for: ML nodes, Ingest nodes, Coordinating nodes, Kibana, APM
+
+4. dingo-pdhdd-ha
+
+type: regional HDD
+
 ### Elasticsearch nodes topology
 
 ### k8s/GKE cluster node & Elasticsearch node sizing
