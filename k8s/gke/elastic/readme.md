@@ -323,6 +323,12 @@ best for: Data nodes (cold)
 
 ### k8s/GKE cluster node & Elasticsearch node sizing
 
+This could be a long topic to discuss, we actually want to hide the size of GKE node under the hood, let it depends on the Elasticsearch node's size. Let's skip the details and directly draw the conclusion,
+
+- We have set the ES nodeSet affinity so data nodes will try to avoid host on the same machine (VM)
+- If we can limit the GKE node size slightly larger than ES node, then we may avoid sharing compute resources across different nodeSets / roles
+- For all role ES nodes, [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/) is another way to evenly ditribute ES nodes rather than set `affinity`. In that way we may not be able to do the *shared allocation awarenness* by using current version of ECK.
+
 #### Scale GKE cluster default-pool
 
 `./bin/gke.sh scale <number>`
@@ -343,7 +349,17 @@ Update `spec.count`, then `./bin/kbn.sh deploy` for Kibana and so on so forth.
 
 1. Elasticsearch
 
+Node memory: `spec.nodeSets.podTemplate.spec.containers.resources.requests.memory` & `spec.nodeSets.podTemplate.spec.containers.resources.limits.memory`
+
+JVM heap size: `spec.nodeSets.podTemplate.spec.containers.env`for variable `ES_JAVA_OPTS`
+
+We generally double the total memory upon JVM heap for `Data nodes` with 64GB maximum. [Here](https://gist.github.com/bindiego/3a0e73aa2e7ec17188f1c9c4cc8b7198) is the reason and why you should keep the heap size between 26GB and 31GB.
+
+Other nodes we only add 1GB extra above the heap size, hence uaually 32GB maxinum. Very occasionally, you may need your coordinating nodes beyond that, consult our ES experts you could reach out :)
+
 2. All others
+
+Memory: `spec.podTemplate.spec.containers.resources.requests.memory` & `spec.podTemplate.spec.containers.resources.limits.memory`
 
 ### Upgrade
 
