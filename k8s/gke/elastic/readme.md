@@ -182,21 +182,49 @@ We done by now. Further things todo:
 Configure GCS (Google Cloud Storage) bucket
 
 ```
-PUT /_snapshot/my_gcs_repository
+PUT /_snapshot/dingo_gcs_repo
 {
     "type": "gcs",
-        "settings": {
-        "bucket": "my_bucket",
-        "client": "default"
+    "settings": {
+      "bucket": "bucket_name",
+      "base_path": "es_backup",
+      "compress": true
     }
 }
+```
+
+or
+
+```
+curl -X PUT \
+  -u "elastic:<password>" \
+  "https://k8es.client.bindiego.com/_snapshot/dingo_gcs_repo" \
+  -H "Content-Type: application/json" -d '{
+    "type": "gcs",
+      "settings": {
+        "bucket": "bucket_name",
+        "base_path": "es_backup",
+        "compress": true
+      }
+  }' 
 ```
 
 Test snapshot
 
 ```
-PUT /_snapshot/my_gcs_repository/test-snapshot
+PUT /_snapshot/dingo_gcs_repo/test-snapshot
 ```
+
+or, take a daily snapshot with date as part of the name
+
+```
+curl -X PUT \
+  -u "elastic:<password>" \
+  "https://k8es.client.bindiego.com/_snapshot/dingo_gcs_repo/test-snapshot_`date +'%Y_%m_%d'`" \
+  -H "Content-Type: application/json" -d '{}'
+```
+
+More details about [Snapshot & restore](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html) and lifecycle policies etc.
 
 ## Kibana
 
@@ -263,12 +291,86 @@ spec:
 
 ### Storage
 
+We have predefined 4 different types of storage, you could refer to the `./deploy/es.yml`  file, section `spec.nodeSets[].volumeClaimTemplates.spec.storageClassName` to find out what we used for each different ES node.
+
+[Detailed information](https://cloud.google.com/compute/docs/disks)
+
+1. dingo-pdssd
+
+type: zonal SSD
+
+best for: Data nodes (hot/warm), Master nodes, ML nodes
+
+2. dingo-pdssd-ha
+
+type: regional SSD
+
+best for: Master nodes, Data nodes (hot/warm)
+
+3. dingo-pdhdd
+
+type: zonal HDD
+
+best for: ML nodes, Ingest nodes, Coordinating nodes, Kibana, APM, Data nodes (cold)
+
+4. dingo-pdhdd-ha
+
+type: regional HDD
+
+best for: Data nodes (cold)
+
 ### Elasticsearch nodes topology
 
 ### k8s/GKE cluster node & Elasticsearch node sizing
 
-### Ingress
+This could be a long topic to discuss, we actually want to hide the size of GKE node under the hood, let it depends on the Elasticsearch node's size. Let's skip the details and directly draw the conclusion,
+
+- We have set the ES nodeSet affinity so data nodes will try to avoid host on the same machine (VM)
+- If we can limit the GKE node size slightly larger than ES node, then we may avoid sharing compute resources across different nodeSets / roles
+- For all role ES nodes, [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/) is another way to evenly ditribute ES nodes rather than set `affinity`. In that way we may not be able to do the *shared allocation awarenness* by using current version of ECK.
+
+#### Scale GKE cluster default-pool
+
+`./bin/gke.sh scale <number>`
+
+NOTE: the `<nubmer>` here is number of nodes in **each zone**
+
+#### Scale the workloads
+
+1. Elasticsearch
+
+Update `spec.nodeSets.count` for the specific group of nodes, then `./bin/es.sh deploy`
+
+2. All others
+
+Update `spec.count`, then `./bin/kbn.sh deploy` for Kibana and so on so forth.
+
+#### Workloads sizing
+
+1. Elasticsearch
+
+Node memory: `spec.nodeSets.podTemplate.spec.containers.resources.requests.memory` & `spec.nodeSets.podTemplate.spec.containers.resources.limits.memory`
+
+JVM heap size: `spec.nodeSets.podTemplate.spec.containers.env`for variable `ES_JAVA_OPTS`
+
+We generally double the total memory upon JVM heap for `Data nodes` with 64GB maximum. [Here](https://gist.github.com/bindiego/3a0e73aa2e7ec17188f1c9c4cc8b7198) is the reason and why you should keep the heap size between 26GB and 31GB.
+
+Other nodes we only add 1GB extra above the heap size, hence uaually 32GB maxinum. Very occasionally, you may need your coordinating nodes beyond that, consult our ES experts you could reach out :)
+
+2. All others
+
+Memory: `spec.podTemplate.spec.containers.resources.requests.memory` & `spec.podTemplate.spec.containers.resources.limits.memory`
 
 ### Upgrade
 
+Simply update `spec.version` then run `./deploy/es.sh deploy` and you done. All other services, e.g. Kibana, APM will be the same.
+
+NOTE: downgrade is **NOT** supported
+
+We have always set `spec.nodeSets.updateStrategy.changeBudget.maxUnavailable` smaller than `spec.nodeSets.count`, usually `N - 1`. If the `count` is `1`, then set the `maxUnavailable` to `-1`.
+
+In case if you have 3 master nodes across 3 zones and defined in 3 nodeSets, you do not have to worry about they may offline at the same time. The ECK operator could handle that very well :)
+
 ### Miscs
+
+#### Clean up
