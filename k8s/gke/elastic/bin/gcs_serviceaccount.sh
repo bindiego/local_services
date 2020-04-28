@@ -1,11 +1,13 @@
 #!/bin/bash
 
-PROJECT_ID="felix-development-275503"
-SERVICE_ACCOUNT_NAME="es-gke-sa"
-GCS_BUCKET_NAME="es-gke-snapshots"
+PROJECT_ID = "felix-development-275503"
+SERVICE_ACCOUNT_NAME = "es-gke-sa"
+GCS_BUCKET_NAME = "es-gke-snapshots"
+
 
 #create bucket if required
-#gsutil mb gs://${GCS_BUCKET_NAME}/ 
+#region = asia-east1
+#gsutil mb -c standard -l ${region} gs://${GCS_BUCKET_NAME}/ 
 
 gcloud iam service-accounts create ${SERVICE_ACCOUNT_NAME} --display-name="Service Account for es on gke snapshots"
 
