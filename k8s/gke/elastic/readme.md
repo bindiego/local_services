@@ -74,6 +74,8 @@ We use this credential for Elasticsearch cluster to manage it's snapshots. On GK
 
 Please consult [How to create & manage service accounts](https://cloud.google.com/iam/docs/creating-managing-service-accounts). Simply download the key, a json file, then name it `gcs.client.default.credentials_file` and put it into `conf` dir. We only need the permission to manipulate GCS, so make sure it has only the minimum permissions granted.
 
+or Run `./bin/gcs_serviceaccount.sh` to create a service account and generate the json file to `./conf/gcs.client.default.credentials_file`. Please change the varialbes in the `./bin/gcs_serviceaccount.sh` for your environment.
+
 By now, in your *working directory*, you should be able to run `cat ./conf/gcs.client.default.credentials_file` to check the existence and the contents of the file. If you didn't do this, the auto script will later use `$GOOGLE_APPLICATION_CREDENTIALS`  environment variable to copy that file to the destination. You cannot skip this by now let's talk about how to disble in [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics) if you really have to. 
 
 ### Launch GKE/k8s cluster
