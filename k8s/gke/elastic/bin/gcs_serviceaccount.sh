@@ -11,6 +11,6 @@ GCS_BUCKET_NAME="es-gke-snapshots"
 
 gcloud iam service-accounts create ${SERVICE_ACCOUNT_NAME} --display-name="Service Account for es on gke snapshots"
 
-gsutil iam ch serviceAccount:${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com:objectAdmin gs://${GCS_BUCKET_NAME}/
+gsutil iam ch serviceAccount:${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com:legacyBucketOwner gs://${GCS_BUCKET_NAME}/
 
 gcloud iam service-accounts keys create --iam-account "${SERVICE_ACCOUNT_NAME}@${PROJECT_ID}.iam.gserviceaccount.com" ./conf/gcs.client.default.credentials_file
