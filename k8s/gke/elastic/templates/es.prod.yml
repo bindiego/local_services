@@ -35,16 +35,6 @@ spec:
                 requests:
                     storage: 10Gi
             storageClassName: dingo-pdssd-ha
-      updateStrategy:
-          changeBudget:
-              maxSurge: 3
-              maxUnavailable: 1
-      podDisruptionBudget:
-          spec:
-              minAvailable: 1
-              selector:
-                  matchLables:
-                      elasticsearch.k8s.elastic.co/cluster-name: dingo
       podTemplate:
           metadata:
               labels:
@@ -132,16 +122,6 @@ spec:
                 requests:
                     storage: 10Gi
             storageClassName: dingo-pdssd
-      updateStrategy:
-          changeBudget:
-              maxSurge: 3
-              maxUnavailable: 1
-      podDisruptionBudget:
-          spec:
-              minAvailable: 1
-              selector:
-                  matchLables:
-                      elasticsearch.k8s.elastic.co/cluster-name: dingo
       podTemplate:
           metadata:
               labels:
@@ -229,16 +209,6 @@ spec:
                 requests:
                     storage: 10Gi
             storageClassName: dingo-pdhdd
-      updateStrategy:
-          changeBudget:
-              maxSurge: 3
-              maxUnavailable: -1
-      podDisruptionBudget:
-          spec:
-              minAvailable: 1
-              selector:
-                  matchLables:
-                      elasticsearch.k8s.elastic.co/cluster-name: dingo
       podTemplate:
           metadata:
               labels:
@@ -326,16 +296,6 @@ spec:
                 requests:
                     storage: 10Gi
             storageClassName: dingo-pdhdd
-      updateStrategy:
-          changeBudget:
-              maxSurge: 3
-              maxUnavailable: -1
-      podDisruptionBudget:
-          spec:
-              minAvailable: 1
-              selector:
-                  matchLables:
-                      elasticsearch.k8s.elastic.co/cluster-name: dingo
       podTemplate:
           metadata:
               labels:
@@ -423,16 +383,6 @@ spec:
                 requests:
                     storage: 10Gi
             storageClassName: dingo-pdssd-ha
-      updateStrategy:
-          changeBudget:
-              maxSurge: 3
-              maxUnavailable: -1
-      podDisruptionBudget:
-          spec:
-              minAvailable: 1
-              selector:
-                  matchLables:
-                      elasticsearch.k8s.elastic.co/cluster-name: dingo
       podTemplate:
           metadata:
               labels:
@@ -520,16 +470,6 @@ spec:
                 requests:
                     storage: 10Gi
             storageClassName: dingo-pdssd
-      updateStrategy:
-          changeBudget:
-              maxSurge: 3
-              maxUnavailable: 1
-      podDisruptionBudget:
-          spec:
-              minAvailable: 1
-              selector:
-                  matchLables:
-                      elasticsearch.k8s.elastic.co/cluster-name: dingo
       podTemplate:
           metadata:
               labels:
@@ -617,16 +557,6 @@ spec:
                 requests:
                     storage: 10Gi
             storageClassName: dingo-pdhdd
-      updateStrategy:
-          changeBudget:
-              maxSurge: 3
-              maxUnavailable: -1
-      podDisruptionBudget:
-          spec:
-              minAvailable: 1
-              selector:
-                  matchLables:
-                      elasticsearch.k8s.elastic.co/cluster-name: dingo
       podTemplate:
           metadata:
               labels:
@@ -714,16 +644,6 @@ spec:
                 requests:
                     storage: 10Gi
             storageClassName: dingo-pdhdd
-      updateStrategy:
-          changeBudget:
-              maxSurge: 3
-              maxUnavailable: -1
-      podDisruptionBudget:
-          spec:
-              minAvailable: 1
-              selector:
-                  matchLables:
-                      elasticsearch.k8s.elastic.co/cluster-name: dingo
       podTemplate:
           metadata:
               labels:
@@ -809,16 +729,6 @@ spec:
                 requests:
                     storage: 10Gi
             storageClassName: dingo-pdhdd
-      updateStrategy:
-          changeBudget:
-              maxSurge: 3
-              maxUnavailable: -1
-      podDisruptionBudget:
-          spec:
-              minAvailable: 1
-              selector:
-                  matchLables:
-                      elasticsearch.k8s.elastic.co/cluster-name: dingo
       podTemplate:
           metadata:
               labels:
