@@ -8,7 +8,7 @@ Suppose you already have access to Google Cloud Platform with proper permissions
 
 Once you checked out this repo, make sure you stay in this folder as your working directory, `local_services/k8s/gke/elastic`
 
-In case you do **not** have `gcloud` installed, you can run `./bin/gcloud.sh install` to get it. This will have the cloud SDK installed in your `$HOME/google-cloud-sdk` directory. Add the full path of `bin` folder to your $PATH to make it works.
+In case you do **not** have `gcloud` installed, you can run `./bin/gcloud.sh install` to get it. This will have the cloud SDK installed in your `$HOME/google-cloud-sdk` directory. Add the full path of `bin` folder to your `$PATH` to make it works.
 
 Run `./bin/gcloud.sh` for other usages, but importantly, make sure you have `kubectl` properly installed, or you can run `./bin/gcloud.sh kubectl` to have it setted up.
 
