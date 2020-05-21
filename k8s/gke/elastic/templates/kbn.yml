@@ -29,3 +29,6 @@ spec:
                   limits:
                       memory: 2Gi
                       #cpu: 2
+              readinessProbe:
+                  httpGet:
+                      path: /login
