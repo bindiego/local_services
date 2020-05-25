@@ -154,6 +154,12 @@ You will need this credential to login to Kibana or talking to Elasticsearch clu
 
 `./bin/kbn.sh deploy`
 
+#### Kibana health check
+
+[Proposed fix](https://github.com/bindiego/local_services/commit/c1bf7d51a7fa9e90e7e8b113628f49e7d17f04bd#diff-17354ce2a6ce77a7239a4a671ef0308a)
+
+Or manually edit the Health Check, replace `/` with `/login`
+
 ### Deploy the GLB for ingress
 
 `./bin/glb.sh deploy`
