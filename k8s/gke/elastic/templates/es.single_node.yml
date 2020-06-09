@@ -3,7 +3,7 @@ kind: Elasticsearch
 metadata:
     name: dingo
 spec:
-    version: 7.7.0
+    version: 7.7.1
     #http:
         #service:
             #spec:
