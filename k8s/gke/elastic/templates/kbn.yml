@@ -24,8 +24,14 @@ spec:
             - name: kibana
               resources:
                   requests:
-                      memory: 1Gi
+                      memory: 4Gi
                       #cpu: 1
                   limits:
-                      memory: 2Gi
+                      memory: 4Gi
                       #cpu: 2
+              readinessProbe:
+                  exec:
+                      command:
+                      - bash
+                      - -c
+                      - curl -o /dev/null -w "%{http_code}" https://127.0.0.1:5601/login -k -s

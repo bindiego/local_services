@@ -349,8 +349,8 @@ spec:
                 affinity rules, resource requests, and so on) for the APM Server pods.
               type: object
             secureSettings:
-              description: 'SecureSettings is a list of references to Kubernetes secrets
-                containing sensitive configuration options for APM Server. See: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-apm-server.html#k8s-apm-secure-settings'
+              description: SecureSettings is a list of references to Kubernetes secrets
+                containing sensitive configuration options for APM Server.
               items:
                 description: SecretSource defines a data source based on a Kubernetes
                   Secret.
@@ -1151,9 +1151,8 @@ spec:
                 type: object
               type: array
             secureSettings:
-              description: 'SecureSettings is a list of references to Kubernetes secrets
-                containing sensitive configuration options for Elasticsearch. See:
-                https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-es-secure-settings.html'
+              description: SecureSettings is a list of references to Kubernetes secrets
+                containing sensitive configuration options for Elasticsearch.
               items:
                 description: SecretSource defines a data source based on a Kubernetes
                   Secret.
@@ -1833,8 +1832,8 @@ spec:
                 affinity rules, resource requests, and so on) for the Kibana pods
               type: object
             secureSettings:
-              description: 'SecureSettings is a list of references to Kubernetes secrets
-                containing sensitive configuration options for Kibana. See: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-kibana.html#k8s-kibana-secure-settings'
+              description: SecureSettings is a list of references to Kubernetes secrets
+                containing sensitive configuration options for Kibana.
               items:
                 description: SecretSource defines a data source based on a Kubernetes
                   Secret.
@@ -2065,7 +2064,7 @@ spec:
     spec:
       serviceAccountName: elastic-operator
       containers:
-      - image: docker.elastic.co/eck/eck-operator:1.1.0
+      - image: docker.elastic.co/eck/eck-operator:1.1.2
         name: manager
         args: ["manager", "--enable-webhook", "--log-verbosity=0"]
         env:
@@ -2076,14 +2075,14 @@ spec:
           - name: WEBHOOK_SECRET
             value: elastic-webhook-server-cert
           - name: OPERATOR_IMAGE
-            value: docker.elastic.co/eck/eck-operator:1.1.0
+            value: docker.elastic.co/eck/eck-operator:1.1.2
         resources:
           limits:
             cpu: 1
-            memory: 150Mi
+            memory: 512Mi
           requests:
             cpu: 100m
-            memory: 50Mi
+            memory: 150Mi
         ports:
         - containerPort: 9443
           name: webhook-server
