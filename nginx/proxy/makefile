@@ -48,4 +48,10 @@ l4:
 	  --cpuset-cpus="0,1" \
 	  -d nginx:$(nginx_ver)
 
-.PHONY: build builder builder-build clean l7 l4
+l7logs:
+	docker logs --follow l7-nginx
+
+l4logs:
+	docker logs --follow l4-nginx
+
+.PHONY: build builder builder-build clean l7 l4 l7logs l4logs
