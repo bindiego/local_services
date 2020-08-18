@@ -132,7 +132,9 @@ Once you done, it's the time to run `./bin/glb.sh cert`, wait the last step to d
 
 ##### Option 2: Regional TCP LB
 
-This one is really simple, depends on which service you would like to expose, simply uncomment the `spec.http` sections in either `./deploy/es.yml` or `./deploy/kbn.yml` or both. And you **do not** need to deploy the GLB in the end as you will do for option 1.
+This one is really simple, depends on which service you would like to expose, simply uncomment the `spec.http` sections in either [`./deploy/es.yml`](https://github.com/bindiego/local_services/blob/develop/k8s/gke/elastic/templates/es.all_role.yml#L7-L10) or [`./deploy/kbn.yml`](https://github.com/bindiego/local_services/blob/develop/k8s/gke/elastic/templates/kbn.yml#L8-L11) or both. And you **do not** need to deploy the GLB in the end as you will do for option 1.
+
+This will setup up regional TCP LB for your deployments respectively. Make sure you access the `ip:port` by using **`https`** protocol.
 
 ##### Option 3: Internal access only
 
@@ -250,7 +252,7 @@ kind: Kibana
 metadata:
   name: kbn
   spec:
-    version: 7.6.2
+    version: 7.8.1
     count: 1
     config:
       elasticsearch.hosts:
@@ -268,7 +270,7 @@ kind: Kibana
 metadata:
   name: kbn
 spec:
-  version: 7.6.2
+  version: 7.8.1
   count: 1
   config:
     elasticsearch.hosts:
