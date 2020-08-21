@@ -4,7 +4,7 @@ This project is currently in a MVP (Minimum Viable Product) status. So the entir
 
 ## Prerequisites
 
-Suppose you already have access to Google Cloud Platform with proper permissions. We will use [Official ECK](https://www.elastic.co/guide/en/cloud-on-k8s/1.0/k8s-quickstart.html#k8s-deploy-eck) operator with [Official Containers / Dockers](https://www.docker.elastic.co) & [Docker source repo](https://github.com/elastic/dockerfiles). They are all open source and free, especially the operator can handle the Elasticsearch nodes migration in a graceful way and lot more. 
+Suppose you already have access to Google Cloud Platform with proper permissions. We will use [Official ECK](https://www.elastic.co/guide/en/cloud-on-k8s/1.0/k8s-quickstart.html#k8s-deploy-eck) operator with [Official Containers / Dockers](https://www.docker.elastic.co) & [Docker source repo](https://github.com/elastic/dockerfiles). They are all open source and free, especially the operator can handle the Elasticsearch nodes upgrades/migrations in a graceful way, and lot more. 
 
 Once you checked out this repo, make sure you stay in this folder as your working directory, `local_services/k8s/gke/elastic`
 
