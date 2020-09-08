@@ -4,7 +4,7 @@ This project is currently in a MVP (Minimum Viable Product) status. So the entir
 
 ## Prerequisites
 
-Suppose you already have access to Google Cloud Platform with proper permissions. We will use [Official ECK](https://www.elastic.co/guide/en/cloud-on-k8s/1.0/k8s-quickstart.html#k8s-deploy-eck) operator with [Official Containers / Dockers](https://www.docker.elastic.co) & [Docker source repo](https://github.com/elastic/dockerfiles). They are all open source and free, especially the operator can handle the Elasticsearch nodes migration in a graceful way and lot more. 
+Suppose you already have access to Google Cloud Platform with proper permissions. We will use [Official ECK](https://www.elastic.co/guide/en/cloud-on-k8s/1.0/k8s-quickstart.html#k8s-deploy-eck) operator with [Official Containers / Dockers](https://www.docker.elastic.co) & [Docker source repo](https://github.com/elastic/dockerfiles). They are all open source and free, especially the operator can handle the Elasticsearch nodes upgrades/migrations in a graceful way, and lot more. 
 
 Once you checked out this repo, make sure you stay in this folder as your working directory, `local_services/k8s/gke/elastic`
 
@@ -16,7 +16,7 @@ Now we are good to go!
 
 ---
 
-## Quickstart
+## Quickstart 快速开始
 
 Check the [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics) if you would like to:
 
@@ -44,11 +44,11 @@ Change the `region` variable on your choice, `asia-east1` by default.
 
 You can later adjust all these settings to archieve your own goal. We will discuss more in [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics).
 
-##### Option 1: Single node 
+##### Option 1: Single node 单节点（适合研发小伙伴）
 
 Run `make init_single` and you done.
 
-##### Option 2: All role deployments, with shard allocation awareness (not forced)
+##### Option 2: All role deployments, with shard allocation awareness (not forced) 全角色节点部署（适合小规模多用途综合集群）
 
 | zone-a        | zone-b         |
 | ------------- | -------------- |
@@ -56,7 +56,7 @@ Run `make init_single` and you done.
 
 Run `make init_allrole`
 
-##### Option 3: Production deployments, with shard allocation awareness (not forced)
+##### Option 3: Production deployments, with shard allocation awareness (not forced) 角色分离部署（适合中大规模集群，最好针对搜索或者分析场景进行集群分离和相关内存的和IO的配置调优）
 
 | zone-a           | zone-b           |
 | ---------------- | ---------------- |
@@ -87,6 +87,8 @@ Run `./bin/gke.sh create`
 #### Think about the ingress by now
 
 You can easily change whatever you want, but you'd better think about this by now since you may need to update the deployment files.
+
+We enabled all data security options, so all the communications are secured too.
 
 ##### Option 1: GLB with forced https (**Highly recommended** because of **security**)
 
@@ -135,6 +137,31 @@ Once you done, it's the time to run `./bin/glb.sh cert`, wait the last step to d
 This one is really simple, depends on which service you would like to expose, simply uncomment the `spec.http` sections in either [`./deploy/es.yml`](https://github.com/bindiego/local_services/blob/develop/k8s/gke/elastic/templates/es.all_role.yml#L7-L10) or [`./deploy/kbn.yml`](https://github.com/bindiego/local_services/blob/develop/k8s/gke/elastic/templates/kbn.yml#L8-L11) or both. And you **do not** need to deploy the GLB in the end as you will do for option 1.
 
 This will setup up regional TCP LB for your deployments respectively. Make sure you access the `ip:port` by using **`https`** protocol.
+
+Be cautious if you didn't setup the certificates properly or used the default custom ones, when you try to connect to this secured (ssl enabled) cluster. You could simply bypass the verification in curl by using `curl --insecure` option. But for encrypted communication in code, here let's use java as an example, you could consult the [official docs](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/_encrypted_communication.html)
+
+这里要非常注意的就是如果你自己生成的证书，或者使用默认的证书，你应该会遇到下面的问题，我们这里提供了解决方法。
+
+As you could see in the [sample code](https://github.com/elastic/elasticsearch/blob/master/client/rest/src/test/java/org/elasticsearch/client/documentation/RestClientDocumentation.java#L406), you will need to **craft** an [`SSLContext`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/javax/net/ssl/SSLContext.html), something like this:
+
+```java
+SSLContext context = SSLContext.getInstance("SSL")
+context.init(null, new TrustManager[] {
+  new X509TrustManager {
+    void checkClientTrusted(X509Certificate[] chain, String authType) {}
+    void checkServerTrusted(X509Certificate[] chain, String authType) {}
+    void getAcceptedIssuers() { return null; }
+  }
+}, null);
+```
+
+then you may experience host doesn't match exception, don't panic, it's expected when you use the default ones. The sipmlest solution is to set the ssl hostname verifier when you build the apache http client in the [sample code](https://github.com/elastic/elasticsearch/blob/master/client/rest/src/test/java/org/elasticsearch/client/documentation/RestClientDocumentation.java#L407), something like this:
+
+```java
+RestClient.builder(host).setHttpClientConfigCallback { httpAsyncClientBuilder ->
+        httpAsyncClientBuilder.setSSLHostnameVerifier { _, _ -> true }
+    }
+```
 
 ##### Option 3: Internal access only
 
