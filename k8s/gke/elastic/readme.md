@@ -328,31 +328,45 @@ spec:
 
 ## Advanced topics
 
-### Storage
+### Storage 存储选项
 
 We have predefined 4 different types of storage, you could refer to the `./deploy/es.yml`  file, section `spec.nodeSets[].volumeClaimTemplates.spec.storageClassName` to find out what we used for each different ES node.
 
 [Detailed information](https://cloud.google.com/compute/docs/disks)
 
-1. dingo-pdssd
+可以根据上面的链接各个磁盘的性能，对不同角色的节点选取相应的存储来实现资源的最佳利用。下面针对每个存储也给出了一些适合的建议。
+
+1. dingo-pdssd 高性能
 
 type: zonal SSD
 
 best for: Data nodes (hot/warm), Master nodes, ML nodes
 
-2. dingo-pdssd-ha
+2. dingo-pdssd-ha 高性能高可用
 
 type: regional SSD
 
 best for: Master nodes, Data nodes (hot/warm)
 
-3. dingo-pdhdd
+3. dingo-pdssd-balanced 中等性能
+
+type: zonal balanced SSD
+
+best for: Data nodes (warm/cold), Master nodes, ML nodes
+
+4. dingo-pdssd-blanced-ha 中等性能高可用
+
+type: regional balanced SSD
+
+best for: Master nodes, Data nodes (warm/cold)
+
+5. dingo-pdhdd 磁盘
 
 type: zonal HDD
 
 best for: ML nodes, Ingest nodes, Coordinating nodes, Kibana, APM, Data nodes (cold)
 
-4. dingo-pdhdd-ha
+6. dingo-pdhdd-ha 高可用磁盘
 
 type: regional HDD
 
