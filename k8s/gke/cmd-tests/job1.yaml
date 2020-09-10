@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: command-demo-never-restart-job
+  labels:
+    purpose: demonstrate-command
+spec:
+  backoffLimit: 3
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      containers:
+      - name: command-demo-container
+        image: debian
+        command: ["/bin/sh"]
+        args: ["-c", "echo hello job1; exit 1"]
+      restartPolicy: Never
