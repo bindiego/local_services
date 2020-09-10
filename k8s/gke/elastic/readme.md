@@ -4,17 +4,19 @@ This project is currently in a MVP (Minimum Viable Product) status. So the entir
 
 ## Prerequisites
 
-Suppose you already have access to Google Cloud Platform with proper permissions. We will use [Official ECK](https://www.elastic.co/guide/en/cloud-on-k8s/1.0/k8s-quickstart.html#k8s-deploy-eck) operator with [Official Containers / Dockers](https://www.docker.elastic.co) & [Docker source repo](https://github.com/elastic/dockerfiles). They are all open source and free, especially the operator can handle the Elasticsearch nodes migration in a graceful way and lot more. 
+Suppose you already have access to Google Cloud Platform with proper permissions. We will use [Official ECK](https://www.elastic.co/guide/en/cloud-on-k8s/1.0/k8s-quickstart.html#k8s-deploy-eck) operator with [Official Containers / Dockers](https://www.docker.elastic.co) & [Docker source repo](https://github.com/elastic/dockerfiles). They are all open source and free, especially the operator can handle the Elasticsearch nodes upgrades/migrations in a graceful way, and lot more. 
 
 Once you checked out this repo, make sure you stay in this folder as your working directory, `local_services/k8s/gke/elastic`
 
-In case you do **not** have `gcloud` installed, you can run `./bin/gcloud install` to get it. Run `./bin/gcloud` for other usages, but importantly, make sure you have `kubectl` properly installed, or you can run `./bin/gcloud kubectl` to have it setted up.
+In case you do **not** have `gcloud` installed, you can run `./bin/gcloud.sh install` to get it. This will have the cloud SDK installed in your `$HOME/google-cloud-sdk` directory. Add the full path of `bin` folder to your `$PATH` to make it works.
+
+Run `./bin/gcloud.sh` for other usages, but importantly, make sure you have `kubectl` properly installed, or you can run `./bin/gcloud.sh kubectl` to have it setted up.
 
 Now we are good to go!
 
 ---
 
-## Quickstart
+## Quickstart 快速开始
 
 Check the [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics) if you would like to:
 
@@ -42,11 +44,11 @@ Change the `region` variable on your choice, `asia-east1` by default.
 
 You can later adjust all these settings to archieve your own goal. We will discuss more in [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics).
 
-##### Option 1: Single node 
+##### Option 1: Single node 单节点（适合研发小伙伴）
 
 Run `make init_single` and you done.
 
-##### Option 2: All role deployments, with shard allocation awareness (not forced)
+##### Option 2: All role deployments, with shard allocation awareness (not forced) 全角色节点部署（适合小规模多用途综合集群）
 
 | zone-a        | zone-b         |
 | ------------- | -------------- |
@@ -54,7 +56,7 @@ Run `make init_single` and you done.
 
 Run `make init_allrole`
 
-##### Option 3: Production deployments, with shard allocation awareness (not forced)
+##### Option 3: Production deployments, with shard allocation awareness (not forced) 角色分离部署（适合中大规模集群，最好针对搜索或者分析场景进行集群分离和相关内存的和IO的配置调优）
 
 | zone-a           | zone-b           |
 | ---------------- | ---------------- |
@@ -85,6 +87,8 @@ Run `./bin/gke.sh create`
 #### Think about the ingress by now
 
 You can easily change whatever you want, but you'd better think about this by now since you may need to update the deployment files.
+
+We enabled all data security options, so all the communications are secured too.
 
 ##### Option 1: GLB with forced https (**Highly recommended** because of **security**)
 
@@ -130,7 +134,34 @@ Once you done, it's the time to run `./bin/glb.sh cert`, wait the last step to d
 
 ##### Option 2: Regional TCP LB
 
-This one is really simple, depends on which service you would like to expose, simply uncomment the `spec.http` sections in either `./deploy/es.yml` or `./deploy/kbn.yml` or both. And you **do not** need to deploy the GLB in the end as you will do for option 1.
+This one is really simple, depends on which service you would like to expose, simply uncomment the `spec.http` sections in either [`./deploy/es.yml`](https://github.com/bindiego/local_services/blob/develop/k8s/gke/elastic/templates/es.all_role.yml#L7-L10) or [`./deploy/kbn.yml`](https://github.com/bindiego/local_services/blob/develop/k8s/gke/elastic/templates/kbn.yml#L8-L11) or both. And you **do not** need to deploy the GLB in the end as you will do for option 1.
+
+This will setup up regional TCP LB for your deployments respectively. Make sure you access the `ip:port` by using **`https`** protocol.
+
+Be cautious if you didn't setup the certificates properly or used the default custom ones, when you try to connect to this secured (ssl enabled) cluster. You could simply bypass the verification in curl by using `curl --insecure` option. But for encrypted communication in code, here let's use java as an example, you could consult the [official docs](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/_encrypted_communication.html)
+
+这里要非常注意的就是如果你自己生成的证书，或者使用默认的证书，你应该会遇到下面的问题，我们这里提供了解决方法。
+
+As you could see in the [sample code](https://github.com/elastic/elasticsearch/blob/master/client/rest/src/test/java/org/elasticsearch/client/documentation/RestClientDocumentation.java#L406), you will need to **craft** an [`SSLContext`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/javax/net/ssl/SSLContext.html), something like this:
+
+```java
+SSLContext context = SSLContext.getInstance("SSL")
+context.init(null, new TrustManager[] {
+  new X509TrustManager {
+    void checkClientTrusted(X509Certificate[] chain, String authType) {}
+    void checkServerTrusted(X509Certificate[] chain, String authType) {}
+    void getAcceptedIssuers() { return null; }
+  }
+}, null);
+```
+
+then you may experience host doesn't match exception, don't panic, it's expected when you use the default ones. The sipmlest solution is to set the ssl hostname verifier when you build the apache http client in the [sample code](https://github.com/elastic/elasticsearch/blob/master/client/rest/src/test/java/org/elasticsearch/client/documentation/RestClientDocumentation.java#L407), something like this:
+
+```java
+RestClient.builder(host).setHttpClientConfigCallback { httpAsyncClientBuilder ->
+        httpAsyncClientBuilder.setSSLHostnameVerifier { _, _ -> true }
+    }
+```
 
 ##### Option 3: Internal access only
 
@@ -151,6 +182,12 @@ You will need this credential to login to Kibana or talking to Elasticsearch clu
 ### Deploy Kibana
 
 `./bin/kbn.sh deploy`
+
+#### Kibana health check
+
+[Proposed fix](https://github.com/bindiego/local_services/commit/c1bf7d51a7fa9e90e7e8b113628f49e7d17f04bd#diff-17354ce2a6ce77a7239a4a671ef0308a)
+
+Or manually edit the Health Check, replace `/` with `/login` after you deployed the *ingress*.
 
 ### Deploy the GLB for ingress
 
@@ -242,7 +279,7 @@ kind: Kibana
 metadata:
   name: kbn
   spec:
-    version: 7.6.2
+    version: 7.9.1
     count: 1
     config:
       elasticsearch.hosts:
@@ -260,7 +297,7 @@ kind: Kibana
 metadata:
   name: kbn
 spec:
-  version: 7.6.2
+  version: 7.9.1
   count: 1
   config:
     elasticsearch.hosts:
@@ -291,31 +328,45 @@ spec:
 
 ## Advanced topics
 
-### Storage
+### Storage 存储选项
 
 We have predefined 4 different types of storage, you could refer to the `./deploy/es.yml`  file, section `spec.nodeSets[].volumeClaimTemplates.spec.storageClassName` to find out what we used for each different ES node.
 
 [Detailed information](https://cloud.google.com/compute/docs/disks)
 
-1. dingo-pdssd
+可以根据上面的链接各个磁盘的性能，对不同角色的节点选取相应的存储来实现资源的最佳利用。下面针对每个存储也给出了一些适合的建议。
+
+1. dingo-pdssd 高性能
 
 type: zonal SSD
 
 best for: Data nodes (hot/warm), Master nodes, ML nodes
 
-2. dingo-pdssd-ha
+2. dingo-pdssd-ha 高性能高可用
 
 type: regional SSD
 
 best for: Master nodes, Data nodes (hot/warm)
 
-3. dingo-pdhdd
+3. dingo-pdssd-balanced 中等性能
+
+type: zonal balanced SSD
+
+best for: Data nodes (warm/cold), Master nodes, ML nodes
+
+4. dingo-pdssd-blanced-ha 中等性能高可用
+
+type: regional balanced SSD
+
+best for: Master nodes, Data nodes (warm/cold)
+
+5. dingo-pdhdd 磁盘
 
 type: zonal HDD
 
 best for: ML nodes, Ingest nodes, Coordinating nodes, Kibana, APM, Data nodes (cold)
 
-4. dingo-pdhdd-ha
+6. dingo-pdhdd-ha 高可用磁盘
 
 type: regional HDD
 

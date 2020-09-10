@@ -3,7 +3,7 @@ kind: Elasticsearch
 metadata:
     name: dingo
 spec:
-    version: 7.7.0
+    version: 7.9.1
     #http:
         #service:
             #spec:
@@ -33,7 +33,7 @@ spec:
             - ReadWriteOnce
             resources:
                 requests:
-                    storage: 10Gi
+                    storage: 80Gi
             storageClassName: dingo-pdssd-ha
       podTemplate:
           metadata:
@@ -44,14 +44,14 @@ spec:
               - name: elasticsearch
                 resources:
                     requests:
-                        memory: 3Gi
+                        memory: 5Gi
                         #cpu: 1
                     limits:
-                        memory: 3Gi
+                        memory: 5Gi
                         #cpu: 2
                 env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms2g -Xmx2g"
+                  value: "-Xms4g -Xmx4g"
                 - name: PRE_STOP_MAX_WAIT_SECONDS
                   value: "20"
                 - name: PRE_STOP_ADDITIONAL_WAIT_SECONDS
@@ -81,14 +81,6 @@ spec:
                 - |
                   bin/elasticsearch-plugin install --batch repository-gcs
               affinity:
-                  podAntiAffinity:
-                      preferredDuringSchedulingIgnoredDuringExecution:
-                      - weight: 100
-                        podAffinityTerm:
-                            labelSelector:
-                                matchLabels:
-                                    elasticsearch.k8s.elastic.co/cluster-name: dingo
-                            topologyKey: kubernetes.io/hostname
                   nodeAffinity:
                       requiredDuringSchedulingIgnoredDuringExecution:
                           nodeSelectorTerms:
@@ -120,7 +112,7 @@ spec:
             - ReadWriteOnce
             resources:
                 requests:
-                    storage: 10Gi
+                    storage: 512Gi
             storageClassName: dingo-pdssd
       podTemplate:
           metadata:
@@ -131,14 +123,14 @@ spec:
               - name: elasticsearch
                 resources:
                     requests:
-                        memory: 4Gi
+                        memory: 25Gi
                         #cpu: 1
                     limits:
-                        memory: 4Gi
+                        memory: 25Gi
                         #cpu: 2
                 env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms2g -Xmx2g"
+                  value: "-Xms13g -Xmx13g"
                 - name: PRE_STOP_MAX_WAIT_SECONDS
                   value: "20"
                 - name: PRE_STOP_ADDITIONAL_WAIT_SECONDS
@@ -207,7 +199,7 @@ spec:
             - ReadWriteOnce
             resources:
                 requests:
-                    storage: 10Gi
+                    storage: 40Gi
             storageClassName: dingo-pdhdd
       podTemplate:
           metadata:
@@ -218,14 +210,14 @@ spec:
               - name: elasticsearch
                 resources:
                     requests:
-                        memory: 3Gi
+                        memory: 20Gi
                         #cpu: 1
                     limits:
-                        memory: 3Gi
+                        memory: 20Gi
                         #cpu: 2
                 env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms2g -Xmx2g"
+                  value: "-Xms18g -Xmx18g"
                 - name: PRE_STOP_MAX_WAIT_SECONDS
                   value: "20"
                 - name: PRE_STOP_ADDITIONAL_WAIT_SECONDS
@@ -294,7 +286,7 @@ spec:
             - ReadWriteOnce
             resources:
                 requests:
-                    storage: 10Gi
+                    storage: 40Gi
             storageClassName: dingo-pdhdd
       podTemplate:
           metadata:
@@ -305,14 +297,14 @@ spec:
               - name: elasticsearch
                 resources:
                     requests:
-                        memory: 3Gi
+                        memory: 14Gi
                         #cpu: 1
                     limits:
-                        memory: 3Gi
+                        memory: 14Gi
                         #cpu: 2
                 env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms2g -Xmx2g"
+                  value: "-Xms13g -Xmx13g"
                 - name: PRE_STOP_MAX_WAIT_SECONDS
                   value: "20"
                 - name: PRE_STOP_ADDITIONAL_WAIT_SECONDS
@@ -381,7 +373,7 @@ spec:
             - ReadWriteOnce
             resources:
                 requests:
-                    storage: 10Gi
+                    storage: 80Gi
             storageClassName: dingo-pdssd-ha
       podTemplate:
           metadata:
@@ -392,14 +384,14 @@ spec:
               - name: elasticsearch
                 resources:
                     requests:
-                        memory: 3Gi
+                        memory: 5Gi
                         #cpu: 1
                     limits:
-                        memory: 3Gi
+                        memory: 5Gi
                         #cpu: 2
                 env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms2g -Xmx2g"
+                  value: "-Xms4g -Xmx4g"
                 - name: PRE_STOP_MAX_WAIT_SECONDS
                   value: "20"
                 - name: PRE_STOP_ADDITIONAL_WAIT_SECONDS
@@ -468,7 +460,7 @@ spec:
             - ReadWriteOnce
             resources:
                 requests:
-                    storage: 10Gi
+                    storage: 512Gi
             storageClassName: dingo-pdssd
       podTemplate:
           metadata:
@@ -479,14 +471,14 @@ spec:
               - name: elasticsearch
                 resources:
                     requests:
-                        memory: 4Gi
+                        memory: 25Gi
                         #cpu: 1
                     limits:
-                        memory: 4Gi
+                        memory: 25Gi
                         #cpu: 2
                 env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms2g -Xmx2g"
+                  value: "-Xms13g -Xmx13g"
                 - name: PRE_STOP_MAX_WAIT_SECONDS
                   value: "20"
                 - name: PRE_STOP_ADDITIONAL_WAIT_SECONDS
@@ -555,7 +547,7 @@ spec:
             - ReadWriteOnce
             resources:
                 requests:
-                    storage: 10Gi
+                    storage: 40Gi
             storageClassName: dingo-pdhdd
       podTemplate:
           metadata:
@@ -566,14 +558,14 @@ spec:
               - name: elasticsearch
                 resources:
                     requests:
-                        memory: 3Gi
+                        memory: 20Gi
                         #cpu: 1
                     limits:
-                        memory: 3Gi
+                        memory: 20Gi
                         #cpu: 2
                 env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms2g -Xmx2g"
+                  value: "-Xms18g -Xmx18g"
                 - name: PRE_STOP_MAX_WAIT_SECONDS
                   value: "20"
                 - name: PRE_STOP_ADDITIONAL_WAIT_SECONDS
@@ -642,7 +634,7 @@ spec:
             - ReadWriteOnce
             resources:
                 requests:
-                    storage: 10Gi
+                    storage: 40Gi
             storageClassName: dingo-pdhdd
       podTemplate:
           metadata:
@@ -653,14 +645,14 @@ spec:
               - name: elasticsearch
                 resources:
                     requests:
-                        memory: 3Gi
+                        memory: 14Gi
                         #cpu: 1
                     limits:
-                        memory: 3Gi
+                        memory: 14Gi
                         #cpu: 2
                 env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms2g -Xmx2g"
+                  value: "-Xms13g -Xmx13g"
                 - name: PRE_STOP_MAX_WAIT_SECONDS
                   value: "20"
                 - name: PRE_STOP_ADDITIONAL_WAIT_SECONDS
@@ -727,7 +719,7 @@ spec:
             - ReadWriteOnce
             resources:
                 requests:
-                    storage: 10Gi
+                    storage: 40Gi
             storageClassName: dingo-pdhdd
       podTemplate:
           metadata:
@@ -738,14 +730,14 @@ spec:
               - name: elasticsearch
                 resources:
                     requests:
-                        memory: 3Gi
+                        memory: 5Gi
                         #cpu: 1
                     limits:
-                        memory: 3Gi
+                        memory: 5Gi
                         #cpu: 2
                 env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms2g -Xmx2g"
+                  value: "-Xms4g -Xmx4g"
                 - name: PRE_STOP_MAX_WAIT_SECONDS
                   value: "20"
                 - name: PRE_STOP_ADDITIONAL_WAIT_SECONDS
