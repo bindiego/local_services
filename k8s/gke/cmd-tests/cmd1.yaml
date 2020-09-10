@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: command-demo-neverRestart
+  name: command-demo-never-restart
   labels:
     purpose: demonstrate-command
 spec:
