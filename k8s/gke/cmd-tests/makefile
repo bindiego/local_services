@@ -16,7 +16,7 @@ status:
 logs:
 	@-kubectl logs command-demo-never-restart
 	@-kubectl logs command-demo-restart-on-failure
-	@-kubectl logs command-demo-never-restart-job
-	@-kubectl logs command-demo-restart-on-failure-job
+	@-kubectl logs job/command-demo-never-restart-job
+	@-kubectl logs job/command-demo-restart-on-failure-job
 
 .PHONY: clean status logs

@@ -14,5 +14,5 @@ spec:
       - name: command-demo-container
         image: debian
         command: ["/bin/sh"]
-        args: ["-c", "echo hello job2; exit 1"]
+        args: ["-c", "i=1; while true; do echo -n job2:; echo $i; i=$((i+1)); sleep 30; done; exit 0"]
       restartPolicy: OnFailure
