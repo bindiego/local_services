@@ -1,5 +1,5 @@
 { 
- $schema: https://vega.github.io/schema/vega/v4.3.0.json
+ $schema: https://vega.github.io/schema/vega/v5.1.0.json
   data: [
 	{
   	// query ES based on the currently selected time range and filter string
