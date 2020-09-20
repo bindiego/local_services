@@ -414,21 +414,23 @@ Other nodes we only add 1GB extra above the heap size, hence uaually 32GB maxinu
 
 Memory: `spec.podTemplate.spec.containers.resources.requests.memory` & `spec.podTemplate.spec.containers.resources.limits.memory`
 
-### Upgrade Elastic Stack
+### Upgrade Elastic Stack 升级Elasticsearch
 
 Simply update `spec.version` in yaml and `make <your choice of topology>`, then run `./deploy/es.sh deploy` and you done. All other services, e.g. Kibana, APM are the same.
 
-NOTE: downgrade is **NOT** supported
+只要把部署yaml文件里的版本升级到目标版本，再次 deploy 就可以了。整个升级动作会由operator自动操作完成，过程根据情况可能很快也会比较漫长。
+
+NOTE: downgrade is **NOT** supported 降级是不支持的
 
 We have always set `spec.nodeSets.updateStrategy.changeBudget.maxUnavailable` smaller than `spec.nodeSets.count`, usually `N - 1`. If the `count` is `1`, then set the `maxUnavailable` to `-1`.
 
 In case if you have 3 master nodes across 3 zones and defined in 3 nodeSets, you do not have to worry about they may offline at the same time. The ECK operator could handle that very well :)
 
-#### Troubleshooting
+#### Troubleshooting 升级过程中的问题排查
 
 1. In case the pod is stucking in "Terminating" status, you could force delete it. Use command `kubectl get pod` to check the status and name of the pod. Then delete with `kubectl delete pods <pod> --grace-period=0 --force`. [More details](https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/).
 
-### Upgrade ECK
+### Upgrade ECK 升级ECK operator
 
 This will trigger a rolling restart on all managed pods.
 
