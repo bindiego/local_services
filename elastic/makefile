@@ -138,8 +138,15 @@ deploy:
 	@-$(pwd)/bin/pb.sh deploy
 	@-rm -rf $(pwd)/deploy/*.tar.gz
 	@-rm -rf $(pwd)/deploy/*$(ver)*
+status:
+	@-$(pwd)/bin/es.sh status 
+	@-$(pwd)/bin/kbn.sh status
+	@-$(pwd)/bin/ab.sh status
+	@-$(pwd)/bin/fb.sh status
+	@-$(pwd)/bin/mb.sh status 
+	@-$(pwd)/bin/pb.sh status
 
 clean: stop_kbn stop_ls stop_fb stop_es
 	@-sudo rm -rf $(pwd)/deploy/*
 
-.PHONY: clean dl_es dl_ls dl_kbn dl_all deploy
+.PHONY: clean dl_es dl_ls dl_kbn dl_all deploy status
