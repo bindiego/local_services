@@ -1,6 +1,6 @@
 pwd := $(shell pwd)
 ipaddr := $(shell hostname -I | cut -d ' ' -f 1)
-ver := 6.1.3
+ver := 7.9.1
 
 pre_deploy:
 	[ -d $(pwd)/deploy ] || mkdir -p $(pwd)/deploy
@@ -129,7 +129,17 @@ stop_kbn:
 stop_fb:
 	-$(pwd)/bin/stop_service.sh filebeat
 
-clean: stop_kbn stop_ls stop_es stop_fb
-	@rm -rf $(pwd)/deploy
+deploy:
+	@-$(pwd)/bin/es.sh deploy
+	@-$(pwd)/bin/kbn.sh deploy
+	@-$(pwd)/bin/ab.sh deploy
+	@-$(pwd)/bin/fb.sh deploy
+	@-$(pwd)/bin/mb.sh deploy
+	@-$(pwd)/bin/pb.sh deploy
+	@-rm -rf $(pwd)/deploy/*.tar.gz
+	@-rm -rf $(pwd)/deploy/*$(ver)*
 
-.PHONY: clean dl_es dl_ls dl_kbn dl_all
+clean: stop_kbn stop_ls stop_fb stop_es
+	@-sudo rm -rf $(pwd)/deploy/*
+
+.PHONY: clean dl_es dl_ls dl_kbn dl_all deploy
