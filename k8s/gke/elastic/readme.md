@@ -414,15 +414,28 @@ Other nodes we only add 1GB extra above the heap size, hence uaually 32GB maxinu
 
 Memory: `spec.podTemplate.spec.containers.resources.requests.memory` & `spec.podTemplate.spec.containers.resources.limits.memory`
 
-### Upgrade
+### Upgrade Elastic Stack
 
-Simply update `spec.version` then run `./deploy/es.sh deploy` and you done. All other services, e.g. Kibana, APM will be the same.
+Simply update `spec.version` in yaml and `make <your choice of topology>`, then run `./deploy/es.sh deploy` and you done. All other services, e.g. Kibana, APM are the same.
 
 NOTE: downgrade is **NOT** supported
 
 We have always set `spec.nodeSets.updateStrategy.changeBudget.maxUnavailable` smaller than `spec.nodeSets.count`, usually `N - 1`. If the `count` is `1`, then set the `maxUnavailable` to `-1`.
 
 In case if you have 3 master nodes across 3 zones and defined in 3 nodeSets, you do not have to worry about they may offline at the same time. The ECK operator could handle that very well :)
+
+#### Troubleshooting
+
+1. In case the pod is stucking in "Terminating" status, you could force delete it. Use command `kubectl get pod` to check the status and name of the pod. Then delete with `kubectl delete pods <pod> --grace-period=0 --force`. [More details](https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/).
+
+### Upgrade ECK
+
+This will trigger a rolling restart on all managed pods.
+
+```
+git pull
+./bin/upgrade_ECK.sh
+```
 
 ### Miscs
 
