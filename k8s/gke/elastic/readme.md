@@ -145,23 +145,35 @@ Be cautious if you didn't setup the certificates properly or used the default cu
 As you could see in the [sample code](https://github.com/elastic/elasticsearch/blob/master/client/rest/src/test/java/org/elasticsearch/client/documentation/RestClientDocumentation.java#L406), you will need to **craft** an [`SSLContext`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/javax/net/ssl/SSLContext.html), something like this:
 
 ```java
-SSLContext context = SSLContext.getInstance("SSL")
-context.init(null, new TrustManager[] {
-  new X509TrustManager {
-    void checkClientTrusted(X509Certificate[] chain, String authType) {}
-    void checkServerTrusted(X509Certificate[] chain, String authType) {}
-    void getAcceptedIssuers() { return null; }
-  }
-}, null);
+try {
+    // SSLContext context = SSLContext.getInstance("SSL");
+    SSLContext context = SSLContext.getInstance("TLS");
+
+    context.init(null, new TrustManager[] {
+        new X509TrustManager() {
+            public void checkClientTrusted(X509Certificate[] chain, String authType) {}
+
+            public void checkServerTrusted(X509Certificate[] chain, String authType) {}
+
+            public X509Certificate[] getAcceptedIssuers() { return null; }
+        }
+    }, null);
+
+    httpAsyncClientBuilder.setSSLContext(context)
+        .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
+} catch (NoSuchAlgorithmException ex) {
+    logger.error("Error when setup dummy SSLContext", ex);
+} catch (KeyManagementException ex) {
+    logger.error("Error when setup dummy SSLContext", ex);
+} catch (Exception ex) {
+    logger.error("Error when setup dummy SSLContext", ex);
+}
 ```
 
-then you may experience host doesn't match exception, don't panic, it's expected when you use the default ones. The sipmlest solution is to set the ssl hostname verifier when you build the apache http client in the [sample code](https://github.com/elastic/elasticsearch/blob/master/client/rest/src/test/java/org/elasticsearch/client/documentation/RestClientDocumentation.java#L407), something like this:
+Basically, the above code does two things
 
-```java
-RestClient.builder(host).setHttpClientConfigCallback { httpAsyncClientBuilder ->
-        httpAsyncClientBuilder.setSSLHostnameVerifier { _, _ -> true }
-    }
-```
+- A Dummy SSL context
+- Turn off the Hostname verifier
 
 ##### Option 3: Internal access only
 
