@@ -46,10 +46,10 @@ spec:
                 resources:
                     requests:
                         memory: 4Gi
-                        #cpu: 1
+                        cpu: 1000m
                     limits:
                         memory: 4Gi
-                        #cpu: 2
+                        cpu: 1000m
                 env:
                 - name: ES_JAVA_OPTS
                   value: "-Xms2g -Xmx2g"
@@ -134,10 +134,10 @@ spec:
                 resources:
                     requests:
                         memory: 4Gi
-                        #cpu: 1
+                        cpu: 1000m
                     limits:
                         memory: 4Gi
-                        #cpu: 2
+                        cpu: 1000m
                 env:
                 - name: ES_JAVA_OPTS
                   value: "-Xms2g -Xmx2g"
