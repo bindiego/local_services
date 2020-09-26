@@ -19,5 +19,6 @@ pw:
 
 stat:
 	@kubectl get pod
+	@kubectl get svc
 
 .PHONY: deploy clean run pw init
