@@ -43,14 +43,14 @@ spec:
               - name: elasticsearch
                 resources:
                     requests:
-                        memory: 4Gi
-                        #cpu: 1
+                        memory: 24Gi
+                        cpu: 6500m
                     limits:
-                        memory: 4Gi
-                        #cpu: 2
+                        memory: 24Gi
+                        cpu: 6500m
                 env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms2g -Xmx2g"
+                  value: "-Xms12g -Xmx12g"
                 - name: PRE_STOP_MAX_WAIT_SECONDS
                   value: "20"
                 - name: PRE_STOP_ADDITIONAL_WAIT_SECONDS
