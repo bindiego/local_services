@@ -24,6 +24,7 @@ __create() {
         --region "${region}" \
         --node-locations "${region}-a","${region}-b" \
         --no-enable-basic-auth \
+        --enable-dataplane-v2 \
         --release-channel "rapid" \
         --machine-type "$machine_type" \
         --image-type "COS" \
