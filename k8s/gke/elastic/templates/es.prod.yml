@@ -45,10 +45,10 @@ spec:
                 resources:
                     requests:
                         memory: 5Gi
-                        #cpu: 1
+                        cpu: 1000m
                     limits:
                         memory: 5Gi
-                        #cpu: 2
+                        cpu: 1000m
                 env:
                 - name: ES_JAVA_OPTS
                   value: "-Xms4g -Xmx4g"
@@ -124,10 +124,10 @@ spec:
                 resources:
                     requests:
                         memory: 25Gi
-                        #cpu: 1
+                        cpu: 6500m
                     limits:
                         memory: 25Gi
-                        #cpu: 2
+                        cpu: 6500m
                 env:
                 - name: ES_JAVA_OPTS
                   value: "-Xms13g -Xmx13g"
@@ -211,10 +211,10 @@ spec:
                 resources:
                     requests:
                         memory: 20Gi
-                        #cpu: 1
+                        cpu: 6500m
                     limits:
                         memory: 20Gi
-                        #cpu: 2
+                        cpu: 6500m
                 env:
                 - name: ES_JAVA_OPTS
                   value: "-Xms18g -Xmx18g"
@@ -298,10 +298,10 @@ spec:
                 resources:
                     requests:
                         memory: 14Gi
-                        #cpu: 1
+                        cpu: 4000m
                     limits:
                         memory: 14Gi
-                        #cpu: 2
+                        cpu: 4000m
                 env:
                 - name: ES_JAVA_OPTS
                   value: "-Xms13g -Xmx13g"
@@ -385,10 +385,10 @@ spec:
                 resources:
                     requests:
                         memory: 5Gi
-                        #cpu: 1
+                        cpu: 1000m
                     limits:
                         memory: 5Gi
-                        #cpu: 2
+                        cpu: 1000m
                 env:
                 - name: ES_JAVA_OPTS
                   value: "-Xms4g -Xmx4g"
@@ -472,10 +472,10 @@ spec:
                 resources:
                     requests:
                         memory: 25Gi
-                        #cpu: 1
+                        cpu: 6500m
                     limits:
                         memory: 25Gi
-                        #cpu: 2
+                        cpu: 6500m
                 env:
                 - name: ES_JAVA_OPTS
                   value: "-Xms13g -Xmx13g"
@@ -559,10 +559,10 @@ spec:
                 resources:
                     requests:
                         memory: 20Gi
-                        #cpu: 1
+                        cpu: 6500m
                     limits:
                         memory: 20Gi
-                        #cpu: 2
+                        cpu: 6500m
                 env:
                 - name: ES_JAVA_OPTS
                   value: "-Xms18g -Xmx18g"
@@ -646,10 +646,10 @@ spec:
                 resources:
                     requests:
                         memory: 14Gi
-                        #cpu: 1
+                        cpu: 4000m
                     limits:
                         memory: 14Gi
-                        #cpu: 2
+                        cpu: 4000m
                 env:
                 - name: ES_JAVA_OPTS
                   value: "-Xms13g -Xmx13g"
