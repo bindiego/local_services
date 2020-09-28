@@ -453,4 +453,26 @@ git pull
 
 ### Miscs
 
+#### Delete unassigned shards to restore cluster health
+
+**Cautious:** deleteing the unassigned shard is the one last bet to fix your cluster health. You should always try to reaasign or recover the data instead. Here lets only focus on deletion.
+
+- check unassigned shards
+
+```
+curl --user elastic:<passwod> -XGET http://<elastichost>:9200/_cluster/health?pretty | grep unassigned_shards
+```
+
+- retriev unassigned shards
+
+```
+curl -XGET http://<elastichost>:9200/_cat/shards | grep UNASSIGNED | awk {'print $1'}
+```
+
+- do it :)
+
+```
+curl -XGET http://<elastichost>:9200/_cat/shards | grep UNASSIGNED | awk {'print $1'} | xargs -i curl -XDELETE "http://<elastichost>:9200/{}"
+```
+
 #### Clean up
