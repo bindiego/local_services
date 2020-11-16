@@ -10,6 +10,7 @@ project_id=google.com:bin-wus-learning-center
 default_pool=default-pool
 nodes_per_zone=5 # per zone
 machine_type=n2-standard-8
+gke_version=1.17.13-gke.2001
 
 __usage() {
     echo "Usage: ./bin/gke.sh {create|(delete,del,d)|scale|fix}"
@@ -25,7 +26,7 @@ __create() {
         --node-locations "${region}-a","${region}-b" \
         --no-enable-basic-auth \
         --enable-dataplane-v2 \
-        --release-channel "rapid" \
+        --cluster-version $gke_version \
         --machine-type "$machine_type" \
         --image-type "COS" \
         --disk-type "pd-ssd" \
@@ -40,7 +41,9 @@ __create() {
         --default-max-pods-per-node "110" \
         --no-enable-master-authorized-networks \
         --addons HorizontalPodAutoscaling,HttpLoadBalancing \
-        --enable-autoupgrade \
+        --no-enable-autoupgrade \
+        --max-surge-upgrade 1 \
+        --max-unavailable-upgrade 0 \
         --enable-autorepair
 
     # Set kubectl to target the created cluster
