@@ -16,7 +16,7 @@ fi
 __usage() {
     echo "Usage: $0 -m module -a action [-o]"
     echo "    -m ./bin 目录下的脚本"
-    echo "        可选的参数有" $(ls "$PWD/bin" | sed 's/.sh//g')
+    echo "        可选的参数有" $(ls "$PWD" | sed 's/.sh//g')
     echo "    -a 脚本需要的参数"
     echo "    -o [可选参数] 显示脚本执行过程，相当于 bash -x "
     exit

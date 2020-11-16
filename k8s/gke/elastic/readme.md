@@ -95,38 +95,38 @@ By now, in your *working directory*, you should be able to run `cat ./conf/gcs.c
 ### 部署
 
 ```sh
-./deploy.sh -h 查看帮助
+./bin/deploy.sh -h 查看帮助
 
 ```
 #### 创建gke集群
 
-`./deploy.sh -m gke -a create`
+`./bin/deploy.sh -m gke -a create`
 
 #### 部署es
 
-`./deploy.sh -m es -a deploy`
+`./bin/deploy.sh -m es -a deploy`
 
 #### 部署kibana
 
-`./deploy.sh -m kbn -a deploy`
+`./bin/deploy.sh -m kbn -a deploy`
 
 #### 部署lb
 
 *申请lb静态IP*
 
-`./deploy.sh -m glb -a reserve`
+`./bin/deploy.sh -m glb -a reserve`
 
 *配置dns*
 
-`./deploy.sh -m glb -a dns`
+`./bin/deploy.sh -m glb -a dns`
 
 *申请ssl证书*
 
-`./deploy.sh -m glb -a cert`
+`./bin/deploy.sh -m glb -a cert`
 
 *部署lb*
 
-`./deploy.sh -m glb -a deploy`
+`./bin/deploy.sh -m glb -a deploy`
 
 ---
 
