@@ -80,6 +80,56 @@ or Run `./bin/gcs_serviceaccount.sh` to create a service account and generate th
 
 By now, in your *working directory*, you should be able to run `cat ./conf/gcs.client.default.credentials_file` to check the existence and the contents of the file. If you didn't do this, the auto script will later use `$GOOGLE_APPLICATION_CREDENTIALS`  environment variable to copy that file to the destination. You cannot skip this by now let's talk about how to disble in [Advanced topics](https://github.com/bindiego/local_services/tree/develop/k8s/gke/elastic#advanced-topics) if you really have to. 
 
+---
+
+## All in one script, thanks the contribution from Papaya
+
+感谢来自木瓜移动小伙伴的贡献。这个部分会让整个部署过程的控制脚本和配置都集中在2个核心文件，极大的简化了整个流程，也让第一次使用的小伙伴更容易上手。
+
+### 配置文件
+
+`cp conf/example-configure.ini conf/configure.ini`
+
+根据项目需求修改配置文件 `conf/configure.ini`
+
+### 部署
+
+```sh
+./deploy.sh -h 查看帮助
+
+```
+#### 创建gke集群
+
+`./deploy.sh -m gke -a create`
+
+#### 部署es
+
+`./deploy.sh -m es -a deploy`
+
+#### 部署kibana
+
+`./deploy.sh -m kbn -a deploy`
+
+#### 部署lb
+
+*申请lb静态IP*
+
+`./deploy.sh -m glb -a reserve`
+
+*配置dns*
+
+`./deploy.sh -m glb -a dns`
+
+*申请ssl证书*
+
+`./deploy.sh -m glb -a cert`
+
+*部署lb*
+
+`./deploy.sh -m glb -a deploy`
+
+---
+
 ### Launch GKE/k8s cluster
 
 Run `./bin/gke.sh create`
