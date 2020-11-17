@@ -82,7 +82,7 @@ By now, in your *working directory*, you should be able to run `cat ./conf/gcs.c
 
 ---
 
-## All in one script, thanks the contribution from Papaya
+## All in one (aio) scripts, thanks the contribution from Papaya
 
 感谢来自木瓜移动小伙伴的贡献。这个部分会让整个部署过程的控制脚本和配置都集中在2个核心文件，极大的简化了整个流程，也让第一次使用的小伙伴更容易上手。
 

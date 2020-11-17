@@ -9,7 +9,7 @@ __usage() {
 __deploy() {
     # kubectl apply -f $PWD/templates/kbn.yml
     eval "cat <<EOF
-$(<"$PWD"/templates/kbn.yml)
+$(<"$PWD"/templates/aio/kbn.yml)
 EOF
 " 2>/dev/null >"$PWD"/deploy/kbn.yml
     kubectl apply -f "$PWD"/deploy/kbn.yml
@@ -19,7 +19,7 @@ EOF
 __clean() {
     # kubectl delete -f $PWD/templates/kbn.yml
     eval "cat <<EOF
-$(<"$PWD"/templates/kbn.yml)
+$(<"$PWD"/templates/aio/kbn.yml)
 EOF
 " 2>/dev/null >"$PWD"/deploy/kbn.yml
     kubectl delete -f "$PWD"/deploy/kbn.yml

@@ -18,7 +18,7 @@ __deploy() {
 
     # kubectl apply -f $PWD/templates/es.yml
     eval "cat <<EOF
-$(<"$PWD"/templates/es."$ES_CLUSTER_TYPE".yml)
+$(<"$PWD"/templates/aio/es."$ES_CLUSTER_TYPE".yml)
 EOF
 " 2>/dev/null >"$PWD"/deploy/es."$ES_CLUSTER_TYPE".yml
     kubectl apply -f "$PWD"/deploy/es."$ES_CLUSTER_TYPE".yml
@@ -27,7 +27,7 @@ EOF
 __clean() {
     # kubectl delete -f $PWD/templates/es.yml
     eval "cat <<EOF
-$(<"$PWD"/templates/es."$ES_CLUSTER_TYPE".yml)
+$(<"$PWD"/templates/aio/es."$ES_CLUSTER_TYPE".yml)
 EOF
 " 2>/dev/null >"$PWD"/deploy/es."$ES_CLUSTER_TYPE".yml
     kubectl delete -f "$PWD"/deploy/es."$ES_CLUSTER_TYPE".yml

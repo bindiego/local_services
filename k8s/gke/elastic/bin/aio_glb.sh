@@ -20,7 +20,7 @@ __cert() {
     # delete the certificate
     # kubectl delete -f $PWD/deploy/cert.yml
     eval "cat <<EOF
-$(<"$PWD"/templates/cert.yml)
+$(<"$PWD"/templates/aio/cert.yml)
 EOF
 " 2>/dev/null >"$PWD"/deploy/cert.yml
     kubectl delete -f "$PWD"/deploy/cert.yml
@@ -28,7 +28,7 @@ EOF
     # create the certificate
     # kubectl apply -f $PWD/deploy/cert.yml
     eval "cat <<EOF
-$(<"$PWD"/templates/cert.yml)
+$(<"$PWD"/templates/aio/cert.yml)
 EOF
 " 2>/dev/null >"$PWD"/deploy/cert.yml
     kubectl apply -f "$PWD"/deploy/cert.yml
@@ -43,7 +43,7 @@ __status() {
 __deploy() {
     # kubectl apply -f $PWD/deploy/lb.yml
     eval "cat <<EOF
-$(<"$PWD"/templates/lb.yml)
+$(<"$PWD"/templates/aio/lb.yml)
 EOF
 " 2>/dev/null >"$PWD"/deploy/lb.yml
     kubectl apply -f "$PWD"/deploy/lb.yml
@@ -91,7 +91,7 @@ __clean_dns() {
 __clean() {
     # kubectl delete -f $PWD/deploy/lb.yml
     eval "cat <<EOF
-$(<"$PWD"/templates/lb.yml)
+$(<"$PWD"/templates/aio/lb.yml)
 EOF
 " 2>/dev/null >"$PWD"/deploy/lb.yml
     kubectl delete -f "$PWD"/deploy/lb.yml
