@@ -1,3 +1,5 @@
+## <span style="color:red">This project has moved to Elastic Community 项目更新至: https://github.com/elasticsearch-cn/elastic-on-gke </span>
+
 # Elastic Stack on k8s/GKE
 
 This project is currently in a MVP (Minimum Viable Product) status. So the entire process may invovle some manual setups (find & replace in a text editor). Once you familiar with the sturcture, you will find it's extremely easy. I am not sure if [Helm](https://helm.sh/) can achieve the flexiblity for this kind of data layer products. Let's start with simplicity anyway.
