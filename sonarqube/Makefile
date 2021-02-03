@@ -29,7 +29,8 @@ db: dbinit
 	  --restart=unless-stopped \
 	  -m 1G --memory-swap -1 \
 	  --cpuset-cpus="0,1" \
-	  -d postgres:12
+	  -d postgres:13
+
 sonar: init 
 	docker run --name sonarqube \
 		-p 39000:9000 -p 39092:9092 \
@@ -43,7 +44,7 @@ sonar: init
 		-e SONARQUBE_JDBC_URL=jdbc:postgresql://$(hostip):35432/sonar \
 		-m 8G --memory-swap -1 \
 		--cpuset-cpus="0,1" \
-		-d sonarqube:lts
+		-d sonarqube:latest
 
 dc: init dbinit
 	docker-compose up -d
