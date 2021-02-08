@@ -11,9 +11,10 @@ init:
 run: init
 	@docker run --name prometheus \
 	  -p 9090:9090 \
-	  --restart=unless-stopped \
+	  --user="$(uid)" \
 	  -v $(pwd)/conf/prometheus.yml:/etc/prometheus/prometheus.yml \
-	  -v $(pwd)/data:/var/lib/prometheus:rw \
+	  -v $(pwd)/data:/prometheus:rw \
+	  --restart=unless-stopped \
 	  -m 512M --memory-swap -1 \
 	  --cpuset-cpus="0,1" \
 	  -d prom/prometheus:$(ver)
