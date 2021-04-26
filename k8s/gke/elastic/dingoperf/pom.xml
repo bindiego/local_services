@@ -20,7 +20,7 @@
         <json.version>20160810</json.version>
         <jackson.ver>2.11.2</jackson.ver>
         <cmn.config>1.10</cmn.config>
-        <cmn.io>2.6</cmn.io>
+        <cmn.io>2.7</cmn.io>
         <cmn.cli>1.4</cmn.cli>
         <cmn.math>3.6.1</cmn.math>
         <cmn.compress>1.19</cmn.compress>
