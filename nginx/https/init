@@ -15,7 +15,7 @@ docker run --name nginx \
   --restart=unless-stopped \
   -m 512M --memory-swap -1 \
   --cpuset-cpus="0,1" \
-  -d nginx:1.17-alpine
+  -d nginx:1.20-alpine
 
   #-p 80:80 \ # this will be mapped to cloud LB 443
   #-p 8080:8080 \ # this only used for cloud LB 80 redirect (to LB:443)
