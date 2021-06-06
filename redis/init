@@ -10,6 +10,6 @@ docker run --name redis \
   --restart=unless-stopped \
   -m 256M --memory-swap -1 \
   --cpuset-cpus="0,1" \
-  -d redis:5.0-alpine \
+  -d redis:6.2-alpine \
   redis-server #/usr/local/etc/redis/redis.conf
   #-v ${pwd}/redis.conf:/usr/local/etc/redis/redis.conf \
