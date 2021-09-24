@@ -1,6 +1,6 @@
 pwd := $(shell pwd)
 ipaddr := $(shell hostname -I | cut -d ' ' -f 1)
-ver := 7.10.2
+ver := 7.14.2
 
 pre_deploy:
 	[ -d $(pwd)/deploy ] || mkdir -p $(pwd)/deploy
