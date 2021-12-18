@@ -11,7 +11,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <log4j.version>2.13.3</log4j.version>
+        <log4j.version>2.17.0</log4j.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.javadoc.protobufBaseURL>https://googleapis.dev/java/google-api-grpc/latest</project.javadoc.protobufBaseURL>
         <github.global.server>github</github.global.server>
