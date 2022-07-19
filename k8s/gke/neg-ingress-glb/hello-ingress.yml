@@ -8,7 +8,10 @@ spec:
   rules:
   - http:
       paths:
-      - path: /*
+      - pathType: ImplementationSpecific 
+        path: "/*"
         backend:
-          serviceName: hello-kubernetes
-          servicePort: 80
+          service:
+            name: hello-kubernetes
+            port:
+              number: 80
