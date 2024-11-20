@@ -9,7 +9,7 @@ sudo docker run \
   --volume=/dev/disk/:/dev/disk:ro \
   --publish=12080:8080 \
   --restart=unless-stopped \
-  -m 2G --memory-swap -1 \
+  -m 256M --memory-swap -1 \
   --cpuset-cpus="0,1" \
   --detach=true \
   --name=cadvisor \
