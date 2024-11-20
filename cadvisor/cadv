@@ -1,14 +1,18 @@
 #!/bin/bash -ex
 
-docker run \
+VERSION=v0.50.0 # use the latest release version from https://github.com/google/cadvisor/releases
+sudo docker run \
   --volume=/:/rootfs:ro \
-  --volume=/var/run:/var/run:rw \
+  --volume=/var/run:/var/run:ro \
   --volume=/sys:/sys:ro \
   --volume=/var/lib/docker/:/var/lib/docker:ro \
+  --volume=/dev/disk/:/dev/disk:ro \
   --publish=12080:8080 \
   --restart=unless-stopped \
-  -m 256M --memory-swap -1 \
+  -m 2G --memory-swap -1 \
   --cpuset-cpus="0,1" \
   --detach=true \
   --name=cadvisor \
-  google/cadvisor:latest
+  --privileged \
+  --device=/dev/kmsg \
+  gcr.io/cadvisor/cadvisor:$VERSION
