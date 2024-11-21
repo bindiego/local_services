@@ -3,10 +3,10 @@ ver := 1.0
 hostip := $(shell hostname -I | cut -d ' ' -f 1)
 
 init:
-	sudo sysctl -w vm.max_map_count=262144
-	sudo sysctl -w fs.file-max=65536
-	#sudo ulimit -n 65536
-	#sudo ulimit -u 4096
+	sudo sysctl -w vm.max_map_count=524288
+	sudo sysctl -w fs.file-max=131072
+	#sudo ulimit -n 131072
+	#sudo ulimit -u 8192
 	[ -d sonarqube ] || \
 		mkdir -p sonarqube/conf && \
 		mkdir -p sonarqube/data && \
@@ -27,9 +27,9 @@ db: dbinit
 	  -e POSTGRES_USER=sonar \
 	  -e POSTGRES_PASSWORD=sonar \
 	  --restart=unless-stopped \
-	  -m 1G --memory-swap -1 \
+	  -m 2G --memory-swap -1 \
 	  --cpuset-cpus="0,1" \
-	  -d postgres:13
+	  -d postgres:15
 
 sonar: init 
 	docker run --name sonarqube \
