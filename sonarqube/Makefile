@@ -22,7 +22,7 @@ dbinit:
 db: dbinit
 	docker run --name rdb-sonar \
 	  -p 35432:5432 \
-	  -v ${pwd}/db/data:/var/lib/postgresql/data \
+	  -v $(pwd)/db/data:/var/lib/postgresql/data \
 	  -e POSTGRES_DB=sonar \
 	  -e POSTGRES_USER=sonar \
 	  -e POSTGRES_PASSWORD=sonar \
