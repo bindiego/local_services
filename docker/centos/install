@@ -2,33 +2,50 @@
 
 pwd=`pwd`
 
-# uninstall old versions
-sudo yum remove docker \
+# detect package manager (dnf on CentOS Stream / RHEL 8+, yum on older releases)
+if command -v dnf >/dev/null 2>&1; then
+    PKG_MGR="dnf"
+else
+    PKG_MGR="yum"
+fi
+
+# uninstall conflicting packages
+sudo ${PKG_MGR} remove -y \
+  docker \
   docker-client \
   docker-client-latest \
   docker-common \
   docker-latest \
   docker-latest-logrotate \
   docker-logrotate \
-  docker-engine
+  docker-engine \
+  podman-docker \
+  containerd \
+  runc 2>/dev/null || true
 
 # setup repository
-sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-sudo yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
+if [ "${PKG_MGR}" = "dnf" ]; then
+  sudo dnf install -y dnf-plugins-core
+  sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+else
+  sudo yum install -y yum-utils
+  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+fi
 
-# update yum index
-sudo yum makecache fast
-
-# install docker CE
-sudo yum install -y docker-ce docker-ce-cli containerd.io
+# install docker packages
+sudo ${PKG_MGR} install -y \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io \
+    docker-buildx-plugin \
+    docker-compose-plugin
 
 # start docker
-sudo systemctl start docker
+sudo systemctl start docker.service
 
 # Configure Docker to start on boot
-sudo systemctl enable docker
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
 
 # set up docker user group, require logout and log back in
 # sudo groupadd docker

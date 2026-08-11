@@ -1,5 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs docker rm
-docker rm $(docker ps --all -q -f status=dead)
-docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+# Remove stopped containers
+docker container prune -f
+
+# Remove dangling images
+docker image prune -f
+
+# Remove unused networks
+docker network prune -f
