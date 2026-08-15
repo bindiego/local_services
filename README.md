@@ -1,3 +1,5 @@
+
+
 # Local Services
 
 This repository contains a collection of scripts and configurations for running various services locally, primarily using Docker.
@@ -10,7 +12,7 @@ This project provides a convenient way to set up and manage a variety of service
 
 Here is a list of the services available in this repository:
 
-*   **cAdvisor:** Monitor your Docker containers on the host.
+*   **cAdvisor:** Monitor your Docker containers on the host at `localhost:12080`.
 *   **ClickHouse:** A fast, open-source column-oriented database management system.
 *   **code-server:** Run VS Code on a remote server.
 *   **cpuburner:** A simple CPU stress-testing tool.
